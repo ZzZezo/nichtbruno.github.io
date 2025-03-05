@@ -1,0 +1,59 @@
+
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'APR';
+    src: local('/fonts/')
+        url('/fonts/AnonymousPro-Regular.ttf') format('truetype'),
+        url('/fonts/AnonymousPro-Bold.ttf') format('truetype'),
+        url('/fonts/AnonymousPro-BoldItalic.ttf') format('truetype'),
+        url('/fonts/AnonymousPro-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HND';
+    src: local('Helvetica Now Display Ext Blk'), local('/fonts/Helvetica-Now-Display-Ext-Blk'),
+        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff2') format('woff2'),
+        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff') format('woff'),
+        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'WIN';
+    src: local('leviwindows'), local('/fonts/Windows Regular'),
+        url('/fonts/leviwindows/Windows Regular.ttf') format('woff2'),
+        url('/fonts/leviwindows/Windows Regular.ttf.woff') format('woff'),
+        url('/fonts/leviwindows/Windows Regular.ttf.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #090a0f;
+    /* background-image: linear-gradient(135deg, var(--darkreader-background-ff00ff, #af570f) 0px, var(--darkreader-background-00ffff, #059144) 100%); */
+    background-image: url("../images/bg.jpg");
+}
+
+.window-content canvas {
+    background-color: #f0f0f0;
+}
+
+#background-text {
+    position: absolute;
+    font-family: "WIN";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the text */
+    font-size: 120px; /* Adjust size as needed */
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.1); /* Light, semi-transparent text */
+    user-select: none; /* Prevent text selection */
+    pointer-events: none; /* Ensure it doesn't block clicks */
+    z-index: -1; /* Place it behind other elements */
+}

@@ -1,0 +1,31 @@
+.shortcut {
+    font-family: "WIN";
+    display: flex;
+    flex-flow: column wrap;
+    position: absolute;
+    justify-content: center;
+}
+
+.shortcut > img {
+    position: relative;
+    margin: auto;
+}
+
+.shortcut > span {
+    color: white;
+    font-size: 14px;
+    text-shadow: 
+        2px 0 0 black,  /* Right shadow */
+        0 2px 0 black; 
+}
+
+.shortcut > span, img {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* #draggable img,
+#draggable span {
+    pointer-events: none;
+    user-select: none;
+} */

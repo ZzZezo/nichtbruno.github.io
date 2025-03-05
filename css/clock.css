@@ -1,0 +1,56 @@
+/* Clock Container */
+.clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "APR";
+    background-color: var(--color-bg);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Clock Face */
+.clock-face {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 5px solid var(--color-fg-dimed);
+    border-radius: 50%;
+    background-color: var(--color-bg);
+}
+
+/* Clock Hands */
+.hand {
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background-color: var(--color-fg-high-contrast);
+    top: 50%;
+    transform-origin: 100%;
+    transform: rotate(90deg);
+    transition: transform 0.5s ease-in-out;
+}
+
+.hour-hand {
+    height: 4px;
+    background-color: var(--color-red);
+}
+
+.minute-hand {
+    height: 3px;
+    background-color: var(--color-green);
+}
+
+.second-hand {
+    height: 2px;
+    background-color: var(--color-secondary);
+}
+
+/* Digital Clock */
+.digital-clock {
+    margin-top: 20px;
+    font-size: 24px;
+    color: var(--color-fg-high-contrast);
+}

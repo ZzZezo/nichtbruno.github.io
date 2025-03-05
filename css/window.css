@@ -1,0 +1,83 @@
+.window {
+    position: absolute;
+    font-family: "WIN";
+    color: white;
+    background-color: grey;
+    z-index: 9999;
+    border: 1px solid rgb(8, 13, 39);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow here */
+}
+
+.window-header {
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    padding: 2px 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+
+.window-header h3 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: normal;
+    user-select: none;
+}
+
+.window-control-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.window-minimize, 
+.window-maximize, 
+.window-close {
+    width: 16px;
+    height: 14px;
+    margin-left: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    font-size: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.window-close,
+.window-maximize {
+    color: black;
+    font-weight: bold;
+}
+
+.window-close:hover {
+    background-color: #ff0000;
+    color: white;
+}
+
+.window-maximize:hover {
+    background-color: rgb(255, 145, 0);
+    color: white;
+}
+
+.window-content {
+    padding: 10px;
+    background-color: white;
+    flex-grow: 1;
+    border: 1px solid #808080;
+    margin: 4px;
+    overflow: auto;
+}
+
+.window-locked-indicator {
+    display: none; /* Hidden by default */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: white;
+    user-select: none; /* Prevent text selection */
+}
