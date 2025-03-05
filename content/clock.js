@@ -1,7 +1,6 @@
 export function createClock() {
-    // Create the container
     const container = document.createElement('div');
-    container.id = 'clock';
+    container.id = 'custom-container';
     container.innerHTML = `
         <div class="clock-container">
             <div class="clock-box">
@@ -29,9 +28,11 @@ export function createClock() {
         </div>
     `;
 
-    // Load the external script dynamically
+    // Load the custom script after jQuery is loaded
     const script = document.createElement('script');
     script.src = '../os/clock.js'; // Update the path to your script
+
+    // Append the script to the document body
     document.body.appendChild(script);
 
     return container;

@@ -36,8 +36,8 @@ export function makeDraggable(elements) {
     });
 }
 
-export function makeResizable(el) {
-    const resizeHandleSize = 10;
+export function makeResizable(el, minHeight = 100, minWidth = 100) {
+    const resizeHandleSize = 7;
     const resizeHandle = document.createElement('div');
     resizeHandle.className = 'resize-handle';
     resizeHandle.style.width = `${resizeHandleSize}px`;
@@ -65,8 +65,8 @@ export function makeResizable(el) {
         if (isResizing) {
             const newWidth = startWidth + (e.clientX - startX);
             const newHeight = startHeight + (e.clientY - startY);
-            if (newWidth > 100) el.style.width = `${newWidth}px`;
-            if (newHeight > 100) el.style.height = `${newHeight}px`;
+            if (newWidth > minWidth) el.style.width = `${newWidth}px`;
+            if (newHeight > minHeight) el.style.height = `${newHeight}px`;
         }
     });
 

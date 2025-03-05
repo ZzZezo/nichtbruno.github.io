@@ -5,6 +5,8 @@ export function createPingPongGame() {
     gameContainer.style.display = 'flex';
     gameContainer.style.justifyContent = 'center';
     gameContainer.style.alignItems = 'center';
+    gameContainer.style.borderStyle = 'double';
+    gameContainer.style.borderColor = '#B8B5BE';
 
     const canvas = document.createElement('canvas');
     canvas.width = 600;

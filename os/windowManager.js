@@ -1,6 +1,6 @@
 import { makeDraggable, makeResizable } from './windowUtils.js';
 
-export function createDraggableWindow(title, content, lockedSize = false, lockedPos = false) {
+export function createDraggableWindow(title, content, minWidth = 300, minHeight = 200, lockedSize = false, lockedPos = false) {
     // Create window div
     const window = document.createElement('div');
     window.className = 'window';
@@ -12,6 +12,9 @@ export function createDraggableWindow(title, content, lockedSize = false, locked
     if (lockedPos) {
         window.dataset.lockedPos = 'true';
     }
+
+    window.style.width = `${minWidth}px`;
+    window.style.height = `${minHeight}px`;
 
     // Store original size and position for restoring from fullscreen
     let originalSize = { width: '300px', height: '200px' };
@@ -94,7 +97,7 @@ export function createDraggableWindow(title, content, lockedSize = false, locked
 
     // Make window resizable (if not locked)
     if (!lockedSize) {
-        makeResizable(window);
+        makeResizable(window, minHeight, minWidth);
     }
 
     // Close button functionality

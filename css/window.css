@@ -2,10 +2,14 @@
     position: absolute;
     font-family: "WIN";
     color: white;
-    background-color: grey;
+    background-color: rgb(158, 158, 158);
     z-index: 9999;
     border: 1px solid rgb(8, 13, 39);
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow here */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+
+    overflow: hidden; /* Prevent content from overflowing */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
 }
 
 .window-header {
@@ -64,11 +68,9 @@
 }
 
 .window-content {
-    padding: 10px;
-    background-color: white;
     flex-grow: 1;
     border: 1px solid #808080;
-    margin: 4px;
+    /* margin: 4px; */
     overflow: auto;
 }
 
