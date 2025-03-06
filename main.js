@@ -5,6 +5,7 @@ import { createClock } from './content/clock.js';
 import { createCountdown } from './content/countdown.js';
 import { createGallery } from './content/gallery.js';
 import { createAbout } from './content/about.js';
+import { createTimer } from './content/timer.js';
 
 // Make icons draggable
 const shortcutElements = document.querySelectorAll('.shortcut');
@@ -29,6 +30,10 @@ document.getElementById('countdown').addEventListener('dblclick', () => {
 
 document.getElementById('gallery').addEventListener('dblclick', () => {
     createDraggableWindow('Gallery', createGallery(), 300, 300);
+});
+
+document.getElementById('timer').addEventListener('dblclick', () => {
+    createDraggableWindow('Timer', createTimer(), 300, 260, true);
 });
 
 // External

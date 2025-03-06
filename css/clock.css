@@ -19,6 +19,7 @@
     color: var(--color-fg-dimed);
     font-family: "WIN";
     margin-bottom: 5px;
+    user-select: none;
 }
 
 .clock-container {
@@ -28,6 +29,7 @@
     font-family: "WIN";
     pointer-events: none;
     overflow: hidden;
+    user-select: none;
 }
 
 .clock-box {

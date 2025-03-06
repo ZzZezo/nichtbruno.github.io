@@ -1,0 +1,48 @@
+.timer-box {
+
+}
+
+.timer-control {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timer-control > button {
+    width: 120px;
+}
+
+.timer-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-form > select {
+    width: 100px;
+}
+
+.timer-countdown-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-family: "WIN";
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.timer-countdown-box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-style: double;
+    border-width: 5px;
+    border-color: #B8B5BE;
+    background-color: #030303;
+}
+
+.timer-countdown-text {
+    font-family: "WIN";
+    font-size: 32px;
+}
