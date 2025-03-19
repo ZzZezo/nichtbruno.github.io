@@ -46,15 +46,8 @@ export function createDraggableWindow(title, content, minWidth = 300, minHeight 
     closeButton.textContent = 'X';
     buttonContainer.appendChild(closeButton);
 
-    // // Create the "Locked" indicator
-    // const lockedIndicator = document.createElement('div');
-    // lockedIndicator.className = 'window-locked-indicator';
-    // lockedIndicator.textContent = 'Locked';
-    // lockedIndicator.style.display = isLocked ? 'block' : 'none'; // Show if locked
-
     // Add title, locked indicator, and button container to the header
     header.appendChild(headerTitle);
-    // header.appendChild(lockedIndicator);
     header.appendChild(buttonContainer);
 
     // Create window content
@@ -124,7 +117,7 @@ export function createDraggableWindow(title, content, minWidth = 300, minHeight 
             window.style.left = originalPosition.left;
             window.style.top = originalPosition.top;
             window.dataset.fullscreen = 'false';
-            maximizeButton.textContent = '🗖'; // Maximize symbol
+            maximizeButton.textContent = '🗖';
         } else {
             // Store original size and position
             originalSize.width = window.style.width;
@@ -138,7 +131,7 @@ export function createDraggableWindow(title, content, minWidth = 300, minHeight 
             window.style.left = '0';
             window.style.top = '0';
             window.dataset.fullscreen = 'true';
-            maximizeButton.textContent = '🗗'; // Restore symbol
+            maximizeButton.textContent = '🗗';
         }
     }
 

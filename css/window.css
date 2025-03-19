@@ -7,9 +7,9 @@
     border: 1px solid rgb(8, 13, 39);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
 
-    overflow: hidden; /* Prevent content from overflowing */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 
 .window-header {
@@ -75,11 +75,11 @@
 }
 
 .window-locked-indicator {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     font-size: 12px;
     color: white;
-    user-select: none; /* Prevent text selection */
+    user-select: none;
 }

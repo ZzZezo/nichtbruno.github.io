@@ -12,7 +12,6 @@ export function createGallery() {
         </div>
     `;
 
-    // Add wallpapers to the grid
     const wallpapers = [
         'bg.jpg',
         'field_bg.jpg',
@@ -35,7 +34,6 @@ export function createGallery() {
         `;
         wallpaperGrid.appendChild(wallpaperItem);
 
-        // Add click event to change the wallpaper
         wallpaperItem.addEventListener('click', () => {
             changeWallpaper(`images/bgs/${wallpaper}`);
         });
@@ -49,14 +47,10 @@ export function createGallery() {
     return container;
 }
 
-// Function to change the desktop background
 function changeWallpaper(imageUrl) {
     document.body.style.backgroundImage = `url('${imageUrl}')`;
-    // desktop.body.style.backgroundSize = 'cover';
-    // desktop.body.style.backgroundPosition = 'center';
 }
 
-// Function to remove the "BrunOS" text
 function toggleBrunosTextVisibility(hide) {
     const brunosText = document.getElementById('background-text');
     if (brunosText) {

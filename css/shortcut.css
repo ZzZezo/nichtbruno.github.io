@@ -12,9 +12,9 @@
     width: 50px;
     height: 50px;
 
-    image-rendering: pixelated; /* Keeps pixelation intact when scaled */
-    image-rendering: crisp-edges; /* For compatibility */
-    image-rendering: -moz-crisp-edges; /* Firefox-specific */
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
     image-rendering: -o-pixelated;
@@ -26,7 +26,7 @@
     margin: auto;
     font-size: 16px;
     text-shadow: 
-        2px 0 0 black,  /* Right shadow */
+        2px 0 0 black,
         0 2px 0 black;
 }
 

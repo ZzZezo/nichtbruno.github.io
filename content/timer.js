@@ -66,12 +66,10 @@ function getMyDate(container) {
 function startTimer(container) {
     const today = new Date();
 
-    // Function to populate years
     function populateYears() {
         const yearSelect = container.querySelector('#year');
         const currentYear = new Date().getFullYear();
     
-        // Add years from 1900 to current year
         for (let i = 2000; i <= currentYear+10; i++) {
             const option = document.createElement('option');
             option.value = i;
@@ -83,7 +81,6 @@ function startTimer(container) {
         mydate.year = yearSelect.value;
     }
 
-    // Function to populate months
     function populateMonths() {
         const monthSelect = container.querySelector('#month');
         const months = [
@@ -93,7 +90,7 @@ function startTimer(container) {
     
         months.forEach((month, index) => {
             const option = document.createElement('option');
-            option.value = index + 1; // Months are 1-indexed
+            option.value = index + 1;
             option.textContent = month;
             monthSelect.appendChild(option);
         });
@@ -102,12 +99,10 @@ function startTimer(container) {
         mydate.month = monthSelect.value-1;
     }
 
-    // Function to populate days
     function populateDays() {
         const daySelect = container.querySelector('#day');
-        daySelect.innerHTML = ''; // Clear existing options
+        daySelect.innerHTML = '';
     
-        // Add days 1 to 31
         for (let i = 1; i <= 31; i++) {
             const option = document.createElement('option');
             option.value = i;
@@ -119,12 +114,10 @@ function startTimer(container) {
         mydate.day = daySelect.value;
     }
 
-    // Function to populate hours
     function populateHours() {
         const hourSelect = container.querySelector('#hour');
-        hourSelect.innerHTML = ''; // Clear existing options
+        hourSelect.innerHTML = '';
     
-        // Add hours 1 to 24
         for (let i = 1; i <= 24; i++) {
             const option = document.createElement('option');
             option.value = i;
@@ -136,12 +129,10 @@ function startTimer(container) {
         mydate.hour = hourSelect.value;
     }
 
-    // Function to populate minutes
     function populateMinutes() {
         const minuteSelect = container.querySelector('#minute');
-        minuteSelect.innerHTML = ''; // Clear existing options
+        minuteSelect.innerHTML = '';
     
-        // Add minutes from 0 to 59
         for (let i = 0; i <= 59; i++) {
             const option = document.createElement('option');
             option.value = i;
@@ -153,7 +144,6 @@ function startTimer(container) {
         mydate.minute = minuteSelect.value;
     }
     
-    // Call functions to populate dropdowns
     populateYears();
     populateMonths();
     populateDays();
@@ -176,7 +166,6 @@ function startCountdown(container) {
         timerCountdownDisplay.textContent = differenceInSeconds;
     }
 
-    // Update the countdown every second
     setInterval(getTime, 1000);
-    getTime(); // Initial call to avoid delay
+    getTime();
 }
