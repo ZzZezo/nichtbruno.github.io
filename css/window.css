@@ -3,8 +3,10 @@
     font-family: "WIN";
     color: white;
     background-color: rgb(158, 158, 158);
-    z-index: 9999;
-    border: 1px solid rgb(8, 13, 39);
+    z-index: 100;
+    /* border: 1px solid rgb(8, 13, 39); */
+    border: 2px solid;
+    border-color: #ffffff #252525 #252525 #ffffff;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
 
     overflow: hidden; /* Prevent content from overflowing */
@@ -24,8 +26,8 @@
 
 .window-header h3 {
     margin: 0;
-    font-size: 12px;
-    font-weight: normal;
+    font-size: 13px;
+    font-weight: bolder;
     user-select: none;
 }
 

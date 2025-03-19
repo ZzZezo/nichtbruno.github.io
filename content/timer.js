@@ -26,7 +26,7 @@ export function createTimer() {
                         <select id="minute" name="minute"></select>
                     </div>
                 </form>
-                <button id="start-timer">Start</button>
+                <button id="start-timer" class="retro-button">Start</button>
             </div>
             <div id="countdown" class="countdown-container">
                 <div class="timer-countdown-box">

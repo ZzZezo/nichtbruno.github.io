@@ -1,9 +1,13 @@
 import { makeDraggable, makeResizable } from './windowUtils.js';
 
-export function createDraggableWindow(title, content, minWidth = 300, minHeight = 200, lockedSize = false, lockedPos = false) {
+let highestZIndex = 100;
+
+export function createDraggableWindow(title, content, minWidth = 200, minHeight = 200, lockedSize = false, lockedPos = false) {
     // Create window div
     const window = document.createElement('div');
     window.className = 'window';
+
+    window.style.zIndex = highestZIndex++;
 
     // Add locked attribute if needed
     if (lockedSize) {
@@ -142,5 +146,12 @@ export function createDraggableWindow(title, content, minWidth = 300, minHeight 
         }
     }
 
+    window.addEventListener('mousedown', bringToFront);
+
     return window;
+}
+
+function bringToFront(e) {
+    const window = e.currentTarget;
+    window.style.zIndex = highestZIndex++;
 }

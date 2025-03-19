@@ -30,6 +30,7 @@
     pointer-events: none;
     overflow: hidden;
     user-select: none;
+    font-size: 16px;
 }
 
 .clock-box {
