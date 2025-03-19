@@ -49,11 +49,11 @@ body {
     font-family: "WIN";
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center the text */
-    font-size: 120px; /* Adjust size as needed */
+    transform: translate(-50%, -50%);
+    font-size: 120px;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.1); /* Light, semi-transparent text */
-    user-select: none; /* Prevent text selection */
-    pointer-events: none; /* Ensure it doesn't block clicks */
-    z-index: -1; /* Place it behind other elements */
+    color: rgba(255, 255, 255, 0.1);
+    user-select: none;
+    pointer-events: none;
+    z-index: -1;
 }
