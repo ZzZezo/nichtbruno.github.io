@@ -12,6 +12,7 @@ export function createPingPongGame() {
         MENU: "Menu",
         SINGLEPLAYER: "Singleplayer",
         MULTIPLAYER: "Multiplayer",
+        WIN: "Win",
     };
     let currentGameState = gameStates.MENU;
 
@@ -19,10 +20,36 @@ export function createPingPongGame() {
     canvas.width = 600;
     canvas.height = 400;
     canvas.style.border = '1px solid black';
-    canvas.style.backgroundColor = '#f0f0f0';
     gameContainer.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
+
+    const backgroundImage = new Image();
+    backgroundImage.src = '../images/pingpongbg.png';
+    let isBackgroundLoaded = false;
+
+    backgroundImage.onload = () => {
+        isBackgroundLoaded = true;
+    };
+
+    const blueWinImage = new Image();
+    blueWinImage.src = '../images/blue-wins.png';
+
+    const orangeWinImage = new Image();
+    orangeWinImage.src = '../images/orange-wins.png';
+
+    function drawBackground() {
+        if (isBackgroundLoaded) {
+            ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    function drawWinner() {
+        ctx.drawImage(points.winner < 0 ? blueWinImage: orangeWinImage, 0, 0, canvas.width, canvas.height);
+    }
 
     // Game variables
     let ballX = canvas.width / 2;
@@ -44,6 +71,7 @@ export function createPingPongGame() {
         blue: 0,
         orange: 0,
         last_touch: -1,
+        winner: 0,
     };
 
     const keys = {
@@ -168,9 +196,9 @@ export function createPingPongGame() {
         const ballCenter = ballY;
 
         if (paddleCenter < ballCenter - 10) {
-            rightPaddleY += paddleSpeed * 0.8;
+            rightPaddleY += paddleSpeed * 0.58;
         } else if (paddleCenter > ballCenter + 10) {
-            rightPaddleY -= paddleSpeed * 0.8;
+            rightPaddleY -= paddleSpeed * 0.58;
         }
 
         rightPaddleY = Math.max(0, Math.min(canvas.height - paddleHeight, rightPaddleY));
@@ -204,6 +232,15 @@ export function createPingPongGame() {
             } else {
                 points.orange += 1;
             }
+
+            if (points.blue >= 7) {
+                points.winner = -1;
+                currentGameState = gameStates.WIN;
+            } else if (points.orange >= 7) {
+                points.winner = 1;
+                currentGameState = gameStates.WIN;
+            }
+
             resetBall();
         }
     }
@@ -262,7 +299,7 @@ export function createPingPongGame() {
         if (currentGameState === gameStates.MENU) {
             drawMenu();
         } else if (currentGameState === gameStates.SINGLEPLAYER) {
-            canvas.style.backgroundColor = 'white';
+            drawBackground();
             updatePaddles();
             moveAIPaddle();
             drawBall();
@@ -270,12 +307,17 @@ export function createPingPongGame() {
             drawPaddles();
             moveBall();
         } else if (currentGameState === gameStates.MULTIPLAYER) {
-            canvas.style.backgroundColor = 'white';
+            drawBackground();
             updatePaddles();
             drawBall();
             drawPoints();
             drawPaddles();
             moveBall();
+        } else if (currentGameState === gameStates.WIN) {
+            drawWinner();
+            if (keys.Escape) {
+                currentGameState = gameStates.MENU;
+            }
         }
 
         requestAnimationFrame(gameLoop);

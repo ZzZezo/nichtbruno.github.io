@@ -13,7 +13,7 @@ makeDraggable(shortcutElements);
 
 // Add double-click event listeners to icons
 document.getElementById('computer').addEventListener('dblclick', () => {
-    createDraggableWindow('About', createAbout(), true);
+    createDraggableWindow('About', createAbout(), 400, 350, true);
 });
 
 document.getElementById('pingpong').addEventListener('dblclick', () => {
