@@ -32,12 +32,6 @@ export function createPingPongGame() {
         isBackgroundLoaded = true;
     };
 
-    const blueWinImage = new Image();
-    blueWinImage.src = '../images/blue-wins.png';
-
-    const orangeWinImage = new Image();
-    orangeWinImage.src = '../images/orange-wins.png';
-
     function drawBackground() {
         if (isBackgroundLoaded) {
             ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
@@ -46,6 +40,29 @@ export function createPingPongGame() {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
     }
+
+    const backgroundAIImage = new Image();
+    backgroundAIImage.src = '../images/pingpongbgai.png';
+    let isBackgroundAILoaded = false;
+
+    backgroundAIImage.onload = () => {
+        isBackgroundAILoaded = true;
+    };
+
+    function drawAIBackground() {
+        if (isBackgroundAILoaded) {
+            ctx.drawImage(backgroundAIImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = '#f0f0f0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+    const blueWinImage = new Image();
+    blueWinImage.src = '../images/blue-wins.png';
+
+    const orangeWinImage = new Image();
+    orangeWinImage.src = '../images/orange-wins.png';
 
     function drawWinner() {
         ctx.drawImage(points.winner < 0 ? blueWinImage: orangeWinImage, 0, 0, canvas.width, canvas.height);
@@ -137,6 +154,11 @@ export function createPingPongGame() {
         ctx.textAlign = 'center';
         ctx.fillText('I don\'t care tho', canvas.width / 2, 140);
 
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('Shhhh... New Mode coming soon 🤫', canvas.width / 2, 380);
+
         drawButton(canvas.width / 2 - 100, canvas.height / 2 - 25, 200, 50, "Singleplayer", isHovering(0));
         drawButton(canvas.width / 2 - 100, canvas.height / 2 + 35, 200, 50, "Multiplayer", isHovering(1));
         drawButton(canvas.width / 2 - 100, canvas.height / 2 + 95, 200, 50, "Quit", isHovering(2));
@@ -192,47 +214,92 @@ export function createPingPongGame() {
     });
 
     function moveAIPaddle() {
+        const ballSpeedRatio = ballSpeedY / ballSpeedX;
+        const distanceToPaddle = canvas.width - paddleWidth - ballX;
+        const predictedY = ballY + ballSpeedRatio * distanceToPaddle;
+
+        const difficulty = Math.abs(points.blue - points.orange) / 7;
+    
+        const randomOffset = (Math.random() - 0.5) * (50 - 20 * difficulty);
+        const targetY = predictedY + randomOffset;
+    
+        const clampedTargetY = Math.max(0, Math.min(canvas.height - paddleHeight, targetY));
+    
         const paddleCenter = rightPaddleY + paddleHeight / 2;
-        const ballCenter = ballY;
-
-        if (paddleCenter < ballCenter - 10) {
-            rightPaddleY += paddleSpeed * 0.58;
-        } else if (paddleCenter > ballCenter + 10) {
-            rightPaddleY -= paddleSpeed * 0.58;
+        const reactionSpeed = paddleSpeed * (0.6 + 0.2 * difficulty);
+    
+        if (paddleCenter < clampedTargetY - 10) {
+            rightPaddleY += reactionSpeed;
+        } else if (paddleCenter > clampedTargetY + 10) {
+            rightPaddleY -= reactionSpeed;
         }
-
+    
         rightPaddleY = Math.max(0, Math.min(canvas.height - paddleHeight, rightPaddleY));
     }
 
     function moveBall() {
+        const prevBallX = ballX;
+        const prevBallY = ballY;
+    
         ballX += ballSpeedX;
         ballY += ballSpeedY;
-
+    
         if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
             ballSpeedY = -ballSpeedY;
         }
-
-        if (ballX - ballRadius < paddleWidth && ballY > leftPaddleY && ballY < leftPaddleY + paddleHeight) {
-            ballSpeedX -= 0.6;
-            ballSpeedY += 0.1;
-            ballSpeedX = -ballSpeedX;
-            ballSpeedY = ballSpeedY * leftPaddleDir;
-            points.last_touch = -1;
-        } else if (ballX + ballRadius > canvas.width - paddleWidth && ballY > rightPaddleY && ballY < rightPaddleY + paddleHeight) {
-            ballSpeedX += 0.6;
-            ballSpeedY += 0.1;
-            ballSpeedX = -ballSpeedX;
-            ballSpeedY = ballSpeedY * rightPaddleDir;
-            points.last_touch = 1;
+    
+        const nextBallX = ballX + ballSpeedX;
+        const nextBallY = ballY + ballSpeedY;
+    
+        if (
+            nextBallX - ballRadius < paddleWidth &&
+            nextBallY + ballRadius > leftPaddleY &&
+            nextBallY - ballRadius < leftPaddleY + paddleHeight
+        ) {
+            const collisionTime = (paddleWidth - (prevBallX - ballRadius)) / ballSpeedX;
+            const collisionY = prevBallY + ballSpeedY * collisionTime;
+    
+            if (
+                collisionY + ballRadius > leftPaddleY &&
+                collisionY - ballRadius < leftPaddleY + paddleHeight
+            ) {
+                ballX = paddleWidth + ballRadius;
+                ballSpeedX -= 0.6;
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY += 0.1 * leftPaddleDir;
+                ballSpeedY = ballSpeedY * leftPaddleDir;
+                points.last_touch = -1;
+            }
         }
-
+    
+        if (
+            nextBallX + ballRadius > canvas.width - paddleWidth &&
+            nextBallY + ballRadius > rightPaddleY &&
+            nextBallY - ballRadius < rightPaddleY + paddleHeight
+        ) {
+            const collisionTime = (canvas.width - paddleWidth - (prevBallX + ballRadius)) / ballSpeedX;
+            const collisionY = prevBallY + ballSpeedY * collisionTime;
+    
+            if (
+                collisionY + ballRadius > rightPaddleY &&
+                collisionY - ballRadius < rightPaddleY + paddleHeight
+            ) {
+                ballX = canvas.width - paddleWidth - ballRadius;
+                ballSpeedX += 0.6;
+                ballSpeedX = -ballSpeedX;
+                ballSpeedY += 0.1 * rightPaddleDir;
+                ballSpeedY = ballSpeedY * leftPaddleDir;
+                points.last_touch = 1;
+            }
+        }
+    
         if (ballX - ballRadius < 0 || ballX + ballRadius > canvas.width) {
             if (points.last_touch < 0) {
                 points.blue += 1;
             } else {
                 points.orange += 1;
             }
-
+    
             if (points.blue >= 7) {
                 points.winner = -1;
                 currentGameState = gameStates.WIN;
@@ -240,7 +307,7 @@ export function createPingPongGame() {
                 points.winner = 1;
                 currentGameState = gameStates.WIN;
             }
-
+    
             resetBall();
         }
     }
@@ -271,7 +338,7 @@ export function createPingPongGame() {
         }
     });
 
-    function updatePaddles() {
+    function updatePaddles(blockRigth = false) {
         if (keys.w) {
             leftPaddleY = Math.max(0, leftPaddleY - paddleSpeed);
             leftPaddleDir = -1;
@@ -280,13 +347,15 @@ export function createPingPongGame() {
             leftPaddleY = Math.min(canvas.height - paddleHeight, leftPaddleY + paddleSpeed);
             leftPaddleDir = 1;
         }
-        if (keys.p) {
-            rightPaddleY = Math.max(0, rightPaddleY - paddleSpeed);
-            rightPaddleDir = -1;
-        }
-        if (keys.l) {
-            rightPaddleY = Math.min(canvas.height - paddleHeight, rightPaddleY + paddleSpeed);
-            rightPaddleDir = 1;
+        if (!blockRigth) {
+            if (keys.p) {
+                rightPaddleY = Math.max(0, rightPaddleY - paddleSpeed);
+                rightPaddleDir = -1;
+            }
+            if (keys.l) {
+                rightPaddleY = Math.min(canvas.height - paddleHeight, rightPaddleY + paddleSpeed);
+                rightPaddleDir = 1;
+            }
         }
         if (keys.Escape) {
             currentGameState = gameStates.MENU;
@@ -299,11 +368,11 @@ export function createPingPongGame() {
         if (currentGameState === gameStates.MENU) {
             drawMenu();
         } else if (currentGameState === gameStates.SINGLEPLAYER) {
-            drawBackground();
-            updatePaddles();
+            drawAIBackground();
+            updatePaddles(true);
             moveAIPaddle();
-            drawBall();
             drawPoints();
+            drawBall();
             drawPaddles();
             moveBall();
         } else if (currentGameState === gameStates.MULTIPLAYER) {
