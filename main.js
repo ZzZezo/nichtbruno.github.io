@@ -6,6 +6,7 @@ import { createCountdown } from './content/countdown.js';
 import { createGallery } from './content/gallery.js';
 import { createAbout } from './content/about.js';
 import { createTimer } from './content/timer.js';
+import { createJumpNRun } from './content/jumpnrun.js';
 
 // Make icons draggable
 const shortcutElements = document.querySelectorAll('.shortcut');
@@ -18,6 +19,10 @@ document.getElementById('computer').addEventListener('dblclick', () => {
 
 document.getElementById('pingpong').addEventListener('dblclick', () => {
     createDraggableWindow('Ping Pong', createPingPongGame(), 605, 435, true);
+});
+
+document.getElementById('jumpnrun').addEventListener('dblclick', () => {
+    createDraggableWindow('Jump N Run', createJumpNRun(), 605, 435, true);
 });
 
 document.getElementById('clock').addEventListener('dblclick', () => {
