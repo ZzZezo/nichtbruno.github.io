@@ -22,7 +22,7 @@ document.getElementById('pingpong').addEventListener('dblclick', () => {
 });
 
 document.getElementById('jumpnrun').addEventListener('dblclick', () => {
-    createDraggableWindow('Jump N Run', createJumpNRun(), 605, 435, true);
+    createDraggableWindow('Jump N Run', createJumpNRun(), 800, 600, true);
 });
 
 document.getElementById('clock').addEventListener('dblclick', () => {
