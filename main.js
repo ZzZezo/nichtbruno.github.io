@@ -12,7 +12,9 @@ import { createJumpNRun } from './content/jumpnrun.js';
 const hideText = localStorage.getItem('hideBrunosText') === 'true';
 document.getElementById('background-text').style.display = hideText ? 'none' : 'block';
 const savedWallpaper = localStorage.getItem('selectedWallpaper');
+const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
 document.body.style.backgroundImage = `url('${savedWallpaper}')`;
+document.body.style.backgroundSize = currentFit;
 
 const APP_REGISTRY = {
     changelog: {title: "Changelog", fn: createAbout, width: 400, height: 350, ls: true},

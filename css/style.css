@@ -37,7 +37,7 @@
 body {
     background-color: #090a0f;
     /* background-image: linear-gradient(135deg, var(--darkreader-background-ff00ff, #af570f) 0px, var(--darkreader-background-00ffff, #059144) 100%); */
-    background-image: url("../images/bgs/field_bg.jpg");
+    background-image: url("../images/bgs/bg.jpg");
 }
 
 .window-content canvas {

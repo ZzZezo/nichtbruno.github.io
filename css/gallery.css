@@ -116,20 +116,73 @@ input:checked + .toggle-slider:before {
     word-break: break-all;
 }
 
-.retro-upload-button {
-    display: block;
-    margin: 15px auto;
-    padding: 8px 15px;
-    background: #e0e0d0;
-    border: 2px solid #a0a090;
-    cursor: pointer;
-    text-align: center;
-    font-family: 'Times New Roman', serif;
-    color: #505040;
-    transition: all 0.2s;
+.upload-item .retro-thumbnail {
+    background: rgba(224, 224, 208, 0.3);
+    border: 2px dashed #a0a090;
 }
 
-.retro-upload-button:hover {
-    background: #d0d0c0;
-    box-shadow: 2px 2px 0px #c0c0b0;
+.upload-item .retro-thumbnail:hover {
+    background: rgba(224, 224, 208, 0.5);
+}
+
+.upload-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: #a0a090;
+}
+
+.upload-item.selected {
+    border-color: #607060;
+    background: rgba(248, 248, 232, 0.3);
+}
+
+.custom-wallpaper-item {
+    border: 2px dashed #a0a090;
+    background: rgba(224, 224, 208, 0.3);
+}
+
+.custom-wallpaper-item .retro-thumbnail {
+    border-color: #a0a090;
+}
+
+.custom-wallpaper-item.selected {
+    border-style: solid;
+    background: rgba(224, 224, 208, 0.5);
+}
+
+.sizing-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #a0a090;
+}
+
+.size-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #505040;
+    font-size: 0.9em;
+}
+
+.retro-select {
+    background: #e0e0d0;
+    border: 2px solid #a0a090;
+    padding: 4px 8px;
+    font-family: 'Times New Roman', serif;
+    color: #505040;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23505040%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px auto;
+    padding-right: 30px;
+}
+
+.retro-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #a0a090;
 }
