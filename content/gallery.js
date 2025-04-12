@@ -1,13 +1,19 @@
 export function createGallery() {
     const container = document.createElement('div');
     container.id = 'wallpaper-picker';
+    container.className = 'retro-gallery';
     container.innerHTML = `
-        <div class="wallpaper-options">
-            <label>
-                <input type="checkbox" id="toggle-brunos-text"> Hide "BrunOS" Text
-            </label>
+        <div class="retro-controls">
+            <div class="toggle-container">
+                <label class="retro-toggle">
+                    <input type="checkbox" id="toggle-brunos-text">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Desktop Text:</span>
+                    <span class="toggle-status">Visible</span>
+                </label>
+            </div>
         </div>
-        <div class="wallpaper-grid">
+        <div class="retro-wallpaper-grid">
             <!-- Wallpaper thumbnails will be added here -->
         </div>
     `;
@@ -25,23 +31,36 @@ export function createGallery() {
         'waves_dracula_flipped.png',
     ];
 
-    const wallpaperGrid = container.querySelector('.wallpaper-grid');
+    const wallpaperGrid = container.querySelector('.retro-wallpaper-grid');
+    
     wallpapers.forEach(wallpaper => {
         const wallpaperItem = document.createElement('div');
-        wallpaperItem.className = 'wallpaper-item';
+        wallpaperItem.className = 'retro-wallpaper-item';
         wallpaperItem.innerHTML = `
-            <img src="images/bgs/${wallpaper}" alt="${wallpaper}">
+            <div class="retro-thumbnail">
+                <img src="images/bgs/${wallpaper}" alt="${wallpaper}">
+            </div>
+            <div class="retro-filename">${wallpaper}</div>
         `;
-        wallpaperGrid.appendChild(wallpaperItem);
 
         wallpaperItem.addEventListener('click', () => {
             changeWallpaper(`images/bgs/${wallpaper}`);
+            // Remove previous selection
+            container.querySelectorAll('.retro-wallpaper-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            wallpaperItem.classList.add('selected');
         });
+
+        wallpaperGrid.appendChild(wallpaperItem);
     });
 
     const toggleBrunosText = container.querySelector('#toggle-brunos-text');
     toggleBrunosText.addEventListener('change', () => {
         toggleBrunosTextVisibility(toggleBrunosText.checked);
+        localStorage.setItem('hideBrunosText', toggleBrunosText.checked);
+        const status = container.querySelector('.toggle-status');
+        status.textContent = toggleBrunosText.checked ? 'Hidden' : 'Visible';
     });
 
     return container;
@@ -49,6 +68,7 @@ export function createGallery() {
 
 function changeWallpaper(imageUrl) {
     document.body.style.backgroundImage = `url('${imageUrl}')`;
+    localStorage.setItem('selectedWallpaper', imageUrl);
 }
 
 function toggleBrunosTextVisibility(hide) {
