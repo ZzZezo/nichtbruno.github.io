@@ -1,0 +1,207 @@
+.retro-cd-player {
+    padding: 20px;
+    width: 280px;
+    border: 1px solid #d0d0c8;
+    background-color: #373f4b;
+    user-select: none;
+    font-family: 'APR';
+}
+
+.cd-drive {
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.cd-slot {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cd-disc {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ffffffa6;
+    background: conic-gradient(transparent, transparent, transparent, grey, grey, rgba(238, 130, 238, 0.493), rgba(0, 191, 255, 0.5), rgba(0, 255, 255, 0.466), rgba(152, 251, 152, 0.459), rgba(255, 255, 0, 0.466), rgba(255, 166, 0, 0.486), rgba(255, 0, 0, 0.486), grey, grey, transparent, transparent, transparent, transparent, grey, grey, rgba(238, 130, 238, 0.493), rgba(0, 191, 255, 0.5), rgba(0, 255, 255, 0.466), rgba(152, 251, 152, 0.459), rgba(255, 255, 0, 0.466), rgba(255, 166, 0, 0.486), rgba(255, 0, 0, 0.486), grey, grey, transparent);
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.cd-reflect {
+    background: linear-gradient(
+        135deg,
+        rgba(171, 255, 241, 0.76) 0%,
+        rgba(255, 230, 163, 0.658) 50%,
+        rgba(255, 132, 132, 0.747) 100%
+    );
+}
+
+.cd-label {
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border: 1px solid #606060;
+    font-size: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.cd-text {
+    font-size: 1rem;
+    font-style: 'APR';
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+    top: 110px;
+}
+
+.cd-text-alt {
+    font-size: 1rem;
+    font-style: 'APR';
+    font-weight: bold;
+    position: relative;
+    text-align: center;
+    transform: rotate(180deg);
+    top: 5px;
+}
+
+.cd-center {
+    background: #505050;
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    border: 10px solid #ffffffb4;
+}
+
+.cd-disc.empty-disc {
+    display: block;
+    background: #222222;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+}
+
+.empty-disc .cd-reflect,
+.empty-disc .cd-label {
+    display: none;
+}
+
+/* .has-disc {
+    background: linear-gradient(
+        45deg,
+        #75c1d4 0%,
+        #96ced6 30%,
+        #b2fdf3 50%,
+        #a6c9e6 70%,
+        #8a9ed4 100%
+    );
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+} */
+
+.has-disc .cd-reflect {
+    display: block;
+}
+
+.has-disc .cd-label {
+    display: flex;
+}
+
+.cd-disc.has-disc {
+    display: block;
+}
+
+.cd-disc.spinning {
+    animation: spin 1.2s linear infinite;
+}
+
+/* .cd-reflect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.4) 0%,
+        rgba(255,255,255,0) 60%
+    );
+    border-radius: 50%;
+} */
+
+.cd-center {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: #404040;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cd-label {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000000;
+    border: 2px solid #404040;
+}
+
+.cd-game-item {
+    padding: 8px;
+    margin: 4px 0;
+    background: #2b2b2b;
+    border-left: 3px solid #1b1b1b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cd-game-item.selected {
+    background: #34837f;
+    border-left: 3px solid #67c9cc;
+}
+
+.cd-game-icon {
+    color: #c7c757;
+}
+
+.cd-games-list {
+    height: 110px;
+    overflow: scroll;
+}
+
+.cd-controls {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 10px;
+    justify-content: space-between;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.retro-button {
+    background: #e8e8e0;
+    border: 1px solid #a0a090;
+    padding: 6px 12px;
+    margin: 0 4px;
+    flex: 1;
+    transition: opacity 0.2s ease;
+}
+
+.retro-button:hover {
+    background: #d8d8d0;
+    cursor: pointer;
+}

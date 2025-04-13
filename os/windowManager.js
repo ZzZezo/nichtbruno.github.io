@@ -6,6 +6,7 @@ export function createDraggableWindow(title, content, minWidth = 200, minHeight 
     // Create window div
     const window = document.createElement('div');
     window.className = 'window';
+    window.id = title;
 
     window.style.zIndex = highestZIndex++;
 

@@ -7,8 +7,11 @@ import { createCountdown } from './content/countdown.js';
 import { createGallery } from './content/gallery.js';
 import { createAbout } from './content/about.js';
 import { createTimer } from './content/timer.js';
-import { createJumpNRun } from './content/jumpnrun.js';
+import { createChangelog } from './content/changelog.js';
+import { createCDPlayer } from './content/cdplayer.js';
+import { createJumpAndRun } from './content/jumpnrun.js';
 
+// LOAD STATE
 const hideText = localStorage.getItem('hideBrunosText') === 'true';
 document.getElementById('background-text').style.display = hideText ? 'none' : 'block';
 const savedWallpaper = localStorage.getItem('selectedWallpaper');
@@ -16,16 +19,17 @@ const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
 document.body.style.backgroundImage = `url('${savedWallpaper}')`;
 document.body.style.backgroundSize = currentFit;
 
+// SETUP APPS
 const APP_REGISTRY = {
-    changelog: {title: "Changelog", fn: createAbout, width: 400, height: 350, ls: true},
+    changelog: {title: "Changelog", fn: createChangelog, width: 500, height: 450, ls: true},
     about: {title: "About", fn: createAbout, width: 400, height: 350, ls: true},
     pingpong: {title: "Ping Pong", fn: createPingPongGame, width: 605, height: 435, ls: true},
-    jumpnrun: {title: "Jump N Run", fn: createJumpNRun, width: 800, height: 600, ls: true},
+    jumpnrun: {title: "Jump N Run", fn: createJumpAndRun, width: 800, height: 530, ls: true},
     clock: {title: "Clock", fn: createClock, width: 400, height: 425, ls: true},
     countdown: {title: "Countdown", fn: createCountdown, width: 200, height: 145, ls: false},
     gallery: {title: "Gallery", fn: createGallery, width: 500, height: 415, ls: true},
     timer: {title: "Timer", fn: createTimer, width: 300, height: 260, ls: true},
-    cdplayer: {title: "CD Player", fn: createTimer, width: 300, height: 260, ls: true},
+    cdplayer: {title: "CD Player", fn: createCDPlayer, width: 286, height: 380, ls: true},
     chatgpt: 'https://chatgpt.com',
     deepseek: 'https://deepseek.com',
     claude: 'https://claude.ai/new',
