@@ -40,6 +40,14 @@ body {
     background-image: url("../images/bgs/bg.jpg");
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+  
+.hide-scrollbar {
+    scrollbar-width: none;
+}
+
 .window-content canvas {
     background-color: #f0f0f0;
 }

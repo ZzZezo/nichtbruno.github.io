@@ -16,8 +16,8 @@ export function createChangelog() {
         {
             date: '14.04.25',
             text: `V3.2.0
-                Added a new Jump & Run Game
-                ENJOY! 🚀`
+                - Added a new Game! ENJOY! 🚀
+                - Added an emergency Button 🚨 Press 'f' to exit the webiste (Hakon's idea)`
         },
         {
             date: '13.04.25',

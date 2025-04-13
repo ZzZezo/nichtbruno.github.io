@@ -123,7 +123,7 @@ export function createPingPongGame() {
         ctx.fill();
         ctx.stroke();
 
-        ctx.font = '24px Arial';
+        ctx.font = '24px APR';
         ctx.fillStyle = 'white';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -134,27 +134,27 @@ export function createPingPongGame() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         canvas.style.backgroundColor = '#f0f0f0';
 
-        ctx.font = '48px Arial';
+        ctx.font = '48px APR';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText('PingPong', canvas.width / 2, 80);
 
-        ctx.font = '24px Arial';
+        ctx.font = '24px APR';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText('A very unfair', canvas.width / 2, 40);
 
-        ctx.font = '24px Arial';
+        ctx.font = '24px APR';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText('Game', canvas.width / 2, 120);
 
-        ctx.font = '12px Arial';
+        ctx.font = '12px APR';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText('I don\'t care tho', canvas.width / 2, 140);
 
-        ctx.font = '12px Arial';
+        ctx.font = '12px APR';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText('Shhhh... New Mode coming soon 🤫', canvas.width / 2, 380);
@@ -165,7 +165,7 @@ export function createPingPongGame() {
     }
 
     function drawPoints() {
-        ctx.font = '30px Arial';
+        ctx.font = '30px APR';
         ctx.fillStyle = 'blue';
         ctx.textAlign = 'center';
         ctx.fillText(points.blue, canvas.width / 2 - 20, 20);

@@ -24,7 +24,7 @@ const APP_REGISTRY = {
     changelog: {title: "Changelog", fn: createChangelog, width: 500, height: 450, ls: true},
     about: {title: "About", fn: createAbout, width: 400, height: 350, ls: true},
     pingpong: {title: "Ping Pong", fn: createPingPongGame, width: 605, height: 435, ls: true},
-    jumpnrun: {title: "Jump N Run", fn: createJumpAndRun, width: 800, height: 530, ls: true},
+    jumpnrun: {title: "Holy Jump", fn: createJumpAndRun, width: 800, height: 530, ls: true},
     clock: {title: "Clock", fn: createClock, width: 400, height: 425, ls: true},
     countdown: {title: "Countdown", fn: createCountdown, width: 200, height: 145, ls: false},
     gallery: {title: "Gallery", fn: createGallery, width: 500, height: 415, ls: true},

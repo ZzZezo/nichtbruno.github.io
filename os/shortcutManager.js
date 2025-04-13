@@ -125,7 +125,7 @@ const data = {
         "grid": [3, 1, 0],
     },
     "jumpnrun": {
-        "name": "Jump & Run",
+        "name": "Holy Jump",
         "image": "jumpnrun.png",
         "id": "jumpnrun",
         "grid": [3, 2, 0],
