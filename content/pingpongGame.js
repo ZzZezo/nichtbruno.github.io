@@ -94,6 +94,8 @@ export function createPingPongGame() {
     const keys = {
         w: false,
         s: false,
+        ArrowUp: false,
+        ArrowDown: false,
         p: false,
         l: false,
         Escape: false,
@@ -339,11 +341,11 @@ export function createPingPongGame() {
     });
 
     function updatePaddles(blockRigth = false) {
-        if (keys.w) {
+        if (keys.w || (currentGameState == gameStates.SINGLEPLAYER && keys.ArrowUp)) {
             leftPaddleY = Math.max(0, leftPaddleY - paddleSpeed);
             leftPaddleDir = -1;
         }
-        if (keys.s) {
+        if (keys.s || (currentGameState == gameStates.SINGLEPLAYER && keys.ArrowDown)) {
             leftPaddleY = Math.min(canvas.height - paddleHeight, leftPaddleY + paddleSpeed);
             leftPaddleDir = 1;
         }

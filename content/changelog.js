@@ -14,10 +14,16 @@ export function createChangelog() {
     // Array now supports multiline entries
     const entries = [
         {
+            date: '03.05.25',
+            text: `V3.2.1
+                - Updated controls for the ping pong game.
+                - Added a Flo-mode to the jump n run!`
+        },
+        {
             date: '14.04.25',
             text: `V3.2.0
                 - Added a new Game! ENJOY! 🚀
-                - Added an emergency Button 🚨 Press 'f' to exit the webiste (Hakon's idea)`
+                - Added an emergency Button 🚨 Press 'f' to exit the webiste (Hakons Idee)`
         },
         {
             date: '13.04.25',

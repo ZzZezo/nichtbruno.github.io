@@ -79,6 +79,8 @@ export function createJumpAndRun() {
         PLAYING: 1,
         GAME_OVER: 2
     };
+
+    let chaosMode = false;
     
     // Game variables
     let gameState = GAME_STATE.MENU;
@@ -86,6 +88,7 @@ export function createJumpAndRun() {
     let speedIncrease = 0;
     let lastSpeedIncrement = 0;
     let highScore = 0;
+    let floHighScore = 0;
 
     // Player properties
     const player = {
@@ -109,6 +112,9 @@ export function createJumpAndRun() {
     const platformHeight = 20;
     const platformColor = '#222222';
 
+    const SPEED_SPAWN_CHANCE = 0.1;
+    const SLOW_SPAWN_CHANCE = 0.1;
+
     // Menu buttons
     const playButton = {
         x: canvas.width / 2 - 100,
@@ -120,11 +126,19 @@ export function createJumpAndRun() {
         hoverColor: '#e67e3e'
     };
 
+    const chaosButton = {
+        x: canvas.width / 2 + 20,
+        y: canvas.height - 185,
+        width: 50,
+        height: 20,
+    };
+
     // Key state tracking
     const keys = {
         space: false,
         r: false,
         q: false,
+        e: false,
     };
 
     // Initialize the game
@@ -199,9 +213,10 @@ export function createJumpAndRun() {
                 powerUp: {active: false}
             };
 
-            if (platformType === 'static' && Math.random() < 0.1) {
+            if (platformType === 'static' && Math.random() < SPEED_SPAWN_CHANCE) {
                 newPlatform.powerUp = {
                     active: true,
+                    type: 'speed',
                     offsetX: newPlatform.width / 2 - 10, // Center horizontally
                     offsetY: 30,
                     width: 20,
@@ -254,14 +269,27 @@ export function createJumpAndRun() {
             powerUp: {active: false},
         };
 
-        if (platformType === 'static' && Math.random() < 0.1) {
+        if (platformType === 'static' && Math.random() < SPEED_SPAWN_CHANCE) {
             newPlatform.powerUp = {
                 active: true,
+                type: 'speed',
                 offsetX: newPlatform.width / 2 - 10, // Center horizontally
                 offsetY: 30, // 20px above platform
                 width: 20,
                 height: 20
             };
+        }
+        if (chaosMode) {
+            if (platformType === 'static' && Math.random() < SLOW_SPAWN_CHANCE) {
+                newPlatform.powerUp = {
+                    active: true,
+                    type: 'slow',
+                    offsetX: newPlatform.width / 2 - 10, // Center horizontally
+                    offsetY: 30, // 20px above platform
+                    width: 20,
+                    height: 20
+                };
+            }
         }
 
         platforms.push(newPlatform);
@@ -278,6 +306,9 @@ export function createJumpAndRun() {
         if (event.code === 'KeyQ') {
             keys.q = true;
         }
+        if (event.code === 'KeyE') {
+            keys.e = true;
+        }
     });
     
     document.addEventListener('keyup', function(event) {
@@ -289,6 +320,9 @@ export function createJumpAndRun() {
         }
         if (event.code === 'KeyQ') {
             keys.q = false;
+        }
+        if (event.code === 'KeyE') {
+            keys.e = false;
         }
     });
 
@@ -326,12 +360,25 @@ export function createJumpAndRun() {
                 mousePressed = false;
                 initGame();
             }
+            if (mousePressed && 
+                mouseX >= chaosButton.x && 
+                mouseX <= chaosButton.x + chaosButton.width && 
+                mouseY >= chaosButton.y && 
+                mouseY <= chaosButton.y + chaosButton.height) {
+                
+                chaosMode = !chaosMode;
+                mousePressed = false;
+            }
             
             // Start with space too
             if (keys.space) {
                 gameState = GAME_STATE.PLAYING;
                 keys.space = false;
                 initGame();
+            }
+            if (keys.e) {
+                chaosMode = !chaosMode;
+                keys.e = false;
             }
         }
         // Game over controls
@@ -382,6 +429,7 @@ export function createJumpAndRun() {
         // Handle different game states
         if (gameState === GAME_STATE.MENU) {
             highScore = localStorage.getItem("JNR-highscore");
+            floHighScore = localStorage.getItem("JNR-flohighscore");
             drawMenuBackground();
             drawMenu();
         } else if (gameState === GAME_STATE.PLAYING) {
@@ -389,7 +437,11 @@ export function createJumpAndRun() {
             updateGame();
             drawGame();
         } else if (gameState === GAME_STATE.GAME_OVER) {
-            localStorage.setItem("JNR-highscore", highScore);
+            if (chaosMode) {
+                localStorage.setItem("JNR-flohighscore", floHighScore);
+            } else {
+                localStorage.setItem("JNR-highscore", highScore);
+            }
             drawGameoverBackground();
             drawGameOver();
         }
@@ -408,7 +460,7 @@ export function createJumpAndRun() {
         
         // Draw subtitle
         ctx.font = '24px WIN';
-        ctx.fillText('This game is really kaka! 🙏💩', canvas.width / 2, 200);
+        ctx.fillText('Leap into the holy! 🙏', canvas.width / 2, 200);
         
         // Check if mouse is over play button
         const buttonHover = 
@@ -424,12 +476,26 @@ export function createJumpAndRun() {
         ctx.fillStyle = '#fff';
         ctx.font = 'bold 24px WIN';
         ctx.fillText(playButton.text, playButton.x + playButton.width / 2, playButton.y + playButton.height / 2 + 8);
-        
-        // Draw instructions
+
+        // draw mode pick
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 18px WIN';
+        ctx.fillText('Flo-mode: ', canvas.width / 2 - 20, canvas.height - 170);
+
+        ctx.fillStyle = chaosMode ? '#35f132' : '#f14932';
+        ctx.fillRect(chaosButton.x, chaosButton.y, chaosButton.width, chaosButton.height);
+
+        ctx.fillStyle = '#fff';
         ctx.font = '18px WIN';
-        ctx.fillText('Controls:', canvas.width / 2, canvas.height - 150);
-        ctx.fillText('SPACE - Jump / Double Jump', canvas.width / 2, canvas.height - 120);
-        ctx.fillText('*Double jump is shown by a dot above the player', canvas.width / 2, canvas.height - 90);
+        ctx.fillText(chaosMode == true ? "ON" : "OFF", chaosButton.x + chaosButton.width / 2, chaosButton.y + chaosButton.height / 2 + 8);
+
+        // Draw instructions
+        ctx.fillStyle = '#fff';
+        ctx.font = '18px WIN';
+        ctx.fillText('Controls:', canvas.width / 2, canvas.height - 130);
+        ctx.fillText('SPACE - Jump / Double Jump', canvas.width / 2, canvas.height - 100);
+        ctx.fillText('E - change mode (only here)', canvas.width / 2, canvas.height - 80);
+        ctx.fillText('*Double jump is shown by a dot above the player', canvas.width / 2, canvas.height - 60);
         
         // Reset text alignment
         ctx.textAlign = 'left';
@@ -439,6 +505,11 @@ export function createJumpAndRun() {
             ctx.font = '24px WIN';
             ctx.fillStyle = "#f1c40f"
             ctx.fillText(`High Score: ${Math.floor(highScore)}m`, 20, 30);
+        }
+        if (floHighScore > 0) {
+            ctx.font = '24px WIN';
+            ctx.fillStyle = "#edc3ff"
+            ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, 20, 60);
         }
     }
     
@@ -450,8 +521,14 @@ export function createJumpAndRun() {
 
         // Check if player falls off the screen
         if (player.y > canvas.height) {
-            if (distance > highScore) {
-                highScore = distance;
+            if (chaosMode) {
+                if (distance > floHighScore) {
+                    floHighScore = distance;
+                }
+            } else {
+                if (distance > highScore) {
+                    highScore = distance;
+                }
             }
             gameState = GAME_STATE.GAME_OVER;
             return;
@@ -483,7 +560,11 @@ export function createJumpAndRun() {
                     player.y + player.height > puY) {
     
                     // Apply speed boost
-                    player.speed *= 1.1; // Permanent 10% increase
+                    if (platform.powerUp.type == 'speed') {
+                        player.speed *= 1.1;
+                    } else {
+                        player.speed *= 0.9;
+                    }
                     platform.powerUp.active = false; // Remove power-up
                 }
             }
@@ -529,8 +610,14 @@ export function createJumpAndRun() {
         });
 
         if (collisionWithWall) {
-            if (distance > highScore) {
-                highScore = distance;
+            if (chaosMode) {
+                if (distance > floHighScore) {
+                    floHighScore = distance;
+                }
+            } else {
+                if (distance > highScore) {
+                    highScore = distance;
+                }
             }
             gameState = GAME_STATE.GAME_OVER;
             return;
@@ -567,14 +654,23 @@ export function createJumpAndRun() {
                 const puX = platform.x + platform.powerUp.offsetX;
                 const puY = platform.y - platform.powerUp.offsetY;
     
-                // Draw green right arrow
-                ctx.fillStyle = '#2ecc71';
-                ctx.beginPath();
-                ctx.moveTo(puX, puY);
-                ctx.lineTo(puX, puY + platform.powerUp.height);
-                ctx.lineTo(puX + platform.powerUp.width, puY + platform.powerUp.height/2);
-                ctx.closePath();
-                ctx.fill();
+                if (platform.powerUp.type == 'speed') {
+                    ctx.fillStyle = '#2ecc71';
+                    ctx.beginPath();
+                    ctx.moveTo(puX, puY);
+                    ctx.lineTo(puX, puY + platform.powerUp.height);
+                    ctx.lineTo(puX + platform.powerUp.width, puY + platform.powerUp.height/2);
+                    ctx.closePath();
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = '#c357f2';
+                    ctx.beginPath();
+                    ctx.moveTo(puX + platform.powerUp.width, puY);
+                    ctx.lineTo(puX + platform.powerUp.width, puY + platform.powerUp.height);
+                    ctx.lineTo(puX, puY + platform.powerUp.height / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                }
             }
         });
 
@@ -597,9 +693,16 @@ export function createJumpAndRun() {
         ctx.fillText(`Speed: ${(player.speed + speedIncrease).toFixed(1)}`, 20, 55);
         
         // Draw high score if exists
-        if (highScore > 0) {
-            ctx.fillText(`High Score: ${Math.floor(highScore)}m`, 20, 80);
+        if (chaosMode) {
+            if (floHighScore > 0) {
+                ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, 20, 80);
+            }
+        } else {
+            if (highScore > 0) {
+                ctx.fillText(`High Score: ${Math.floor(highScore)}m`, 20, 80);
+            }
         }
+        
         
         // Draw platform type legend
         ctx.fillStyle = '#fff';
@@ -624,7 +727,14 @@ export function createJumpAndRun() {
         ctx.fillStyle = '#2ecc71';
         ctx.fillRect(canvas.width - 150, 90, 20, 10);
         ctx.fillStyle = '#fff';
-        ctx.fillText('Spped Boost', canvas.width - 120, 100);
+        ctx.fillText('Speed Boost', canvas.width - 120, 100);
+
+        if (chaosMode) {
+            ctx.fillStyle = '#c357f2';
+            ctx.fillRect(canvas.width - 150, 110, 20, 10);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('Slow Down', canvas.width - 120, 120);
+        }
     }
     
     // Draw game over screen
@@ -644,11 +754,20 @@ export function createJumpAndRun() {
         ctx.fillText(`Distance: ${Math.floor(distance)}m`, canvas.width / 2, canvas.height / 2 + 10);
         
         // High score display
-        if (distance >= highScore) {
-            ctx.fillStyle = '#f1c40f';
-            ctx.fillText('NEW HIGH SCORE!', canvas.width / 2, canvas.height / 2 + 50);
+        if (chaosMode) {
+            if (distance >= floHighScore) {
+                ctx.fillStyle = '#b051d9';
+                ctx.fillText('NEW FLO-MODE HIGH SCORE!', canvas.width / 2, canvas.height / 2 + 50);
+            } else {
+                ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, canvas.width / 2, canvas.height / 2 + 50);
+            }
         } else {
-            ctx.fillText(`High Score: ${Math.floor(highScore)}m`, canvas.width / 2, canvas.height / 2 + 50);
+            if (distance >= highScore) {
+                ctx.fillStyle = '#f1c40f';
+                ctx.fillText('NEW HIGH SCORE!', canvas.width / 2, canvas.height / 2 + 50);
+            } else {
+                ctx.fillText(`High Score: ${Math.floor(highScore)}m`, canvas.width / 2, canvas.height / 2 + 50);
+            }
         }
         
         // Restart instructions
@@ -665,11 +784,4 @@ export function createJumpAndRun() {
     update();
 
     return gameContainer;
-}
-
-function checkCollision(rect1, rect2) {
-    return rect1.x < rect2.x + rect2.width &&
-           rect1.x + rect1.width > rect2.x &&
-           rect1.y < rect2.y + rect2.height &&
-           rect1.y + rect1.height > rect2.y;
 }
