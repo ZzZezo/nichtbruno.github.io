@@ -17,7 +17,7 @@ export function createChangelog() {
             date: '03.05.25',
             text: `V3.2.1
                 - Updated controls for the ping pong game.
-                - Added a Flo-mode to the jump n run!`
+                - Added a Flo-mode to the jump n run! (Flos Idee)`
         },
         {
             date: '14.04.25',
