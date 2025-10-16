@@ -13,7 +13,7 @@ import { createJumpAndRun } from './content/jumpnrun.js';
 
 // LOAD STATE
 const hideText = localStorage.getItem('hideBrunosText') === 'true';
-document.getElementById('background-text').style.display = hideText ? 'none' : 'block';
+document.getElementById('background-text').style.display = hideText ? 'block' : 'block';
 const savedWallpaper = localStorage.getItem('selectedWallpaper');
 const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
 document.body.style.backgroundImage = `url('${savedWallpaper}')`;

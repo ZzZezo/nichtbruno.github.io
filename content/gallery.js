@@ -88,7 +88,7 @@ export function createGallery() {
 
     const toggleBrunosText = container.querySelector('#toggle-brunos-text');
     toggleBrunosText.addEventListener('change', () => {
-        toggleBrunosTextVisibility(toggleBrunosText.checked);
+        toggleBrunosTextVisibility(true);
         localStorage.setItem('hideBrunosText', toggleBrunosText.checked);
         const status = container.querySelector('.toggle-status');
         status.textContent = toggleBrunosText.checked ? 'Hidden' : 'Visible';
@@ -165,6 +165,6 @@ function changeWallpaper(imageUrl) {
 function toggleBrunosTextVisibility(hide) {
     const brunosText = document.getElementById('background-text');
     if (brunosText) {
-        brunosText.style.display = hide ? 'none' : 'block';
+        brunosText.style.display = hide ? 'block' : 'block';
     }
 }
