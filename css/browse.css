@@ -58,14 +58,32 @@
   white-space: nowrap;
 }
 
-.browse-button:hover {
+.browse-button:hover, .bookmark-button:hover {
   box-shadow: 2px 2px 0px #6a6a5a;
   background-color: #d0d0c0;
 }
 
-.browse-button:active {
+.browse-button:active, .bookmark-button:active {
   box-shadow: inset 1px 1px 0px #a0a090;
   transform: translateY(1px) translateX(1px);
+}
+
+.bookmark-button {
+  padding: 4px 8px;
+  background-color: #c0c0b0;
+  color: #505040;
+  border: 2px solid #a0a090;
+  font-weight: bold;
+  font-family: 'APR', 'Times New Roman', serif;
+  font-size: 0.9em;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #8a8a7a;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+}
+
+.bookmark-icon {
+  width: 20px;
 }
 
 #browser-frame {

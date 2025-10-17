@@ -6,6 +6,9 @@ export function createBrowse() {
       <div class="search-container">
         <input type="url" id="browser-url" placeholder="Enter URL...">
         <button id="browse-button" class="browse-button">Search</button>
+        <button id="bookmark-button" class="bookmark-button">
+          <img class="bookmark-icon" src="../assets/images/schizo_icon.gif">
+        </button>
       </div>
       <iframe id="browser-frame" src="about:blank"></iframe>
     </div>
@@ -13,6 +16,12 @@ export function createBrowse() {
 
   const searchButton = container.querySelector('#browse-button');
   searchButton.addEventListener('click', () => {
+    loadUrl();
+  });
+
+  const bookmarkButton = container.querySelector('#bookmark-button');
+  bookmarkButton.addEventListener('click', () => {
+    document.getElementById('browser-url').value = 'https://iwannajumpoffacliff.com';
     loadUrl();
   });
 
