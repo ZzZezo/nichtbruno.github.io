@@ -1,22 +1,26 @@
-export function createShortcuts() {
+export function generateShortcuts() {
     for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-            const entry = data[key];
-            const div = document.createElement('div');
-            const itemPos = gridToPos(entry.grid);
+        createShortcut(key);
+    }
+}
 
-            div.innerHTML = `
-            <img src="images/shortcuts/${entry.image}">
-            <span>${entry.name}</span>
-            `;
+function createShortcut(key) {
+    if (data.hasOwnProperty(key)) {
+        const entry = data[key];
+        const div = document.createElement('div');
+        const itemPos = gridToPos(entry.grid);
 
-            div.id = entry.id;
-            div.className = "shortcut";
-            div.style.left = `${itemPos[0]}px`;
-            div.style.top = `${itemPos[1]}px`;
+        div.innerHTML = `
+        <img src="/assets/images/shortcuts/${entry.image}">
+        <span>${entry.name}</span>
+        `;
 
-            document.body.appendChild(div);
-        }
+        div.id = entry.id;
+        div.className = "shortcut";
+        div.style.left = `${itemPos[0]}px`;
+        div.style.top = `${itemPos[1]}px`;
+
+        document.body.appendChild(div);
     }
 }
 
@@ -34,34 +38,34 @@ function gridToPos(grid) {
 }
 
 const data = {
-    "changelog": {
-        "name": "Changelog",
-        "image": "changelog.png",
-        "id": "changelog",
-        "grid": [1, 1, 0], // row, col, allignment (0: top, 1: bottom)
-    },
     "about": {
         "name": "About",
         "image": "infoicon.png",
         "id": "about",
-        "grid": [1, 2, 0], // row, col, allignment (0: top, 1: bottom)
+        "grid": [1, 1, 0], // row, col, allignment (0: top, 1: bottom)
     },
     "gallery": {
         "name": "Gallery",
         "image": "gallery.png",
         "id": "gallery",
-        "grid": [1, 3, 0],
+        "grid": [1, 2, 0],
     },
     "cc": {
         "name": "LICENSE",
         "image": "cc.png",
-        "id": "cc",
+        "id": "license",
+        "grid": [1, 3, 0],
+    },
+    "github": {
+        "name": "GitHub",
+        "image": "github.png",
+        "id": "github",
         "grid": [1, 4, 0],
     },
-    "countdown": {
-        "name": "Countdown",
-        "image": "countdown.png",
-        "id": "countdown",
+    "timer": {
+        "name": "Timer",
+        "image": "timer.png",
+        "id": "timer",
         "grid": [2, 1, 0],
     },
     "clock": {
@@ -70,53 +74,11 @@ const data = {
         "id": "clock",
         "grid": [2, 2, 0],
     },
-    "timer": {
-        "name": "Timer",
-        "image": "timer.png",
-        "id": "timer",
+    "browse": {
+        "name": "Browse",
+        "image": "lupe.png",
+        "id": "browse",
         "grid": [2, 3, 0],
-    },
-    "cdplayer": {
-        "name": "CD Player",
-        "image": "cdplayer.png",
-        "id": "cdplayer",
-        "grid": [2, 4, 0],
-    },
-    "chatgpt": {
-        "name": "ChatGPT",
-        "image": "chatgpt.png",
-        "id": "chatgpt",
-        "grid": [1, 1, 1],
-    },
-    "deepseek": {
-        "name": "Deepseek",
-        "image": "deepseek.png",
-        "id": "deepseek",
-        "grid": [1, 2, 1],
-    },
-    "claude": {
-        "name": "Claude",
-        "image": "claude.png",
-        "id": "claude",
-        "grid": [1, 3, 1],
-    },
-    "perplexity": {
-        "name": "Perplexity",
-        "image": "perplexity.png",
-        "id": "perplexity",
-        "grid": [1, 4, 1],
-    },
-    "google": {
-        "name": "Google",
-        "image": "google.png",
-        "id": "google",
-        "grid": [2, 1, 1],
-    },
-    "github": {
-        "name": "GitHub",
-        "image": "github.png",
-        "id": "github",
-        "grid": [2, 2, 1],
     },
     "pingpong": {
         "name": "Ping Pong",

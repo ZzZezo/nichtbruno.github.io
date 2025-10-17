@@ -25,7 +25,7 @@ export function createPingPongGame() {
     const ctx = canvas.getContext('2d');
 
     const backgroundImage = new Image();
-    backgroundImage.src = '../images/pingpong/pingpongbg.png';
+    backgroundImage.src = '../assets/images/pingpong/pingpongbg.png';
     let isBackgroundLoaded = false;
 
     backgroundImage.onload = () => {
@@ -42,7 +42,7 @@ export function createPingPongGame() {
     }
 
     const backgroundAIImage = new Image();
-    backgroundAIImage.src = '../images/pingpong/pingpongbgai.png';
+    backgroundAIImage.src = '../assets/images/pingpong/pingpongbgai.png';
     let isBackgroundAILoaded = false;
 
     backgroundAIImage.onload = () => {
@@ -59,10 +59,10 @@ export function createPingPongGame() {
     }
 
     const blueWinImage = new Image();
-    blueWinImage.src = '../images/pingpong/blue-wins.png';
+    blueWinImage.src = '../assets/images/pingpong/blue-wins.png';
 
     const orangeWinImage = new Image();
-    orangeWinImage.src = '../images/pingpong/orange-wins.png';
+    orangeWinImage.src = '../assets/images/pingpong/orange-wins.png';
 
     function drawWinner() {
         ctx.drawImage(points.winner < 0 ? blueWinImage: orangeWinImage, 0, 0, canvas.width, canvas.height);

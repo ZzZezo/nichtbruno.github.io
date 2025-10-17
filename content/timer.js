@@ -30,7 +30,7 @@ export function createTimer() {
             </div>
             <div id="countdown" class="countdown-container">
                 <div class="timer-countdown-box">
-                    <h3 id="timer-countdown-text" class="timer-countdown-text">Waiting ...</h3>
+                    <h3 id="timer-countdown-text" class="timer-countdown-text">00</h3>
                 </div>
             </div>
         </div>
@@ -53,14 +53,16 @@ let mydate = {
     day: null,
     hour: null,
     minute: null,
-}
+};
+
+let countdownInterval = null;
 
 function getMyDate(container) {
-    mydate.year = container.querySelector('#year').value;
-    mydate.month = container.querySelector('#month').value-1;
-    mydate.day = container.querySelector('#day').value;
-    mydate.hour = container.querySelector('#hour').value;
-    mydate.minute = container.querySelector('#minute').value;
+    mydate.year = parseInt(container.querySelector('#year').value);
+    mydate.month = parseInt(container.querySelector('#month').value) - 1;
+    mydate.day = parseInt(container.querySelector('#day').value);
+    mydate.hour = parseInt(container.querySelector('#hour').value);
+    mydate.minute = parseInt(container.querySelector('#minute').value);
 }
 
 function startTimer(container) {
@@ -70,7 +72,7 @@ function startTimer(container) {
         const yearSelect = container.querySelector('#year');
         const currentYear = new Date().getFullYear();
     
-        for (let i = 2000; i <= currentYear+10; i++) {
+        for (let i = 2000; i <= currentYear + 10; i++) {
             const option = document.createElement('option');
             option.value = i;
             option.textContent = i;
@@ -84,8 +86,8 @@ function startTimer(container) {
     function populateMonths() {
         const monthSelect = container.querySelector('#month');
         const months = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
         ];
     
         months.forEach((month, index) => {
@@ -95,8 +97,8 @@ function startTimer(container) {
             monthSelect.appendChild(option);
         });
 
-        monthSelect.value = today.getMonth()+1;
-        mydate.month = monthSelect.value-1;
+        monthSelect.value = today.getMonth() + 1;
+        mydate.month = monthSelect.value - 1;
     }
 
     function populateDays() {
@@ -110,7 +112,7 @@ function startTimer(container) {
             daySelect.appendChild(option);
         }
 
-        daySelect.value = today.getDay()+2;
+        daySelect.value = today.getDate();
         mydate.day = daySelect.value;
     }
 
@@ -118,10 +120,10 @@ function startTimer(container) {
         const hourSelect = container.querySelector('#hour');
         hourSelect.innerHTML = '';
     
-        for (let i = 1; i <= 24; i++) {
+        for (let i = 0; i < 24; i++) {
             const option = document.createElement('option');
             option.value = i;
-            option.textContent = i;
+            option.textContent = String(i).padStart(2, '0');
             hourSelect.appendChild(option);
         }
 
@@ -133,10 +135,10 @@ function startTimer(container) {
         const minuteSelect = container.querySelector('#minute');
         minuteSelect.innerHTML = '';
     
-        for (let i = 0; i <= 59; i++) {
+        for (let i = 0; i < 60; i++) {
             const option = document.createElement('option');
             option.value = i;
-            option.textContent = i;
+            option.textContent = String(i).padStart(2, '0');
             minuteSelect.appendChild(option);
         }
 
@@ -151,6 +153,10 @@ function startTimer(container) {
     populateMinutes();
 }
 
+function formatTime(seconds) {
+    return String(seconds).padStart(2, '0');
+}
+
 function startCountdown(container) {
     const timerCountdownDisplay = container.querySelector('.timer-countdown-text');
     if (!timerCountdownDisplay) {
@@ -158,14 +164,28 @@ function startCountdown(container) {
         return;
     }
 
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+
+    timerCountdownDisplay.classList.remove('expired');
+
     function getTime() {
         const now = new Date();
         const end = new Date(mydate.year, mydate.month, mydate.day, mydate.hour, mydate.minute);
         const difference = end - now;
         const differenceInSeconds = Math.floor(difference / 1000);
-        timerCountdownDisplay.textContent = differenceInSeconds;
+
+        if (differenceInSeconds <= 0) {
+            timerCountdownDisplay.textContent = '00';
+            timerCountdownDisplay.classList.add('expired');
+            clearInterval(countdownInterval);
+            return;
+        }
+
+        timerCountdownDisplay.textContent = formatTime(differenceInSeconds);
     }
 
-    setInterval(getTime, 1000);
     getTime();
+    countdownInterval = setInterval(getTime, 1000);
 }

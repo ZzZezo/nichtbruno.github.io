@@ -3,33 +3,44 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>BrunOS</title>
         <link rel="stylesheet" href="css/style.css"/>
-        <link rel="stylesheet" href="css/clock.css"/>
-        <link rel="stylesheet" href="css/countdown.css"/>
-        <link rel="stylesheet" href="css/gallery.css"/>
-        <link rel="stylesheet" href="css/about.css"/>
-        <link rel="stylesheet" href="css/timer.css"/>
-        <link rel="stylesheet" href="css/global.css"/>
         <link rel="stylesheet" href="css/shortcut.css"/>
         <link rel="stylesheet" href="css/window.css"/>
-        <link rel="stylesheet" href="css/changelog.css"/>
-        <link rel="stylesheet" href="css/cdplayer.css"/>
+        <link rel="stylesheet" href="css/about.css"/>
+        <link rel="stylesheet" href="css/gallery.css"/>
+        <link rel="stylesheet" href="css/timer.css"/>
+        <link rel="stylesheet" href="css/clock.css"/>
+        <link rel="stylesheet" href="css/browse.css"/>
+        <title>JunkOS</title>
         <link
             rel="preload"
-            href="/fonts/AnonymousPro-Regular.ttf"
+            href="assets/fonts/AnonymousPro-Regular.ttf"
             as="font"
         />
-        <link rel="icon" type="gif" href="/images/sigma.gif">
+        <link rel="icon" type="gif" href="./assets/images/sigma.gif">
     </head>
     <body class="hide-scrollbar">
-        <div id="background-text" style="display: block">Website under maintenance! 🔧</div>
-        <!-- system -->
+        <div class="taskbar">
+            <img class="taskbar-logo" src="/assets/images/junkoslogo.png">
+            <div class="taskbar-apps" id="taskbar-apps"></div>
+            <div class="system-tray">
+                <span id="current-time"></span>
+            </div>
+        </div>
+
         <script src="main.js" type="module"></script>
-        <script src="os/emergencyExit.js" type="module"></script>
+        <!-- <script src="./os/emergencyExit.js" type="module"></script> -->
         <script>
-            function boobs(score) {
-                localStorage.setItem("JNR-highscore", score);
+            document.addEventListener('DOMContentLoaded', function() {
+                updateTime();
+                setInterval(updateTime, 1000);
+            });
+
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                const dateString = now.toLocaleDateString([], { day: 'numeric', month: 'numeric', year: 'numeric' });
+                document.getElementById('current-time').innerHTML = `${timeString}<br>${dateString}`;
             }
         </script>
     </body>

@@ -1,43 +1,47 @@
 
 * {
     box-sizing: border-box;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE/Edge */
+    user-select: none; /* Standard syntax */
 }
 
 @font-face {
     font-family: 'APR';
-    src: local('/fonts/')
-        url('/fonts/AnonymousPro-Regular.ttf') format('truetype'),
-        url('/fonts/AnonymousPro-Bold.ttf') format('truetype'),
-        url('/fonts/AnonymousPro-BoldItalic.ttf') format('truetype'),
-        url('/fonts/AnonymousPro-Italic.ttf') format('truetype');
+    src: local('/assets/fonts/')
+        url('/assets/fonts/AnonymousPro-Regular.ttf') format('truetype'),
+        url('/assets/fonts/AnonymousPro-Bold.ttf') format('truetype'),
+        url('/assets/fonts/AnonymousPro-BoldItalic.ttf') format('truetype'),
+        url('/assets/fonts/AnonymousPro-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'HND';
-    src: local('Helvetica Now Display Ext Blk'), local('/fonts/Helvetica-Now-Display-Ext-Blk'),
-        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff2') format('woff2'),
-        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff') format('woff'),
-        url('/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.ttf') format('truetype');
+    src: local('Helvetica Now Display Ext Blk'), local('assets/fonts/Helvetica-Now-Display-Ext-Blk'),
+        url('/assets/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff2') format('woff2'),
+        url('/assets/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.woff') format('woff'),
+        url('/assets/fonts/HelveticaNowDisplay-ExtBlk/HelveticaNowDisplay-ExtBlk.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'WIN';
-    src: local('leviwindows'), local('/fonts/Windows Regular'),
-        url('/fonts/leviwindows/Windows Regular.ttf') format('woff2'),
-        url('/fonts/leviwindows/Windows Regular.ttf.woff') format('woff'),
-        url('/fonts/leviwindows/Windows Regular.ttf.ttf') format('truetype');
+    src: local('leviwindows'), local('/assets/fonts/Windows Regular'),
+        url('/assets/fonts/leviwindows/Windows Regular.ttf') format('woff2'),
+        url('/assets/fonts/leviwindows/Windows Regular.ttf.woff') format('woff'),
+        url('/assets/fonts/leviwindows/Windows Regular.ttf.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 body {
-    background-color: #090a0f;
+    background-color: #0c0404;
     /* background-image: linear-gradient(135deg, var(--darkreader-background-ff00ff, #af570f) 0px, var(--darkreader-background-00ffff, #059144) 100%); */
-    background-image: url("../images/bgs/bg.jpg");
+    background-image: url("../assets/images/bgs/bg.jpg");
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -52,16 +56,40 @@ body {
     background-color: #f0f0f0;
 }
 
-#background-text {
-    position: absolute;
-    font-family: "WIN";
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 120px;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 1);
-    user-select: none;
-    pointer-events: none;
-    z-index: -1;
+p {
+    font-family: 'APR';
+}
+
+/* Taskbar */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 2000;
+    font-family: 'WIN', 'APR';
+}
+
+.taskbar-logo {
+    width: 60px;
+}
+
+.taskbar-apps {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+.system-tray {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: white;
+    font-size: 12px;
 }

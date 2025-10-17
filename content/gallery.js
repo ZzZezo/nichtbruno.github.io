@@ -4,25 +4,14 @@ export function createGallery() {
     container.className = 'retro-gallery';
     container.innerHTML = `
         <div class="retro-controls">
-            <div class="toggle-container">
-                <label class="retro-toggle">
-                    <input type="checkbox" id="toggle-brunos-text">
-                    <span class="toggle-slider"></span>
-                    <span class="toggle-label">Desktop Text:</span>
-                    <span class="toggle-status">Visible</span>
-                </label>
-            </div>
-            <div class="sizing-options">
-                <label class="size-label">
-                    Wallpaper Fit:
-                    <select id="wallpaper-fit" class="retro-select">
-                        <option value="cover">Fill Screen</option>
-                        <option value="contain">Fit Screen</option>
-                        <option value="auto">Stretch</option>
-                        <option value="100% 100%">Zoom</option>
-                    </select>
-                </label>
-            </div>
+            <label class="size-label">
+                Wallpaper Fit:
+                <select id="wallpaper-fit" class="retro-select">
+                    <option value="cover">Fill Screen</option>
+                    <option value="contain">Fit Screen</option>
+                    <option value="stretch">Stretch</option>
+                </select>
+            </label>
         </div>
         <div class="retro-wallpaper-grid">
             <!-- Wallpaper thumbnails will be added here -->
@@ -32,14 +21,25 @@ export function createGallery() {
     const wallpapers = [
         'bg.jpg',
         'field_bg.jpg',
-        'texture_bg.jpg',
+        'a.jpg',
+        'abstract2.jpg',
+        'blue-waves.png',
+        'bmw.jpg',
+        'dalek.jpg',
+        'dark_skulls.png',
+        'DESKTOP WALLPAPER.jpg',
+        'endless-summer.jpg',
+        'jupiter.png',
         'magic.jpg',
+        'Minimal Wallpaper - Dark Wave Gradient 2.jpg',
+        'monkey.jpg',
+        'my-neighbor-totoro-sunflowers.png',
         'pipes.png',
-        'shiny-colors.png',
-        'sunset-xfksfuywx.png',
+        'rainforest.png',
+        'shougan_castle.png',
         'swirls.png',
-        'wallhaven-rrpvd7.png',
-        'waves_dracula_flipped.png',
+        'texture_bg.jpg',
+        'yellow_kyoto.jpg',
     ];
 
     const wallpaperGrid = container.querySelector('.retro-wallpaper-grid');
@@ -49,13 +49,13 @@ export function createGallery() {
         wallpaperItem.className = 'retro-wallpaper-item';
         wallpaperItem.innerHTML = `
             <div class="retro-thumbnail">
-                <img src="images/bgs/${wallpaper}" alt="${wallpaper}">
+                <img src="/assets/images/bgs/${wallpaper}" alt="${wallpaper}">
             </div>
             <div class="retro-filename">${wallpaper}</div>
         `;
 
         wallpaperItem.addEventListener('click', () => {
-            changeWallpaper(`images/bgs/${wallpaper}`);
+            changeWallpaper(`/assets/images/bgs/${wallpaper}`);
             // Remove previous selection
             container.querySelectorAll('.retro-wallpaper-item').forEach(item => {
                 item.classList.remove('selected');
@@ -78,20 +78,12 @@ export function createGallery() {
     const fitSelect = container.querySelector('#wallpaper-fit');
     const savedFit = localStorage.getItem('wallpaperFit') || 'cover';
     fitSelect.value = savedFit;
-    document.body.style.backgroundSize = savedFit;
+    applyBackgroundSize(savedFit);
 
     fitSelect.addEventListener('change', () => {
         const fitValue = fitSelect.value;
-        document.body.style.backgroundSize = fitValue;
+        applyBackgroundSize(fitValue);
         localStorage.setItem('wallpaperFit', fitValue);
-    });
-
-    const toggleBrunosText = container.querySelector('#toggle-brunos-text');
-    toggleBrunosText.addEventListener('change', () => {
-        toggleBrunosTextVisibility(true);
-        localStorage.setItem('hideBrunosText', toggleBrunosText.checked);
-        const status = container.querySelector('.toggle-status');
-        status.textContent = toggleBrunosText.checked ? 'Hidden' : 'Visible';
     });
 
     return container;
@@ -158,13 +150,18 @@ function createCustomWallpaperItem(imageUrl) {
 function changeWallpaper(imageUrl) {
     const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
     document.body.style.backgroundImage = `url('${imageUrl}')`;
-    document.body.style.backgroundSize = currentFit;
+    applyBackgroundSize(currentFit);
     localStorage.setItem('selectedWallpaper', imageUrl);
 }
 
-function toggleBrunosTextVisibility(hide) {
-    const brunosText = document.getElementById('background-text');
-    if (brunosText) {
-        brunosText.style.display = hide ? 'block' : 'block';
-    }
+export function applyBackgroundSize(fitValue) {
+    const sizeMap = {
+        'cover': 'cover',
+        'contain': 'contain',
+        'stretch': '100% 100%'
+    };
+    document.body.style.backgroundSize = sizeMap[fitValue] || 'cover';
+    document.body.style.backgroundPosition = 'center center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundRepeat = 'no-repeat';
 }

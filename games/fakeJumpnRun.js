@@ -19,7 +19,7 @@ export function createJumpAndRun() {
     ///////////////////
 
     const menuBackgroundImage = new Image();
-    menuBackgroundImage.src = '../images/jumpnrun/menu-bg.png';
+    menuBackgroundImage.src = '../assets/images/jumpnrun/menu-bg.png';
     let isMenuBackgroundLoaded = false;
 
     menuBackgroundImage.onload = () => {
@@ -36,7 +36,7 @@ export function createJumpAndRun() {
     }
 
     const backgroundImage = new Image();
-    backgroundImage.src = '../images/jumpnrun/bg.png';
+    backgroundImage.src = '../assets/images/jumpnrun/bg.png';
     let isBackgroundLoaded = false;
 
     backgroundImage.onload = () => {
@@ -53,7 +53,7 @@ export function createJumpAndRun() {
     }
 
     const gameoverBackgroundImage = new Image();
-    gameoverBackgroundImage.src = '../images/jumpnrun/gameover.png';
+    gameoverBackgroundImage.src = '../assets/images/jumpnrun/gameover.png';
     let isGOBackgroundLoaded = false;
 
     gameoverBackgroundImage.onload = () => {

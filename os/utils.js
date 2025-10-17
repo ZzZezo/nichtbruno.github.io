@@ -3,10 +3,9 @@ export function makeDraggable(elements) {
         let active = false;
         let initialX, initialY;
 
-        // Determine the drag handle
+        // check grab el or window header
         const dragHandle = el.classList.contains('window') ? el.querySelector('.window-header') : el;
 
-        // If no drag handle is found, skip this element
         if (!dragHandle) return;
 
         dragHandle.addEventListener('mousedown', startDragging);
@@ -14,9 +13,6 @@ export function makeDraggable(elements) {
         document.addEventListener('mouseup', stopDragging);
 
         function startDragging(e) {
-            // Check if the window is locked
-            if (el.dataset.lockedPos === 'true') return;
-
             active = true;
             initialX = e.clientX - el.offsetLeft;
             initialY = e.clientY - el.offsetTop;

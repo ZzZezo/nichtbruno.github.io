@@ -1,45 +1,33 @@
-import { createDraggableWindow } from './os/windowManager.js';
-import { makeDraggable } from './os/windowUtils.js';
-import { createShortcuts } from './os/shortcutManager.js';
-import { createPingPongGame } from './content/pingpongGame.js';
-import { createClock } from './content/clock.js';
-import { createCountdown } from './content/countdown.js';
-import { createGallery } from './content/gallery.js';
-import { createAbout } from './content/about.js';
-import { createTimer } from './content/timer.js';
-import { createChangelog } from './content/changelog.js';
-import { createCDPlayer } from './content/cdplayer.js';
-import { createJumpAndRun } from './content/jumpnrun.js';
+import { createAbout } from "./content/about.js";
+import { createBrowse } from "./content/browse.js";
+import { createClock } from "./content/clock.js";
+import { applyBackgroundSize, createGallery } from "./content/gallery.js";
+import { createTimer } from "./content/timer.js";
+import { createJumpAndRun } from "./games/fakeJumpnRun.js";
+import { createPingPongGame } from "./games/fakePingPong.js";
+import { generateShortcuts } from "./os/shortcutManager.js";
+import { makeDraggable } from "./os/utils.js";
+import { createWindow } from "./os/windowManager.js";
 
-// LOAD STATE
-const hideText = localStorage.getItem('hideBrunosText') === 'true';
-document.getElementById('background-text').style.display = hideText ? 'block' : 'block';
 const savedWallpaper = localStorage.getItem('selectedWallpaper');
 const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
 document.body.style.backgroundImage = `url('${savedWallpaper}')`;
 document.body.style.backgroundSize = currentFit;
+applyBackgroundSize(currentFit);
 
-// SETUP APPS
+generateShortcuts();
+
 const APP_REGISTRY = {
-    changelog: {title: "Changelog", fn: createChangelog, width: 500, height: 450, ls: true},
-    about: {title: "About", fn: createAbout, width: 400, height: 350, ls: true},
-    pingpong: {title: "Ping Pong", fn: createPingPongGame, width: 605, height: 435, ls: true},
-    jumpnrun: {title: "Holy Jump", fn: createJumpAndRun, width: 800, height: 530, ls: true},
-    clock: {title: "Clock", fn: createClock, width: 400, height: 425, ls: true},
-    countdown: {title: "Countdown", fn: createCountdown, width: 200, height: 145, ls: false},
-    gallery: {title: "Gallery", fn: createGallery, width: 500, height: 415, ls: true},
-    timer: {title: "Timer", fn: createTimer, width: 300, height: 260, ls: true},
-    cdplayer: {title: "CD Player", fn: createCDPlayer, width: 286, height: 380, ls: true},
-    chatgpt: 'https://chatgpt.com',
-    deepseek: 'https://deepseek.com',
-    claude: 'https://claude.ai/new',
-    google: 'https://google.com',
-    cc: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    about: {title: "About", fn: createAbout, width: 420, height: 442},
+    gallery: {title: "Gallery", fn: createGallery, width: 500, height: 432},
+    license: 'https://creativecommons.org/licenses/by-sa/4.0/',
     github: 'https://github.com/nichtbruno',
-    perplexity: 'https://www.perplexity.ai/',
+    clock: {title: "Clock", fn: createClock, width: 400, height: 432},
+    timer: {title: "Timer", fn: createTimer, width: 520, height: 367},
+    browse: {title: "Browse", fn: createBrowse, width: 600, height: 522, resizeable: true},
+    pingpong: {title: "Pingpong", fn: createPingPongGame, width: 605, height: 435},
+    jumpnrun: {title: "Jumpnrun", fn: createJumpAndRun, width: 800, height: 530},
 }
-
-createShortcuts();
 
 document.body.addEventListener('dblclick', (e) => {
     const shortcut = e.target.closest('.shortcut');
@@ -53,12 +41,12 @@ document.body.addEventListener('dblclick', (e) => {
     if (typeof config === 'string') {
         window.open(config, '_blank');
     } else if (config.fn) {
-        createDraggableWindow(
+        createWindow(
             config.title,
             config.fn(),
             config.width,
             config.height,
-            config.ls,
+            config.resizeable,
         );
     }
 });
