@@ -41,7 +41,7 @@
 body {
     background-color: #0c0404;
     /* background-image: linear-gradient(135deg, var(--darkreader-background-ff00ff, #af570f) 0px, var(--darkreader-background-00ffff, #059144) 100%); */
-    background-image: url("../assets/images/bgs/bg.jpg");
+    background-image: url("../assets/images/bgs/bg.webp");
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -56,10 +56,6 @@ body {
     background-color: #f0f0f0;
 }
 
-p {
-    font-family: 'APR';
-}
-
 /* Taskbar */
 .taskbar {
     position: fixed;
@@ -72,7 +68,7 @@ p {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    z-index: 2000;
+    z-index: 0;
     font-family: 'WIN', 'APR';
 }
 
@@ -92,4 +88,21 @@ p {
     gap: 16px;
     color: white;
     font-size: 12px;
+}
+
+/* Canvas */
+canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .timer-countdown-text.expired {
+        animation: none;
+    }
+    
+    .retro-wallpaper-item:hover {
+        transform: none;
+    }
 }

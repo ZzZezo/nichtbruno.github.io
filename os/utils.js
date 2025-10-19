@@ -19,17 +19,37 @@ export function makeDraggable(elements) {
         }
 
         function drag(e) {
-            if (active) {
-                e.preventDefault();
-                el.style.left = `${e.clientX - initialX}px`;
-                el.style.top = `${e.clientY - initialY}px`;
-            }
+            if (!active) return;
+
+            e.preventDefault();
+            el.style.left = `${e.clientX - initialX}px`;
+            el.style.top = `${e.clientY - initialY}px`;
         }
 
         function stopDragging() {
             active = false;
         }
+
+        el._dragHandlers = {startDragging, drag, stopDragging};
+
+        dragHandle.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
     });
+}
+
+export function cleanupDraggable(element) {
+    if (element._dragHandlers) {
+        const { startDragging, drag, stopDragging } = element._dragHandlers;
+        const dragHandle = element.classList.contains('window') ? element.querySelector('.window-header') : element;
+        
+        if (dragHandle) {
+            dragHandle.removeEventListener('mousedown', startDragging);
+        }
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', stopDragging);
+        delete element._dragHandlers;
+    }
 }
 
 export function makeResizable(el, minHeight = 100, minWidth = 100) {

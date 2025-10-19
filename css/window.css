@@ -12,6 +12,8 @@
     overflow: hidden;
     padding: 0;
     margin: 0;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .window-header {

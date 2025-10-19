@@ -84,6 +84,12 @@ const data = {
         "name": "Ping Pong",
         "image": "pingpong.png",
         "id": "pingpong",
+        "grid": [3, 5, 0],
+    },
+    "firepong": {
+        "name": "Fire Pong",
+        "image": "firepong.png",
+        "id": "firepong",
         "grid": [3, 1, 0],
     },
     "jumpnrun": {

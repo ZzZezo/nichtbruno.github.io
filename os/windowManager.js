@@ -1,8 +1,9 @@
-import { makeDraggable, makeResizable } from "./utils.js";
+import { cleanupDraggable, makeDraggable, makeResizable } from "./utils.js";
 
 let maxZi = 100;
 
 export function createWindow(title, content, minWidth = 200, minHeight = 200, resizeable = false) {
+    const fragment = document.createDocumentFragment();
     const window = document.createElement('div');
     window.className = 'window';
     window.id = title;
@@ -46,7 +47,8 @@ export function createWindow(title, content, minWidth = 200, minHeight = 200, re
     window.appendChild(header);
     window.appendChild(contentDiv);
 
-    document.body.appendChild(window);
+    fragment.appendChild(window);
+    document.body.appendChild(fragment);
 
     function centerWindow() {
         const windowWidth = window.offsetWidth;
@@ -66,10 +68,21 @@ export function createWindow(title, content, minWidth = 200, minHeight = 200, re
     makeDraggable([window]);
 
     if (resizeable) {
-        makeResizable(window, minHeight, minWidth);
+        let resizeTimeout;
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            makeResizable(window, minHeight, minWidth);
+        }, 100);
     }
 
     closeButton.addEventListener('click', () => {
+        // stop games
+        // const gameContainer = content.querySelector('canvas')?.closest('div');
+        // if (gameContainer?.stopGame) {
+        //     gameContainer.stopGame();
+        // }
+
+        cleanupDraggable(window);
         document.body.removeChild(window);
     });
 

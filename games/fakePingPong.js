@@ -69,6 +69,8 @@ export function createPingPongGame() {
     }
 
     // Game variables
+    const TWO_PI = Math.PI * 2;
+
     let ballX = canvas.width / 2;
     let ballY = canvas.height / 2;
     let ballSpeedX = 5;
@@ -103,7 +105,7 @@ export function createPingPongGame() {
 
     function drawBall() {
         ctx.beginPath();
-        ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+        ctx.arc(ballX, ballY, ballRadius, 0, TWO_PI);
         ctx.fillStyle = 'black';
         ctx.fill();
         ctx.closePath();
@@ -364,7 +366,17 @@ export function createPingPongGame() {
         }
     }
 
-    function gameLoop() {
+    let lastTime = 0;
+    const FPS = 60;
+    const frameInterval = 1000 / FPS;
+
+    function optimizedGameLoop(timestamp) {
+        if (timestamp - lastTime < frameInterval) {
+            requestAnimationFrame(optimizedGameLoop);
+            return;
+        }
+        lastTime = timestamp;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         if (currentGameState === gameStates.MENU) {
@@ -391,10 +403,10 @@ export function createPingPongGame() {
             }
         }
 
-        requestAnimationFrame(gameLoop);
+        requestAnimationFrame(optimizedGameLoop);
     }
 
-    gameLoop();
+    optimizedGameLoop();
 
     return gameContainer;
 }

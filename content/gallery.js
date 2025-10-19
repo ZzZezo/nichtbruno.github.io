@@ -19,27 +19,27 @@ export function createGallery() {
     `;
 
     const wallpapers = [
-        'bg.jpg',
-        'field_bg.jpg',
-        'a.jpg',
-        'abstract2.jpg',
-        'blue-waves.png',
-        'bmw.jpg',
-        'dalek.jpg',
-        'dark_skulls.png',
-        'DESKTOP WALLPAPER.jpg',
-        'endless-summer.jpg',
-        'jupiter.png',
-        'magic.jpg',
-        'Minimal Wallpaper - Dark Wave Gradient 2.jpg',
-        'monkey.jpg',
-        'my-neighbor-totoro-sunflowers.png',
-        'pipes.png',
-        'rainforest.png',
-        'shougan_castle.png',
-        'swirls.png',
-        'texture_bg.jpg',
-        'yellow_kyoto.jpg',
+        'bg.webp',
+        'field_bg.webp',
+        'a.webp',
+        'abstract2.webp',
+        'blue-waves.webp',
+        'bmw.webp',
+        'dalek.webp',
+        'dark_skulls.webp',
+        'DESKTOP WALLPAPER.webp',
+        'endless-summer.webp',
+        'jupiter.webp',
+        'magic.webp',
+        'Minimal Wallpaper - Dark Wave Gradient 2.webp',
+        'monkey.webp',
+        'my-neighbor-totoro-sunflowers.webp',
+        'pipes.webp',
+        'rainforest.webp',
+        'shougan_castle.webp',
+        'swirls.webp',
+        'texture_bg.webp',
+        'yellow_kyoto.webp',
     ];
 
     const wallpaperGrid = container.querySelector('.retro-wallpaper-grid');
@@ -49,7 +49,7 @@ export function createGallery() {
         wallpaperItem.className = 'retro-wallpaper-item';
         wallpaperItem.innerHTML = `
             <div class="retro-thumbnail">
-                <img src="/assets/images/bgs/${wallpaper}" alt="${wallpaper}">
+                <img loading="lazy" src="/assets/images/bgs/${wallpaper}" alt="${wallpaper}">
             </div>
             <div class="retro-filename">${wallpaper}</div>
         `;
@@ -147,7 +147,21 @@ function createCustomWallpaperItem(imageUrl) {
     return item;
 }
 
+const imageCache = new Map();
+
+// TBH i have no idea what this imageCache does. ask Chatgpt
 function changeWallpaper(imageUrl) {
+
+    const previousUrl = localStorage.getItem('selectedWallpaper');
+    if (previousUrl && imageCache.has(previousUrl)) {
+        URL.revokeObjectURL(imageCache.get(previousUrl));
+        imageCache.delete(previousUrl);
+    }
+
+    if (imageUrl.startsWith('blob:') || imageUrl.startsWith('data:')) {
+        imageCache.set(imageUrl, imageUrl);
+    }
+
     const currentFit = localStorage.getItem('wallpaperFit') || 'cover';
     document.body.style.backgroundImage = `url('${imageUrl}')`;
     applyBackgroundSize(currentFit);

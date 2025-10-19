@@ -5,6 +5,7 @@ import { applyBackgroundSize, createGallery } from "./content/gallery.js";
 import { createTimer } from "./content/timer.js";
 import { createJumpAndRun } from "./games/fakeJumpnRun.js";
 import { createPingPongGame } from "./games/fakePingPong.js";
+import { createFirePong } from "./games/firepong.js";
 import { generateShortcuts } from "./os/shortcutManager.js";
 import { makeDraggable } from "./os/utils.js";
 import { createWindow } from "./os/windowManager.js";
@@ -26,6 +27,7 @@ const APP_REGISTRY = {
     timer: {title: "Timer", fn: createTimer, width: 520, height: 367},
     browse: {title: "Browse", fn: createBrowse, width: 600, height: 522, resizeable: true},
     pingpong: {title: "Pingpong", fn: createPingPongGame, width: 605, height: 435},
+    firepong: {title: "Fire Pong", fn: createFirePong, width: 605, height: 435},
     jumpnrun: {title: "Jumpnrun", fn: createJumpAndRun, width: 800, height: 530},
 }
 
