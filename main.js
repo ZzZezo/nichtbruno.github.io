@@ -7,7 +7,7 @@ import { createJumpAndRun } from "./games/fakeJumpnRun.js";
 import { createPingPongGame } from "./games/fakePingPong.js";
 import { createFirePong } from "./games/firepong.js";
 import { generateShortcuts } from "./os/shortcutManager.js";
-import { makeDraggable } from "./os/utils.js";
+import { makeDraggable } from "./os/windowUtils.js";
 import { createWindow } from "./os/windowManager.js";
 
 const savedWallpaper = localStorage.getItem('selectedWallpaper');
