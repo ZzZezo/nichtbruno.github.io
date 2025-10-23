@@ -97,3 +97,118 @@ function bringToFront(e) {
     const window = e.currentTarget;
     window.style.zIndex = maxZi++;
 }
+
+export function createGameWindow(title, gameUrl, width, height) {
+    const window = createWindow(title, '', width, height);
+    const content = window.querySelector('.window-content');
+    
+    // Loading screen
+    // const loadingHTML = `
+    //     <div class="loading-container">
+    //         <div class="loading-bar">
+    //             <div class="loading-progress" style="width: 0%"></div>
+    //         </div>
+    //         <p class="loading-status">Initializing...</p>
+    //     </div>
+    // `;
+    
+    // content.innerHTML = loadingHTML;
+    // content.appendChild(iframe);
+
+    // loadGame(gameUrl, content);
+
+    const iframe = document.createElement('iframe');
+    iframe.src = gameUrl;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    
+    content.innerHTML = '';
+    content.appendChild(iframe);
+    
+    return window;
+}
+
+async function loadGame(gameUrl, contentElement) {
+    const progressBar = contentElement.querySelector('.loading-progress');
+    const statusText = contentElement.querySelector('.loading-status');
+    
+    try {
+        // Phase 1: Download HTML
+        updateProgress(10, 'Downloading game...', progressBar, statusText);
+        const response = await fetch(gameUrl);
+        const html = await response.text();
+        
+        // Phase 2: Parse and load dependencies
+        updateProgress(30, 'Loading engine...', progressBar, statusText);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        
+        // Extract script sources
+        const scripts = tempDiv.querySelectorAll('script[src]');
+        for (let script of scripts) {
+            await loadScript(script.src, (loaded, total) => {
+                const percent = 30 + (loaded / total) * 50;
+                updateProgress(percent, 'Loading assets...', progressBar, statusText);
+            });
+        }
+        
+        // Phase 3: Inject game
+        updateProgress(90, 'Starting game...', progressBar, statusText);
+        contentElement.innerHTML = html;
+        
+        // Phase 4: Wait for game to initialize
+        setTimeout(() => {
+            updateProgress(100, 'Ready!', progressBar, statusText);
+            // Hide loading bar after a moment
+            setTimeout(() => {
+                const loadingEl = contentElement.querySelector('.loading-container');
+                if (loadingEl) loadingEl.style.display = 'none';
+            }, 500);
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Game loading failed:', error);
+        contentElement.innerHTML = `
+            <div style="color: white; text-align: center; padding: 50px;">
+                <h3>Failed to load game</h3>
+                <p>${error.message}</p>
+                <button onclick="window.location.reload()">Retry</button>
+            </div>
+        `;
+    }
+}
+
+function loadScript(src, progressCallback) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', src, true);
+        xhr.responseType = 'blob';
+        
+        xhr.onprogress = (e) => {
+            if (e.lengthComputable) {
+                progressCallback(e.loaded, e.total);
+            }
+        };
+        
+        xhr.onload = () => {
+            const blob = xhr.response;
+            const script = document.createElement('script');
+            const url = URL.createObjectURL(blob);
+            script.src = url;
+            script.onload = () => {
+                URL.revokeObjectURL(url);
+                resolve();
+            };
+            document.head.appendChild(script);
+        };
+        
+        xhr.onerror = reject;
+        xhr.send();
+    });
+}
+
+function updateProgress(percent, text, progressBar, statusText) {
+    if (progressBar) progressBar.style.width = percent + '%';
+    if (statusText) statusText.textContent = text;
+}
