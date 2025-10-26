@@ -73,8 +73,8 @@ export function createPingPongGame() {
 
     let ballX = canvas.width / 2;
     let ballY = canvas.height / 2;
-    let ballSpeedX = 5;
-    let ballSpeedY = 5;
+    let ballSpeedX = 10;
+    let ballSpeedY = 10;
     const ballRadius = 10;
 
     let leftPaddleDir = 1;
@@ -84,7 +84,7 @@ export function createPingPongGame() {
     const paddleHeight = 100;
     let leftPaddleY = (canvas.height - paddleHeight) / 2;
     let rightPaddleY = (canvas.height - paddleHeight) / 2;
-    const paddleSpeed = 8;
+    const paddleSpeed = 12;
 
     let points = {
         blue: 0,

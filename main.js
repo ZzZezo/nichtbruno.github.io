@@ -27,7 +27,7 @@ const APP_REGISTRY = {
     timer: {title: "Timer", fn: createTimer, width: 520, height: 367},
     browse: {title: "Browse", fn: createBrowse, width: 600, height: 522, resizeable: true},
     pingpong: {title: "Pingpong", fn: createPingPongGame, width: 605, height: 435},
-    firepong: {title: "Fire Pong", gameUrl: "./games/firepong/firepong.html", width: 605, height: 435},
+    // firepong: {title: "Fire Pong", gameUrl: "./games/firepong/firepong.html", width: 605, height: 435},
     jumpnrun: {title: "Jumpnrun", fn: createJumpAndRun, width: 800, height: 530},
 }
 
