@@ -87,45 +87,6 @@ body {
     padding-right: 10rem;
 }
 
-html, body {
-    overflow: auto;
-}
-
-body.hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;      /* Firefox */
-}
-
-body.hide-scrollbar::-webkit-scrollbar {
-    display: none;              /* Chrome, Safari, Opera */
-}
-
-/* Also hide scrollbar on all elements */
-.hide-scrollbar * {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.hide-scrollbar *::-webkit-scrollbar {
-    display: none;
-}
-
-html {
-    overflow: hidden;
-    height: 100%;
-}
-
-body {
-    overflow: auto;
-    height: 100%;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-body::-webkit-scrollbar {
-    display: none;
-}
-
 .encrypted-text {
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
