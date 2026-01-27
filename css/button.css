@@ -108,9 +108,8 @@ main {
 }
 
 body {
-  background: var(--body-bg);
+  /* background: var(--body-bg); */
   font-family: "WIN", sans-serif;
-
 }
 
 main {

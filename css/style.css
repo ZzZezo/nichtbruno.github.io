@@ -15,7 +15,6 @@
     font-weight: normal;
     font-style: normal;
 }
-/* background: linear-gradient(to right top, #F27121, #E94057, #8A2387); */
 
 * {
     font-family: 'WIN';
@@ -24,6 +23,8 @@
 
 body {
     background-color: rgb(10, 10, 10);
+    /* background: linear-gradient(to right top, #a84f17, #862532, #571655); */
+    /* background: linear-gradient(to right top, #F27121, #E94057, #8A2387); */
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -32,6 +33,15 @@ body {
   
 .hide-scrollbar {
     scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .warning-bar {
