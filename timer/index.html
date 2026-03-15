@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <style>
+    @font-face {
+      font-family: 'WIN';
+      src: url('../../assets/fonts/Windows Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1a1a1a;
+    }
+
+    /* ── Back button ── */
+    .back-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px 7px 10px;
+      background: rgba(20, 20, 20, 0.55);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .back-btn:hover {
+      background: rgba(40, 40, 40, 0.80);
+      transform: translateX(-2px);
+    }
+    .back-btn::before {
+      content: '←';
+      font-size: 15px;
+    }
+
+    /* ── Your CSS, untouched ── */
+    .timer-box {
+      background: #f0f0e1;
+      border: 2px solid #6b6b6b;
+      padding: 15px;
+      font-family: 'WIN', 'Times New Roman', serif;
+      box-shadow: 3px 3px 0px #d0d0c0;
+    }
+    .timer-control {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 15px;
+      margin-bottom: 20px;
+      padding: 12px;
+      background: #e0e0d0;
+      border: 1px solid #a0a090;
+      flex-wrap: wrap;
+    }
+    .timer-form {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .timer-form > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .timer-form label {
+      font-size: 0.85em;
+      font-weight: bold;
+      color: #505040;
+      font-family: 'WIN', 'Times New Roman', serif;
+    }
+    .timer-form select {
+      width: 80px;
+      padding: 6px 8px;
+      background-color: #e0e0d0;
+      color: #505040;
+      border: 2px solid #a0a090;
+      font-family: 'WIN', 'Times New Roman', serif;
+      font-size: 0.9em;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23505040%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 12px auto;
+      padding-right: 28px;
+    }
+    .timer-form select:hover {
+      box-shadow: 0 0 0 1px #a0a090;
+    }
+    .timer-form select:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #a0a090;
+    }
+    .retro-button {
+      width: 120px;
+      padding: 8px 12px;
+      background-color: #c0c0b0;
+      color: #505040;
+      border: 2px solid #a0a090;
+      font-weight: bold;
+      font-family: 'WIN', 'Times New Roman', serif;
+      font-size: 0.9em;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px #8a8a7a;
+      transition: all 0.1s ease;
+    }
+    .retro-button:hover {
+      box-shadow: 2px 2px 0px #6a6a5a;
+      background-color: #d0d0c0;
+    }
+    .retro-button:active {
+      box-shadow: inset 1px 1px 0px #a0a090;
+      transform: translateY(1px) translateX(1px);
+    }
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 140px;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .timer-countdown-box {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 350px;
+      height: 120px;
+      border: 2px solid #a0a090;
+      background-color: #ffffff;
+      box-shadow: inset 2px 2px 0px #f0f0e1, 3px 3px 0px #d0d0c0;
+    }
+    .timer-countdown-text {
+      font-family: 'WIN', 'Times New Roman', serif;
+      font-size: 42px;
+      font-weight: bold;
+      color: #505040;
+      margin: 0;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+    .timer-countdown-text.expired {
+      color: #c00000;
+      animation: pulse 0.5s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 1; }
+      to   { opacity: 0.6; }
+    }
+    @media (max-width: 600px) {
+      .timer-control {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .timer-form {
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      .retro-button {
+        width: 100%;
+      }
+      .timer-countdown-text {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="back-btn" href="../../index.html">Home</a>
+
+  <div id="timer-wrapper"></div>
+
+  <script type="module">
+    import { createTimer } from './js/main.js';
+    window.addEventListener('load', () => {
+      document.getElementById('timer-wrapper').appendChild(createTimer());
+    });
+  </script>
+</body>
+</html>

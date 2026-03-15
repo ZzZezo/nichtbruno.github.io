@@ -4,114 +4,161 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holy Moly</title>
+  <link rel="icon" type="image/x-icon" href="/assets/images/holy-moly.ico">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
 </head>
 <body>
 
 <main class="canvas" id="canvas">
-  <svg id="connections"></svg>
-
-  <div class="node node--text node--darkmode" id="n-darkmode"
-      style="left:35px; top:80px;">
-    <div class="card">
-      <div class="card__icon"></div>
-    </div>
+  <div class="toolbar-item" id="btn-darkmode">
+    <div class="tooltip tooltip--down">Toggle dark mode</div>
+    ☀️
   </div>
-
-  <div class="node node--text node--bgpicker" id="n-bgpicker"
-      style="left:70px; top:80px;">
-    <div class="card">
-      <div class="card__icon">🖼️</div>
-    </div>
+  <div class="toolbar-item" id="btn-bgpicker">
+    <div class="tooltip tooltip--down">Set background</div>
+    🖼️
+  </div>
+  <div class="toolbar-item" id="btn-bgclear">
+    <div class="tooltip tooltip--down">Clear background</div>
+    ❌
   </div>
   <input type="file" id="bgFileInput" accept="image/*">
 
-  <div class="node node--text node--bgclear" id="n-clear-bg"
-      style="left:105px; top:80px;">
-    <div class="card">
-      <div class="card__icon">❌</div>
-    </div>
+  <div class="site-label" id="site-label">
+    <div class="tooltip tooltip--down">The UI here was made with AI</div>
+    Holy Moly · nichtbruno
   </div>
 
-  <div class="node node--text" id="n-welcome"
-      style="left:40px; top:30px;">
-    <div class="card">
-      <div class="card__label">Holy Moly</div>
-      <div class="card__body">
-        nichtbruno · <a href="https://creativecommons.org/licenses/by-sa/4.0/">© 2026</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Image -->
-  <div class="node node--image" id="n-img1"
-       style="left:40px; top:130px; width:160px; height:110px;">
-    <div class="tooltip">Under Construction</div>
-    <div class="card" style="height:100%;">
-      <img src="assets/images/workinprogress.png"
-           alt="Retro arcade machines"
-           onerror="this.parentElement.parentElement.style.display='none'">
-    </div>
-  </div>
-
-  <div class="node lavender node--disabled" id="n-arcade1"
-       style="left:260px; top:140px;"
-       data-page="retro-arcade/index.html">
-    <div class="tooltip">Oh no, hide your cows!</div>
-    <div class="card">
-      <div class="card__header">
-        <div>
-          <p class="card__title">Alien Invaders 🔫</p>
-          <div class="card__icons" style="margin-top:4px">pew pew</div>
-        </div>
-        <img src="assets/images/timer.png" alt="custom icon">
-      </div>
-    </div>
-  </div>
-
-  <div class="node sky" id="n-arcade2"
-       style="left:520px; top:260px;"
+  <!-- Big  -->
+  <div class="node node--big node--sky" id="n-arcade2"
        data-page="jumpnrun/index.html">
-    <div class="tooltip">67</div>
-    <div class="card">
-      <div class="card__header">
-        <div>
-          <p class="card__title">Holy Runner</p>
-          <div class="card__icons" style="margin-top:4px">. . . .</div>
-        </div>
-        <img src="assets/images/jumpnrun.png" alt="custom icon">
-      </div>
+    <div class="tooltip">Press Space to jump</div>
+    <div class="node__icon">
+      <img src="assets/images/jumpnrun.png" alt="Holy Runner"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
     </div>
+    <span class="node__label">Holy Jump</span>
   </div>
+
+  <!-- Medium  -->  
+  <div class="node node--medium node--lavender" id="n-arcade3"
+       data-page="clock/index.html">
+    <div class="tooltip">Tik Tak</div>
+    <div class="node__icon">
+      <img src="assets/images/clock.png" alt="Alien Invaders"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Clock</span>
+  </div>
+
+  <div class="node node--medium node--green" id="n-arcade4"
+       data-page="timer/index.html">
+    <div class="tooltip">. . .</div>
+    <div class="node__icon">
+      <img src="assets/images/countdown.png" alt="Alien Invaders"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Timer</span>
+  </div>
+
+  <div class="node node--medium node--disabled" id="n-arcade1">
+    <div class="tooltip">777</div>
+    <div class="node__icon">
+      <img src="assets/images/timer.png" alt="Alien Invaders"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Gambling Game</span>
+  </div>
+
+  <!-- Small -->
+  <div class="node node--small" id="n-arcade5">
+    <div class="tooltip">Yea there is nothing here</div>
+    <div class="node__icon">
+      <img src="assets/images/infoicon.png" alt="WIP"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Info</span>
+  </div>
+
+  <div class="node node--small" id="n-arcade6" data-page="https://github.com/nichtbruno">
+    <div class="tooltip">Github</div>
+    <div class="node__icon">
+      <img src="assets/images/github.png" alt="WIP"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Repo</span>
+  </div>
+
+  <div class="node node--small" id="n-arcade7" data-page="https://iwannajumpoffacliff.com/">
+    <div class="tooltip">#ad</div>
+    <div class="node__icon">
+      <img src="assets/images/holy-moly.gif" alt="WIP"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">???</span>
+  </div>
+
+  <div class="node node--small" id="n-arcade8" data-page="https://wikigacha.com/?lang=EN">
+    <div class="tooltip">Wikigacha</div>
+    <div class="node__icon">
+      <img src="assets/images/wikipedia-logo.png" alt="WIP"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Try this!</span>
+  </div>
+
+  <div class="node node--small" id="n-img3">
+    <div class="tooltip">Under Construction</div>
+    <div class="node__icon">
+      <img src="assets/images/workinprogress.png" alt="WIP"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">More</span>
+  </div>
+
 </main>
 
 <div class="page-backdrop" id="backdrop"></div>
-<button class="page-close"  id="closeBtn">✕</button>
-<div class="page-overlay"   id="pageOverlay">
-  <div class="page-inner"   id="pageInner">
-    <!-- <iframe class="page-frame" id="pageFrame"
-            src="about:blank"
-            sandbox="allow-scripts allow-same-origin allow-forms"></iframe> -->
-  </div>
+<button class="page-close" id="closeBtn">✕</button>
+<div class="page-overlay" id="pageOverlay">
+  <div class="page-inner" id="pageInner"></div>
 </div>
 
 <script type="module">
-  import { drawConnections } from './js/connections.js';
-  import { initOverlay }     from './js/overlay.js';
+  import { initOverlay } from './js/overlay.js';
 
-  const PAIRS = [
-    ['n-arcade1', 'n-arcade2'],
-    ['n-arcade1', 'n-img1'],
-  ];
+  document.getElementById('btn-darkmode').addEventListener('click', function() {
+    if (this._wasDragged) return;
+    const on = !document.documentElement.classList.contains('dark');
+    document.documentElement.classList.toggle('dark', on);
+    localStorage.setItem('darkMode', on ? '1' : '0');
+    this.lastChild.textContent = on ? '\n  🌙\n' : '\n  ☀️\n';
+  });
 
-  function redraw() { drawConnections(PAIRS); }
+  if (localStorage.getItem('darkMode') === '1') {
+    const btn = document.getElementById('btn-darkmode');
+    btn.lastChild.textContent = '\n  🌙\n';
+  }
 
-  // Expose so overlay.js drag handler can call it
-  window.__redrawConnections = redraw;
+  document.getElementById('btn-bgpicker').addEventListener('click', function() {
+    if (this._wasDragged) return;
+    document.getElementById('bgFileInput').click();
+  });
 
-  window.addEventListener('load',   () => setTimeout(redraw, 120));
-  window.addEventListener('resize', redraw);
+  document.getElementById('btn-bgclear').addEventListener('click', function() {
+    if (this._wasDragged) return;
+    const cvs = document.getElementById('canvas');
+    if (cvs) cvs.style.backgroundImage = '';
+    try {
+      const r = indexedDB.open('holymoly', 1);
+      r.onsuccess = e => {
+        const db = e.target.result;
+        const tx = db.transaction('settings', 'readwrite');
+        tx.objectStore('settings').delete('bgImage');
+      };
+    } catch(e) {}
+  });
 
   initOverlay();
 </script>

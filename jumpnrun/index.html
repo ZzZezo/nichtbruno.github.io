@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Holy Jump</title>
   <style>
+    @font-face {
+      font-family: 'Windows';
+      src: url('../../assets/fonts/Windows Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -13,13 +20,45 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Courier New', monospace;
+      font-family: 'Windows', monospace;
     }
+
+    /* ── Back button ── */
+    .back-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px 7px 10px;
+      background: rgba(20, 20, 20, 0.55);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      border-radius: 20px;
+      color: #fff;
+      font-family: 'Windows', monospace;
+      font-size: 13px;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .back-btn:hover {
+      background: rgba(40, 40, 40, 0.80);
+      transform: translateX(-2px);
+    }
+    .back-btn::before {
+      content: '←';
+      font-size: 15px;
+    }
+
     #game-wrapper {
       width: 800px;
       height: 500px;
-      box-shadow: 0 0 30px rgba(0, 213, 255, 0.2);
-      border: 2px solid #2e85cc; /* so you can see the boundary */
+      /* box-shadow: 0 0 30px rgba(0, 213, 255, 0.2); */
+      /* border: 2px solid #2e85cc; */
     }
     canvas {
       display: block;
@@ -29,6 +68,9 @@
   </style>
 </head>
 <body>
+
+  <a class="back-btn" href="../../index.html">Home</a>
+
   <div id="game-wrapper"></div>
   <script src="js/main.js"></script>
 </body>

@@ -1,115 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+@font-face {
+  font-family: 'Windows';
+  src: url('../assets/fonts/Windows Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 :root {
-  --bg:              #f5f0e8;
-  --bg2:             #ede8dc;
   --bg-canvas:       #f5f0e8;
-
   --ink:             #2c2416;
   --ink-light:       #6b5f4a;
   --ink-muted:       #a09880;
-
-  --seedling-bg:     #f8f6f2;
   --seedling-border: #a09880;
-
-  --sapling-bg:      #eaf4ee;
-  --sapling-border:  #4a8a60;
-
-  --evergreen-bg:    #d8f3dc;
-  --evergreen-border:#1b4332;
-
-  --project-bg:      #fdf0e6;
-  --project-border:  #a0521f;
-
-  --gold-bg:         #fdf6e3;
-  --gold-border:     #a07820;
-  --gold-glow:       rgba(212,168,67,.18);
-
-  --sky-bg:          #e8f4fc;
-  --sky-border:      #2d7aac;
-
-  --rose-bg:         #fdeef2;
-  --rose-border:     #b03060;
-
-  --slate-bg:        #f0f2f5;
-  --slate-border:    #5a6a7a;
-
-  --lavender-bg:     #f2eefa;
-  --lavender-border: #7040b0;
-
-  --moss-bg:         #f2f5e0;
-  --moss-border:     #6a8a20;
-
-  --system-bg:       #f5f5f5;
-  --system-border:   #999;
-
-  --disabled-bg:     #f0ede8;
-  --disabled-border: #d0ccc6;
-  --disabled-text:   #c0bbb4;
-
   --backdrop:        rgba(44,36,22,.45);
-
-  --radius:          10px;
+  --radius:          12px;
   --transition:      0.22s ease;
 }
 
 :root.dark {
-  --bg:              #18161200;
-  --bg2:             #1e1b14;
   --bg-canvas:       #1a1714;
-
   --ink:             #e8e2d6;
   --ink-light:       #a09070;
   --ink-muted:       #6b5f4a;
-
-  --seedling-bg:     #26231c;
   --seedling-border: #6b5f4a;
-
-  --sapling-bg:      #1a2e20;
-  --sapling-border:  #52b788;
-
-  --evergreen-bg:    #122518;
-  --evergreen-border:#52b788;
-
-  --project-bg:      #2a1a0e;
-  --project-border:  #c97840;
-
-  --gold-bg:         #2a2010;
-  --gold-border:     #d4a843;
-  --gold-glow:       rgba(212,168,67,.1);
-
-  --sky-bg:          #10202e;
-  --sky-border:      #5aabdc;
-
-  --rose-bg:         #2a1018;
-  --rose-border:     #d06080;
-
-  --slate-bg:        #1c2028;
-  --slate-border:    #8090a8;
-
-  --lavender-bg:     #1e1430;
-  --lavender-border: #a070e0;
-
-  --moss-bg:         #1a2008;
-  --moss-border:     #90b840;
-
-  --system-bg:       #262320;
-  --system-border:   #6b5f4a;
-
-  --disabled-bg:     #201e1a;
-  --disabled-border: #3a3530;
-  --disabled-text:   #4a4540;
-
   --backdrop:        rgba(0,0,0,.62);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: 'Lora', serif;
+  font-family: 'Windows', monospace;
   background: var(--bg-canvas);
   color: var(--ink);
   transition: background .35s ease, color .35s ease;
+  overflow: hidden;
+}
+
+img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 a { color: inherit; text-decoration: none; }

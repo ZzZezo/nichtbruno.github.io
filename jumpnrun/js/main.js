@@ -80,8 +80,9 @@
     let distance = 0;
     let speedIncrease = 0;
     let lastSpeedIncrement = 0;
-    let highScore = 0;
-    let floHighScore = 0;
+    // Read once at startup — not every frame inside the loop
+    let highScore    = parseFloat(localStorage.getItem('JNR-highscore'))    || 0;
+    let floHighScore = parseFloat(localStorage.getItem('JNR-flohighscore')) || 0;
 
     // Player
     const player = {
@@ -278,12 +279,13 @@
       }
 
       const currentSpeed = player.speed + speedIncrease;
+      const now = Date.now(); // called once, shared across all platforms
       platforms.forEach(p => {
         p.x -= currentSpeed;
         if (p.type === 'vertical') {
-          p.y = p.startY + Math.sin(Date.now() * 0.003) * p.moveRange;
+          p.y = p.startY + Math.sin(now * 0.003) * p.moveRange;
         } else if (p.type === 'horizontal') {
-          p.x += Math.sin(Date.now() * 0.002) * p.moveSpeed;
+          p.x += Math.sin(now * 0.002) * p.moveSpeed;
         }
 
         if (p.powerUp && p.powerUp.active) {
@@ -491,6 +493,8 @@
       ctx.textAlign = 'left';
     }
 
+    let savedThisRound = false;
+
     // Main update loop
     function update() {
       processInput();
@@ -498,19 +502,21 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       if (gameState === GAME_STATE.MENU) {
-        highScore = localStorage.getItem("JNR-highscore") || 0;
-        floHighScore = localStorage.getItem("JNR-flohighscore") || 0;
         drawMenuBackground();
         drawMenu();
       } else if (gameState === GAME_STATE.PLAYING) {
+        savedThisRound = false;
         drawBackground();
         updateGame();
         drawGame();
       } else if (gameState === GAME_STATE.GAME_OVER) {
-        if (chaosMode) {
-          localStorage.setItem("JNR-flohighscore", floHighScore);
-        } else {
-          localStorage.setItem("JNR-highscore", highScore);
+        if (!savedThisRound) {
+          if (chaosMode) {
+            localStorage.setItem("JNR-flohighscore", floHighScore);
+          } else {
+            localStorage.setItem("JNR-highscore", highScore);
+          }
+          savedThisRound = true;
         }
         drawGameoverBackground();
         drawGameOver();
