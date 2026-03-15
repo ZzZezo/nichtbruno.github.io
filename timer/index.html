@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timer</title>
+  <title>Countdown · Holy Moly</title>
   <style>
     @font-face {
       font-family: 'WIN';
@@ -43,6 +43,8 @@
       -webkit-backdrop-filter: blur(10px);
       transition: background 0.2s, transform 0.15s;
       letter-spacing: 0.05em;
+      cursor: pointer;
+      outline: none;
     }
     .back-btn:hover {
       background: rgba(40, 40, 40, 0.80);
@@ -191,14 +193,42 @@
 </head>
 <body>
 
-  <a class="back-btn" href="../../index.html">Home</a>
+  <button class="back-btn" id="back-btn" onclick="history.back()">Home</button>
 
   <div id="timer-wrapper"></div>
 
   <script type="module">
     import { createTimer } from './js/main.js';
-    window.addEventListener('load', () => {
+
+    function loadBg() {
+      return new Promise((res) => {
+        const r = indexedDB.open('holymoly', 1);
+        r.onupgradeneeded = e => e.target.result.createObjectStore('settings');
+        r.onsuccess = e => {
+          const tx = e.target.result.transaction('settings', 'readonly');
+          const req = tx.objectStore('settings').get('bgImage');
+          req.onsuccess = ev => res(ev.target.result ?? null);
+          req.onerror   = () => res(null);
+        };
+        r.onerror = () => res(null);
+      });
+    }
+
+    window.addEventListener('load', async () => {
+      const blob = await loadBg();
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        Object.assign(document.body.style, {
+          backgroundImage:    `url(${url})`,
+          backgroundSize:     'cover',
+          backgroundPosition: 'center',
+        });
+      }
       document.getElementById('timer-wrapper').appendChild(createTimer());
+    });
+  </script>  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') history.back();
     });
   </script>
 </body>

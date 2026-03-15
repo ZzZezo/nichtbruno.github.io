@@ -20,7 +20,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      font-family: 'Windows', monospace;
+      font-family: 'Courier New', monospace;
     }
 
     /* ── Back button ── */
@@ -37,13 +37,15 @@
       border: 1.5px solid rgba(255,255,255,0.18);
       border-radius: 20px;
       color: #fff;
-      font-family: 'Windows', monospace;
+      font-family: 'Courier New', monospace;
       font-size: 13px;
       text-decoration: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       transition: background 0.2s, transform 0.15s;
       letter-spacing: 0.05em;
+      cursor: pointer;
+      outline: none;
     }
     .back-btn:hover {
       background: rgba(40, 40, 40, 0.80);
@@ -57,8 +59,8 @@
     #game-wrapper {
       width: 800px;
       height: 500px;
-      /* box-shadow: 0 0 30px rgba(0, 213, 255, 0.2); */
-      /* border: 2px solid #2e85cc; */
+      /* box-shadow: 0 0 30px rgba(0, 213, 255, 0.2);
+      border: 2px solid #2e85cc; */
     }
     canvas {
       display: block;
@@ -69,9 +71,35 @@
 </head>
 <body>
 
-  <a class="back-btn" href="../../index.html">Home</a>
+  <button class="back-btn" id="back-btn" onclick="history.back()">Home</button>
 
   <div id="game-wrapper"></div>
+  <script>
+    (function loadBg() {
+      const r = indexedDB.open('holymoly', 1);
+      r.onupgradeneeded = e => e.target.result.createObjectStore('settings');
+      r.onsuccess = e => {
+        const tx = e.target.result.transaction('settings', 'readonly');
+        const req = tx.objectStore('settings').get('bgImage');
+        req.onsuccess = ev => {
+          const blob = ev.target.result;
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            Object.assign(document.body.style, {
+              backgroundImage:    `url(${url})`,
+              backgroundSize:     'cover',
+              backgroundPosition: 'center',
+            });
+          }
+        };
+      };
+    })();
+  </script>
   <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') history.back();
+    });
+  </script>
 </body>
 </html>

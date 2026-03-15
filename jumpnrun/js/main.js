@@ -387,7 +387,7 @@
       }
 
       ctx.fillStyle = '#fff';
-      ctx.font = '18px "Courier New", monospace';
+      ctx.font = '18px "Windows", monospace';
       ctx.fillText(`Distance: ${Math.floor(distance)}m`, 20, 30);
       ctx.fillText(`Speed: ${(player.speed + speedIncrease).toFixed(1)}`, 20, 55);
 
@@ -397,7 +397,7 @@
         if (highScore > 0) ctx.fillText(`High Score: ${Math.floor(highScore)}m`, 20, 80);
       }
 
-      ctx.font = '12px "Courier New", monospace';
+      ctx.font = '12px "Windows", monospace';
       ctx.fillText('Legend:', canvas.width - 150, 20);
       ctx.fillStyle = platformColor;
       ctx.fillRect(canvas.width - 150, 30, 20, 10);
@@ -421,10 +421,10 @@
 
     function drawMenu() {
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 48px "Courier New", monospace';
+      ctx.font = 'bold 48px "Windows", monospace';
       ctx.textAlign = 'center';
       ctx.fillText('Holy Jump', canvas.width/2, 150);
-      ctx.font = '24px "Courier New", monospace';
+      ctx.font = '24px "Windows", monospace';
       ctx.fillText('Leap into the holy! 🙏', canvas.width/2, 200);
 
       const hover = mouseX >= playButton.x && mouseX <= playButton.x + playButton.width &&
@@ -432,18 +432,18 @@
       ctx.fillStyle = hover ? playButton.hoverColor : playButton.color;
       ctx.fillRect(playButton.x, playButton.y, playButton.width, playButton.height);
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 24px "Courier New", monospace';
+      ctx.font = 'bold 24px "Windows", monospace';
       ctx.fillText(playButton.text, playButton.x + playButton.width/2, playButton.y + playButton.height/2 + 8);
 
       ctx.fillStyle = '#fff';
-      ctx.font = '18px "Courier New", monospace';
+      ctx.font = '18px "Windows", monospace';
       ctx.fillText('Flo-mode: ', canvas.width/2 - 20, canvas.height - 170);
       ctx.fillStyle = chaosMode ? '#35f132' : '#f14932';
       ctx.fillRect(chaosButton.x, chaosButton.y, chaosButton.width, chaosButton.height);
       ctx.fillStyle = '#fff';
       ctx.fillText(chaosMode ? "ON" : "OFF", chaosButton.x + chaosButton.width/2, chaosButton.y + chaosButton.height/2 + 8);
 
-      ctx.font = '18px "Courier New", monospace';
+      ctx.font = '18px "Windows", monospace';
       ctx.fillText('Controls:', canvas.width/2, canvas.height - 130);
       ctx.fillText('SPACE - Jump / Double Jump', canvas.width/2, canvas.height - 100);
       ctx.fillText('E - change mode (only here)', canvas.width/2, canvas.height - 80);
@@ -451,12 +451,12 @@
       ctx.textAlign = 'left';
 
       if (highScore > 0) {
-        ctx.font = '24px "Courier New", monospace';
+        ctx.font = '24px "Windows", monospace';
         ctx.fillStyle = "#f1c40f";
         ctx.fillText(`High Score: ${Math.floor(highScore)}m`, 20, 30);
       }
       if (floHighScore > 0) {
-        ctx.font = '24px "Courier New", monospace';
+        ctx.font = '24px "Windows", monospace';
         ctx.fillStyle = "#edc3ff";
         ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, 20, 60);
       }
@@ -466,10 +466,10 @@
       ctx.fillStyle = 'rgba(0,0,0,0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#fff';
-      ctx.font = 'bold 48px "Courier New", monospace';
+      ctx.font = 'bold 48px "Windows", monospace';
       ctx.textAlign = 'center';
       ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 40);
-      ctx.font = '24px "Courier New", monospace';
+      ctx.font = '24px "Windows", monospace';
       ctx.fillText(`Distance: ${Math.floor(distance)}m`, canvas.width/2, canvas.height/2 + 10);
       if (chaosMode) {
         if (distance >= floHighScore) {
@@ -487,7 +487,7 @@
         }
       }
       ctx.fillStyle = '#fff';
-      ctx.font = '20px "Courier New", monospace';
+      ctx.font = '20px "Windows", monospace';
       ctx.fillText('Press R to restart', canvas.width/2, canvas.height/2 + 100);
       ctx.fillText('or Q for main menu', canvas.width/2, canvas.height/2 + 130);
       ctx.textAlign = 'left';

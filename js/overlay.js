@@ -119,7 +119,16 @@ export function initOverlay() {
 
   closeBtn?.addEventListener('click', closeOverlay);
   backdrop?.addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeOverlay();
+    if (e.key === 'r' || e.key === 'R') {
+      // Only reset if no input/text element is focused
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      localStorage.removeItem(POS_KEY);
+      centerNodes();
+    }
+  });
 
   const POS_KEY = 'nodePositions_v2';
   function loadPos() { try { return JSON.parse(localStorage.getItem(POS_KEY)) ?? {}; } catch { return {}; } }
