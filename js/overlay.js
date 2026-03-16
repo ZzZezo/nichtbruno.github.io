@@ -205,11 +205,11 @@ export function initOverlay() {
 
     // Row 2: big node (n-arcade2)
     const bigY = rowTop + SML_H + ROW_GAP;
-    const bigEl = document.getElementById('n-arcade2');
+    const bigEl = document.getElementById('n-arcade2', 'n-arcade1');
     if (bigEl) placeNode(bigEl, cx - BIG_W / 2, bigY);
 
     // Row 3: medium nodes (n-arcade3, n-arcade4, n-arcade1)
-    const medIds = ['n-arcade3', 'n-arcade4', 'n-arcade1'];
+    const medIds = ['n-arcade3', 'n-arcade4'];
     const medRowW = medIds.length * MED_W + (medIds.length - 1) * GAP;
     const medStartX = cx - medRowW / 2;
     const medY = rowTop + SML_H + ROW_GAP + BIG_H + ROW_GAP;
