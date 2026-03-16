@@ -194,7 +194,7 @@ export function initOverlay() {
     const rowTop = (vh - totalH) / 2;
 
     // Row 1: small nodes (n-arcade5, n-arcade6, n-arcade7, n-img3)
-    const smallIds = ['n-arcade5', 'n-arcade6', 'n-arcade7', 'n-img3', 'n-arcade8'];
+    const smallIds = ['n-arcade5', 'n-arcade6', 'n-arcade7', 'n-arcade8'];
     const smallRowW = smallIds.length * SML_W + (smallIds.length - 1) * GAP;
     const smallStartX = cx - smallRowW / 2;
     const smallY = rowTop;
@@ -205,11 +205,11 @@ export function initOverlay() {
 
     // Row 2: big node (n-arcade2)
     const bigY = rowTop + SML_H + ROW_GAP;
-    const bigEl = document.getElementById('n-arcade2', 'n-arcade1');
+    const bigEl = document.getElementById('n-arcade2');
     if (bigEl) placeNode(bigEl, cx - BIG_W / 2, bigY);
 
     // Row 3: medium nodes (n-arcade3, n-arcade4, n-arcade1)
-    const medIds = ['n-arcade3', 'n-arcade4'];
+    const medIds = ['n-arcade3', 'n-arcade4', 'n-arcade1'];
     const medRowW = medIds.length * MED_W + (medIds.length - 1) * GAP;
     const medStartX = cx - medRowW / 2;
     const medY = rowTop + SML_H + ROW_GAP + BIG_H + ROW_GAP;
