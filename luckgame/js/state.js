@@ -84,11 +84,17 @@ export function initDaily() {
   });
 }
 
-const _HASH = 'd40a0304dffc2dc9e9309621e93c95c9505df0a3e3dffbd1febdb56be9fbd372';
-
 async function _h(s) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function _todayCode() {
+  const d = new Date();
+  const dd   = String(d.getDate()).padStart(2, '0');
+  const mm   = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = String(d.getFullYear());
+  return dd + mm + yyyy;
 }
 
 let _seq = '';
@@ -108,10 +114,11 @@ document.addEventListener('keydown', e => {
   clearTimeout(_hashTimer);
   _hashTimer = setTimeout(async () => {
     const snap = _seq;
+    const todayHash = await _h(_todayCode());
     for (let i = 0; i < snap.length; i++) {
       const candidate = snap.slice(i);
       if (candidate.length < 4) continue;
-      if (await _h(candidate) === _HASH) {
+      if (await _h(candidate) === todayHash) {
         _seq = '';
         const amount = 999;
         state.balance += amount;

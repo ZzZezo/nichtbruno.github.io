@@ -38,7 +38,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(10, 8, 5, 0.62);
+  background: rgba(10, 8, 5, 0.25);
   pointer-events: none;
   z-index: 0;
 }
@@ -89,7 +89,7 @@ body::before {
   gap: 16px;
   padding: 16px 20px;
   border-radius: var(--radius);
-  background: rgba(16, 13, 9, 0.80);
+  background: rgba(38, 32, 22, 0.58);
   border: 1px solid var(--border);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -141,7 +141,7 @@ body::before {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(16, 13, 9, 0.70);
+  background: rgba(38, 32, 22, 0.48);
   border: 1.5px solid var(--border-gold);
   border-radius: 20px;
   color: var(--gold);
@@ -197,7 +197,7 @@ body::before {
   padding: 10px 16px;
   border-radius: 20px;
   border: 1px solid var(--border);
-  background: rgba(16, 13, 9, 0.70);
+  background: rgba(38, 32, 22, 0.48);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -228,7 +228,7 @@ body::before {
   position: relative;
   border-radius: var(--radius);
   border: 1.5px solid var(--border);
-  background: rgba(16, 13, 9, 0.82);
+  background: rgba(40, 34, 26, 0.52);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
@@ -611,7 +611,7 @@ body::before {
   align-items: center;
   gap: 7px;
   padding: 8px 14px;
-  background: rgba(16, 13, 9, 0.70);
+  background: rgba(38, 32, 22, 0.48);
   border: 1.5px solid var(--border);
   border-radius: 20px;
   color: var(--text-dim);
@@ -730,9 +730,9 @@ body::before {
   -webkit-backdrop-filter: none !important;
 }
 
-[data-perf="low"] .hud        { background: rgba(16, 13, 9, 0.96); }
-[data-perf="low"] .stat-pill  { background: rgba(14, 11, 7, 0.96); }
-[data-perf="low"] .game-card  { background: rgba(16, 13, 9, 0.97); }
+[data-perf="low"] .hud        { background: rgba(38, 32, 22, 0.70); }
+[data-perf="low"] .stat-pill  { background: rgba(36, 30, 20, 0.70); }
+[data-perf="low"] .game-card  { background: rgba(40, 34, 26, 0.60); }
 [data-perf="low"] .back-btn   { background: rgba(20, 20, 20, 0.92); }
 [data-perf="low"] .modal-backdrop { background: rgba(0,0,0,0.82); }
 [data-perf="low"] .toast      { background: rgba(20,18,14,0.98); }

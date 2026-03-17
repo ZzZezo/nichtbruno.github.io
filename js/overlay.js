@@ -152,7 +152,7 @@ export function initOverlay() {
   function loadPos() { try { return JSON.parse(localStorage.getItem(POS_KEY)) ?? {}; } catch { return {}; } }
   function savePos(map) { localStorage.setItem(POS_KEY, JSON.stringify(map)); }
 
-  const saved = loadPos();
+  let saved = loadPos();
 
   const DEFAULTS = {
     'btn-darkmode': { x: 18,  y: 18 },
@@ -252,6 +252,7 @@ export function initOverlay() {
       const tag = document.activeElement?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       localStorage.removeItem(POS_KEY);
+      saved = {};
       centerNodes();
     }
   });
