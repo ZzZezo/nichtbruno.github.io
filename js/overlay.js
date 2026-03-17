@@ -44,17 +44,15 @@ export function initOverlay() {
     if (!blobOrUrl) return;
     const url = typeof blobOrUrl === 'string'
       ? blobOrUrl : URL.createObjectURL(blobOrUrl);
-    const cvs = document.getElementById('canvas');
-    if (cvs) {
-      cvs.style.backgroundImage    = `url(${url})`;
-      cvs.style.backgroundSize     = 'cover';
-      cvs.style.backgroundPosition = 'center';
+    if (els.canvas) {
+      els.canvas.style.backgroundImage    = `url(${url})`;
+      els.canvas.style.backgroundSize     = 'cover';
+      els.canvas.style.backgroundPosition = 'center';
     }
   }
 
   async function clearBg() {
-    const cvs = document.getElementById('canvas');
-    if (cvs) cvs.style.backgroundImage = '';
+    if (els.canvas) els.canvas.style.backgroundImage = '';
     try {
       if (!db) db = await openDB();
       const tx = db.transaction(DB_STORE, 'readwrite');
@@ -62,73 +60,93 @@ export function initOverlay() {
     } catch(e) { console.warn('bg clear:', e); }
   }
 
+  const els = {
+    canvas:    document.getElementById('canvas'),
+    overlay:   document.getElementById('pageOverlay'),
+    pageInner: document.getElementById('pageInner'),
+    backdrop:  document.getElementById('backdrop'),
+    closeBtn:  document.getElementById('closeBtn'),
+    bgInput:   document.getElementById('bgFileInput'),
+  };
+
   loadBg().then(blob => { if (blob) applyBg(blob); });
 
-  const bgInput = document.getElementById('bgFileInput');
-  bgInput?.addEventListener('change', () => {
-    const file = bgInput.files[0];
+  els.bgInput?.addEventListener('change', () => {
+    const file = els.bgInput.files[0];
     if (!file) return;
     applyBg(file);
     saveBg(file);
   });
 
-  const overlay   = document.getElementById('pageOverlay');
-  const pageInner = document.getElementById('pageInner');
-  const pageFrame = document.getElementById('pageFrame');
-  const backdrop  = document.getElementById('backdrop');
-  const closeBtn  = document.getElementById('closeBtn');
   let isOpen = false;
+  let closeTimer = null;
 
   function openOverlay(node) {
     if (isOpen) return;
     isOpen = true;
     const rect = node.getBoundingClientRect();
-    Object.assign(pageInner.style, {
+
+    els.pageInner.style.willChange = 'transform, opacity, left, top, width, height';
+
+    Object.assign(els.pageInner.style, {
       transition: 'none',
-      left: rect.left + 'px', top: rect.top + 'px',
-      width: rect.width + 'px', height: rect.height + 'px',
-      borderRadius: '10px', opacity: '1',
+      left:         rect.left + 'px',
+      top:          rect.top  + 'px',
+      width:        rect.width + 'px',
+      height:       rect.height + 'px',
+      borderRadius: '10px',
+      opacity:      '1',
     });
-    if (pageFrame) pageFrame.src = node.dataset.page;
-    overlay.style.pointerEvents = 'all';
-    backdrop.classList.add('page-backdrop--visible');
-    closeBtn.classList.add('page-close--visible');
+
+    els.overlay.style.pointerEvents = 'all';
+    els.backdrop.classList.add('page-backdrop--visible');
+    els.closeBtn.classList.add('page-close--visible');
+
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      Object.assign(pageInner.style, {
-        transition: 'all .55s cubic-bezier(.16,1,.3,1)',
-        left: '0', top: '0', width: '100vw', height: '100vh', borderRadius: '0',
+      Object.assign(els.pageInner.style, {
+        transition:   'all .55s cubic-bezier(.16,1,.3,1)',
+        left:         '0',
+        top:          '0',
+        width:        '100vw',
+        height:       '100vh',
+        borderRadius: '0',
       });
+
+      els.pageInner.addEventListener('transitionend', () => {
+        els.pageInner.style.willChange = 'auto';
+      }, { once: true });
     }));
   }
 
   function closeOverlay() {
     if (!isOpen) return;
-    Object.assign(pageInner.style, {
+
+    els.pageInner.style.willChange = 'transform, opacity';
+
+    Object.assign(els.pageInner.style, {
       transition: 'all .38s cubic-bezier(.7,0,.84,0)',
-      opacity: '0', transform: 'scale(.92)',
+      opacity:    '0',
+      transform:  'scale(.92)',
     });
-    backdrop.classList.remove('page-backdrop--visible');
-    closeBtn.classList.remove('page-close--visible');
-    overlay.style.pointerEvents = 'none';
-    setTimeout(() => {
-      if (pageFrame) pageFrame.src = 'about:blank';
-      Object.assign(pageInner.style, { transition: 'none', opacity: '', transform: '' });
+    els.backdrop.classList.remove('page-backdrop--visible');
+    els.closeBtn.classList.remove('page-close--visible');
+    els.overlay.style.pointerEvents = 'none';
+
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(() => {
+      Object.assign(els.pageInner.style, {
+        transition:  'none',
+        opacity:     '',
+        transform:   '',
+        willChange:  'auto',
+      });
       isOpen = false;
+      closeTimer = null;
     }, 400);
   }
 
-  closeBtn?.addEventListener('click', closeOverlay);
-  backdrop?.addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeOverlay();
-    if (e.key === 'r' || e.key === 'R') {
-      // Only reset if no input/text element is focused
-      const tag = document.activeElement?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-      localStorage.removeItem(POS_KEY);
-      centerNodes();
-    }
-  });
+  els.closeBtn?.addEventListener('click', closeOverlay);
+  els.backdrop?.addEventListener('click', closeOverlay);
 
   const POS_KEY = 'nodePositions_v2';
   function loadPos() { try { return JSON.parse(localStorage.getItem(POS_KEY)) ?? {}; } catch { return {}; } }
@@ -140,6 +158,7 @@ export function initOverlay() {
     'btn-darkmode': { x: 18,  y: 18 },
     'btn-bgpicker': { x: 62,  y: 18 },
     'btn-bgclear':  { x: 106, y: 18 },
+    'star':         { x: 150, y: 18 },
     'site-label':   { x: null, y: 18 },
   };
 
@@ -182,44 +201,60 @@ export function initOverlay() {
     const vh = window.innerHeight;
     const cx = vw / 2;
 
-    // Node element sizes (icon + label height, icon width)
-    const BIG_W = 116,  BIG_H  = 130;
-    const MED_W = 84,   MED_H  = 96;
-    const SML_W = 62,   SML_H  = 70;
+    const BIG_W = 116, BIG_H  = 130;
+    const MED_W = 84,  MED_H  = 96;
+    const SML_W = 62,  SML_H  = 70;
     const GAP   = 24;
     const ROW_GAP = 30;
 
-    // Total height of the three-row layout
     const totalH = SML_H + ROW_GAP + BIG_H + ROW_GAP + MED_H;
     const rowTop = (vh - totalH) / 2;
 
-    // Row 1: small nodes (n-arcade5, n-arcade6, n-arcade7, n-img3)
-    const smallIds = ['n-arcade5', 'n-arcade6', 'n-arcade7', 'n-arcade8'];
+    const nodeCache = {};
+    function getNode(id) {
+      if (!nodeCache[id]) nodeCache[id] = document.getElementById(id);
+      return nodeCache[id];
+    }
+
+    const smallIds = ['n-arcade5', 'n-arcade7', 'n-arcade6', 'n-arcade8'];
     const smallRowW = smallIds.length * SML_W + (smallIds.length - 1) * GAP;
     const smallStartX = cx - smallRowW / 2;
     const smallY = rowTop;
     smallIds.forEach((id, i) => {
-      const el = document.getElementById(id);
+      const el = getNode(id);
       if (el) placeNode(el, smallStartX + i * (SML_W + GAP), smallY);
     });
 
-    // Row 2: big node (n-arcade2)
+    const bigIds = ['n-arcade2', 'n-arcade1'];
+    const bigRowW = bigIds.length * BIG_W + (bigIds.length - 1) * GAP;
+    const bigStartX = cx - bigRowW / 2;
     const bigY = rowTop + SML_H + ROW_GAP;
-    const bigEl = document.getElementById('n-arcade2');
-    if (bigEl) placeNode(bigEl, cx - BIG_W / 2, bigY);
+    bigIds.forEach((id, i) => {
+      const el = getNode(id);
+      if (el) placeNode(el, bigStartX + i * (BIG_W + GAP), bigY);
+    });
 
-    // Row 3: medium nodes (n-arcade3, n-arcade4, n-arcade1)
-    const medIds = ['n-arcade3', 'n-arcade4', 'n-arcade1'];
+    const medIds = ['n-arcade3', 'n-arcade4'];
     const medRowW = medIds.length * MED_W + (medIds.length - 1) * GAP;
     const medStartX = cx - medRowW / 2;
     const medY = rowTop + SML_H + ROW_GAP + BIG_H + ROW_GAP;
     medIds.forEach((id, i) => {
-      const el = document.getElementById(id);
+      const el = getNode(id);
       if (el) placeNode(el, medStartX + i * (MED_W + GAP), medY);
     });
   }
 
   window.addEventListener('load', centerNodes);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeOverlay(); return; }
+    if (e.key === 'r' || e.key === 'R') {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      localStorage.removeItem(POS_KEY);
+      centerNodes();
+    }
+  });
 
   const drag = {
     el: null,
@@ -250,8 +285,9 @@ export function initOverlay() {
     drag.origTop  = rect.top  - parentRect.top;
     drag.moved    = false;
 
-    el.style.transition = 'none';
-    el.style.zIndex     = '500';
+    el.style.transition  = 'none';
+    el.style.zIndex      = '500';
+    el.style.willChange  = 'left, top';
 
     if (e.type === 'mousedown') e.preventDefault();
   }
@@ -283,6 +319,7 @@ export function initOverlay() {
 
     el.style.zIndex     = '';
     el.style.transition = '';
+    el.style.willChange = 'auto';
     drag.el = null;
 
     const isUI = el.classList.contains('toolbar-item') || el.classList.contains('site-label');
@@ -300,10 +337,10 @@ export function initOverlay() {
     el.addEventListener('touchstart', onDragStart, { passive: true });
   });
 
-  document.addEventListener('mousemove',  onDragMove);
-  document.addEventListener('touchmove',  onDragMove, { passive: false });
-  document.addEventListener('mouseup',    onDragEnd);
-  document.addEventListener('touchend',   onDragEnd);
+  document.addEventListener('mousemove', onDragMove);
+  document.addEventListener('touchmove', onDragMove, { passive: false });
+  document.addEventListener('mouseup',   onDragEnd);
+  document.addEventListener('touchend',  onDragEnd);
 
   document.querySelectorAll('.node').forEach(node => {
     node.addEventListener('click', () => {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Countdown · Holy Moly</title>
+  <title>Timer</title>
   <style>
     @font-face {
       font-family: 'WIN';
@@ -22,7 +22,6 @@
       background: #1a1a1a;
     }
 
-    /* ── Back button ── */
     .back-btn {
       position: fixed;
       top: 16px;
@@ -226,7 +225,8 @@
       }
       document.getElementById('timer-wrapper').appendChild(createTimer());
     });
-  </script>  <script>
+  </script> 
+  <script>
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') history.back();
     });

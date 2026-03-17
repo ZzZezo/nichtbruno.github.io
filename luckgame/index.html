@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luck Game</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <button class="back-btn" onclick="history.back()">Home</button>
+
+  <div class="page">
+    <div class="hud">
+      <div class="stats-row">
+        <div class="stat-pill">
+          <div class="stat-pill__icon">🎰</div>
+          <div class="stat-pill__info">
+            <div class="stat-pill__label">Games played</div>
+            <div class="stat-pill__value" id="statGames">0</div>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-pill__icon">🏆</div>
+          <div class="stat-pill__info">
+            <div class="stat-pill__label">Total won</div>
+            <div class="stat-pill__value" id="statWon">0 🪙</div>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-pill__icon">💸</div>
+          <div class="stat-pill__info">
+            <div class="stat-pill__label">Total spent</div>
+            <div class="stat-pill__value" id="statSpent">0 🪙</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
+        <button class="saveload-btn" id="saveloadBtn">Save / Load</button>
+        <button class="daily-btn" id="dailyBtn">
+          <span class="dot"></span>
+          Claim daily 100
+        </button>
+        <div class="wallet">
+          <div class="wallet__label">Balance</div>
+          <div class="wallet__balance">
+            <div class="wallet__coin" id="walletCoin"></div>
+            <span id="balanceDisplay">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="games-grid">
+      <div class="game-card game-card--slots" data-modal-open="slots">
+        <div class="game-card__body">
+          <div class="game-card__icon">🎰</div>
+          <div class="game-card__name">Slots</div>
+        </div>
+        <div class="game-card__footer">
+          <div class="game-card__cost">
+            <div class="game-card__cost-coin"></div>
+            10 per spin
+          </div>
+          <button class="game-card__play-btn">Play</button>
+        </div>
+      </div>
+
+      <div class="game-card game-card--pack" data-modal-open="pack">
+        <div class="badge-wip">Coming soon</div>
+        <div class="game-card__body">
+          <div class="game-card__icon">🃏</div>
+          <div class="game-card__name">Pack Opening</div>
+        </div>
+        <div class="game-card__footer">
+          <div class="game-card__cost">
+            <div class="game-card__cost-coin"></div>
+            25 per pack
+          </div>
+          <button class="game-card__play-btn">Play</button>
+        </div>
+      </div>
+
+      <div class="game-card game-card--case" data-modal-open="case">
+        <div class="badge-wip">Coming soon</div>
+        <div class="game-card__body">
+          <div class="game-card__icon">📦</div>
+          <div class="game-card__name">Case Opening</div>
+        </div>
+        <div class="game-card__footer">
+          <div class="game-card__cost">
+            <div class="game-card__cost-coin"></div>
+            50 per case
+          </div>
+          <button class="game-card__play-btn">Play</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal-backdrop" id="modal-pack">
+    <div class="modal">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">🃏 Pack Opening</div>
+          <div class="modal__subtitle">Reveal a card from the mystery pack</div>
+        </div>
+        <button class="modal__close" data-modal-close="pack">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="modal__coming-soon">
+          <div class="modal__coming-soon-icon">🃏</div>
+          <div class="modal__coming-soon-text">
+            Coming soon<br>
+          </div>
+        </div>
+        <div class="modal__cost-row">
+          <div class="modal__cost-label">Cost per pack</div>
+          <div class="modal__cost-value"><div class="modal__cost-coin"></div> 25 coins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-case">
+    <div class="modal">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">📦 Case Opening</div>
+          <div class="modal__subtitle">Spin the reel, claim your prize</div>
+        </div>
+        <button class="modal__close" data-modal-close="case">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="modal__coming-soon">
+          <div class="modal__coming-soon-icon">📦</div>
+          <div class="modal__coming-soon-text">
+            Coming soon<br>
+          </div>
+        </div>
+        <div class="modal__cost-row">
+          <div class="modal__cost-label">Cost per case</div>
+          <div class="modal__cost-value"><div class="modal__cost-coin"></div> 50 coins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-slots">
+    <div class="modal">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">🎰 Slots</div>
+          <div class="modal__subtitle">Match symbols to win coins</div>
+        </div>
+        <button class="modal__close" data-modal-close="slots">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="slots-wrapper">
+          <div class="slots-machine">
+            <div class="slots-reels">
+              <div class="reel" id="reel0"><span class="reel-symbol" id="sym0">🍒</span></div>
+              <div class="reel" id="reel1"><span class="reel-symbol" id="sym1">🍒</span></div>
+              <div class="reel" id="reel2"><span class="reel-symbol" id="sym2">🍒</span></div>
+            </div>
+            <div class="slots-result" id="slotsResult">— spin to play —</div>
+            <button class="slots-spin-btn" id="spinBtn">🎰 Spin · 10 coins</button>
+          </div>
+          <div class="slots-paytable">
+            <div class="slots-paytable-title">Paytable · 10 coin bet</div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">💎 💎 💎</div>
+              <div class="slots-paytable-payout">× 50 → 500 🪙</div>
+            </div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">7️⃣ 7️⃣ 7️⃣</div>
+              <div class="slots-paytable-payout">× 20 → 200 🪙</div>
+            </div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">⭐ ⭐ ⭐</div>
+              <div class="slots-paytable-payout">× 10 → 100 🪙</div>
+            </div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">🍋 🍋 🍋</div>
+              <div class="slots-paytable-payout">× 5  →  50 🪙</div>
+            </div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">🍒 🍒 🍒</div>
+              <div class="slots-paytable-payout">× 3  →  30 🪙</div>
+            </div>
+            <div class="slots-paytable-row">
+              <div class="slots-paytable-symbols">Any two match</div>
+              <div class="slots-paytable-payout">× 1  →   5 🪙</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-saveload">
+    <div class="modal modal--saveload">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">💾 Save &amp; Load</div>
+          <div class="modal__subtitle">Export or import your progress</div>
+        </div>
+        <button class="modal__close" data-modal-close="saveload">✕</button>
+      </div>
+      <div class="modal__body">
+
+        <div class="saveload-section">
+          <div class="saveload-label">Export — save your progress</div>
+          <textarea class="saveload-code" id="exportCode" readonly placeholder="Click export to generate your save code…"></textarea>
+          <div class="saveload-row">
+            <button class="saveload-action-btn saveload-action-btn--gold" id="exportBtn">Generate code</button>
+            <button class="saveload-action-btn" id="copyBtn">Copy</button>
+          </div>
+          <div class="saveload-status" id="exportStatus"></div>
+        </div>
+
+        <div class="saveload-section">
+          <div class="saveload-label">Import — load progress from another device</div>
+          <textarea class="saveload-code" id="importCode" placeholder="Paste your save code here…"></textarea>
+          <div class="saveload-row">
+            <button class="saveload-action-btn saveload-action-btn--gold" id="importBtn">Load progress</button>
+          </div>
+          <div class="saveload-status" id="importStatus"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer__icon">⚠️</span>
+    <div class="footer__text">
+      This is a fictional in-game currency only. No real money is involved. No real-world value. For entertainment purposes only.&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;version.beta.1.2
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

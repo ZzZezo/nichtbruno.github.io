@@ -7,6 +7,7 @@
   <link rel="icon" type="image/x-icon" href="/assets/images/holy-moly.ico">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
+  <script src="js/perf.js"></script>
 </head>
 <body>
 
@@ -24,13 +25,14 @@
     ❌
   </div>
   <input type="file" id="bgFileInput" accept="image/*">
+  <div id="star-placeholder"></div>
 
   <div class="site-label" id="site-label">
     <div class="tooltip tooltip--down">The UI here was made with AI</div>
     Holy Moly · nichtbruno
   </div>
 
-  <!-- Big  -->
+  <!-- Big -->
   <div class="node node--big node--sky" id="n-arcade2"
        data-page="jumpnrun/index.html">
     <div class="tooltip">Press Space to jump</div>
@@ -41,12 +43,12 @@
     <span class="node__label">Holy Jump</span>
   </div>
 
-  <!-- Medium  -->  
+  <!-- Medium -->
   <div class="node node--medium node--lavender" id="n-arcade3"
        data-page="clock/index.html">
     <div class="tooltip">Tik Tak</div>
     <div class="node__icon">
-      <img src="assets/images/clock.png" alt="Alien Invaders"
+      <img src="assets/images/clock.png" alt="Clock"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
     </div>
     <span class="node__label">Clock</span>
@@ -56,19 +58,19 @@
        data-page="timer/index.html">
     <div class="tooltip">. . .</div>
     <div class="node__icon">
-      <img src="assets/images/countdown.png" alt="Alien Invaders"
+      <img src="assets/images/countdown.png" alt="Timer"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
     </div>
     <span class="node__label">Timer</span>
   </div>
 
-  <div class="node node--medium node--disabled" id="n-arcade1">
+  <div class="node node--big node--yellow" id="n-arcade1" data-page="luckgame/index.html">
     <div class="tooltip">777</div>
     <div class="node__icon">
-      <img src="assets/images/timer.png" alt="Alien Invaders"
+      <img src="assets/images/goldcoin.png" alt="Luck Game"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
     </div>
-    <span class="node__label">Gambling Game</span>
+    <span class="node__label">Luck Game</span>
   </div>
 
   <!-- Small -->
@@ -151,6 +153,16 @@
   });
 
   initOverlay();
+</script>
+<script>
+  if (Math.random() < 0.000001) {
+    document.getElementById('star-placeholder').innerHTML = `
+      <div class="toolbar-item" id="star">
+        <div class="tooltip tooltip--down">Yooo! There is only 1 in 1.000.000 chance of this star appearing 🎉</div>
+        ⭐
+      </div>
+    `;
+  }
 </script>
 </body>
 </html>
