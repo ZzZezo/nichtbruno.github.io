@@ -18,9 +18,14 @@ export let state = {
   ...loadState()
 };
 
+function _currentHour() {
+  const d = new Date();
+  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate() + '-' + d.getHours();
+}
+
 if (!state.lastDaily && state.balance === 0) {
   state.balance = 1000;
-  state.lastDaily = new Date().toDateString();
+  state.lastDaily = _currentHour();
   saveState(state);
 }
 
@@ -42,7 +47,7 @@ function _getEls() {
 
 export function refreshUI() {
   const e = _getEls();
-  const canClaim = state.lastDaily !== new Date().toDateString();
+  const canClaim = state.lastDaily !== _currentHour();
 
   e.balance.textContent  = state.balance.toLocaleString();
   e.games.textContent    = state.gamesPlayed;
@@ -73,13 +78,13 @@ export function showToast(msg) {
 
 export function initDaily() {
   document.getElementById('dailyBtn').addEventListener('click', () => {
-    const today = new Date().toDateString();
-    if (state.lastDaily === today) return;
+    const hour = _currentHour();
+    if (state.lastDaily === hour) return;
     state.balance += 250;
-    state.lastDaily = today;
+    state.lastDaily = hour;
     saveState(state);
     refreshUI();
-    showToast('🪙 +250 daily coins claimed!');
+    showToast('🪙 +250 hourly coins claimed!');
     animateCoin();
   });
 }
