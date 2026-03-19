@@ -663,6 +663,7 @@ body::before {
   transition: border-color 0.2s;
   word-break: break-all;
 }
+.saveload-code--noresize { resize: none; }
 .saveload-code:focus { border-color: rgba(255,255,255,0.25); color: var(--text); }
 .saveload-row {
   display: flex;
@@ -698,6 +699,107 @@ body::before {
 }
 .saveload-status--ok  { color: #4caf82; }
 .saveload-status--err { color: #e05050; }
+
+.saveload-section--danger {
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(224,80,80,0.2);
+}
+.saveload-action-btn--danger {
+  border-color: rgba(224,80,80,0.4);
+  color: #e05050;
+}
+.saveload-action-btn--danger:hover {
+  background: rgba(224,80,80,0.08);
+  border-color: #e05050;
+}
+
+/* ── Bet control ────────────────────────────── */
+.bet-control {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bet-label {
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+}
+.bet-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0,200,150,0.2);
+  outline: none;
+  cursor: pointer;
+}
+.bet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--slots-color);
+  box-shadow: 0 0 6px var(--slots-color);
+  cursor: pointer;
+  border: none;
+}
+.bet-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--slots-color);
+  box-shadow: 0 0 6px var(--slots-color);
+  cursor: pointer;
+  border: none;
+}
+.bet-steps {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.bet-step {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.3);
+  color: var(--text-dim);
+  font-family: 'WIN', 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.bet-step:hover {
+  border-color: rgba(0,200,150,0.4);
+  color: var(--text);
+}
+.bet-step--active {
+  border-color: var(--slots-color);
+  color: var(--slots-color);
+  background: rgba(0,200,150,0.08);
+}
+.bet-step--allin {
+  border-color: rgba(240,192,64,0.3);
+  color: var(--gold-dim);
+}
+.bet-step--allin:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.bet-step--allin.bet-step--active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(240,192,64,0.08);
+  box-shadow: 0 0 8px rgba(240,192,64,0.2);
+}
 
 [data-perf="mid"] .hud,
 [data-perf="mid"] .stat-pill,

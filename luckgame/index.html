@@ -38,7 +38,7 @@
         <button class="saveload-btn" id="saveloadBtn">Save / Load</button>
         <button class="daily-btn" id="dailyBtn">
           <span class="dot"></span>
-          Claim daily 100
+          Claim daily 250
         </button>
         <div class="wallet">
           <div class="wallet__label">Balance</div>
@@ -60,7 +60,7 @@
         <div class="game-card__footer">
           <div class="game-card__cost">
             <div class="game-card__cost-coin"></div>
-            10 per spin
+            1 - 500 per spin
           </div>
           <button class="game-card__play-btn">Play</button>
         </div>
@@ -167,33 +167,51 @@
               <div class="reel" id="reel2"><span class="reel-symbol" id="sym2">🍒</span></div>
             </div>
             <div class="slots-result" id="slotsResult">— spin to play —</div>
-            <button class="slots-spin-btn" id="spinBtn">🎰 Spin · 10 coins</button>
+            <div class="bet-control">
+              <div class="bet-label">Bet per spin</div>
+              <input type="range" class="bet-slider" id="betSlider" min="0" max="5" value="2">
+              <div class="bet-steps">
+                <button class="bet-step" data-bet-index="0">1</button>
+                <button class="bet-step" data-bet-index="1">5</button>
+                <button class="bet-step" data-bet-index="2">10</button>
+                <button class="bet-step" data-bet-index="3">50</button>
+                <button class="bet-step" data-bet-index="4">100</button>
+                <button class="bet-step" data-bet-index="5">500</button>
+                <button class="bet-step bet-step--allin" id="betAllIn" data-allin="false">All In</button>
+              </div>
+            </div>
+            <button class="slots-spin-btn" id="spinBtn">Spin · 10 coins [Space]</button>
           </div>
           <div class="slots-paytable">
-            <div class="slots-paytable-title">Paytable · 10 coin bet</div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">💎 💎 💎</div>
-              <div class="slots-paytable-payout">× 50 → 500 🪙</div>
+              <div class="slots-paytable-symbols">~0,01%</div>
+              <div class="slots-paytable-payout">× 50 🪙</div>
             </div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">7️⃣ 7️⃣ 7️⃣</div>
-              <div class="slots-paytable-payout">× 20 → 200 🪙</div>
+              <div class="slots-paytable-symbols">~0,34%</div>
+              <div class="slots-paytable-payout">× 20 🪙</div>
             </div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">⭐ ⭐ ⭐</div>
-              <div class="slots-paytable-payout">× 10 → 100 🪙</div>
+              <div class="slots-paytable-symbols">~1,07%</div>
+              <div class="slots-paytable-payout">× 10 🪙</div>
             </div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">🍋 🍋 🍋</div>
-              <div class="slots-paytable-payout">× 5  →  50 🪙</div>
+              <div class="slots-paytable-symbols">~2,20%</div>
+              <div class="slots-paytable-payout">× 5 🪙</div>
             </div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">🍒 🍒 🍒</div>
-              <div class="slots-paytable-payout">× 3  →  30 🪙</div>
+              <div class="slots-paytable-symbols">~2,70%</div>
+              <div class="slots-paytable-payout">× 3 🪙</div>
             </div>
             <div class="slots-paytable-row">
               <div class="slots-paytable-symbols">Any two match</div>
-              <div class="slots-paytable-payout">× 1  →   5 🪙</div>
+              <div class="slots-paytable-symbols">~53,61%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+              <div class="slots-paytable-payout">× 1 🪙</div>
             </div>
           </div>
         </div>
@@ -214,7 +232,7 @@
 
         <div class="saveload-section">
           <div class="saveload-label">Export — save your progress</div>
-          <textarea class="saveload-code" id="exportCode" readonly placeholder="Click export to generate your save code…"></textarea>
+          <textarea class="saveload-code saveload-code--noresize" id="exportCode" readonly placeholder="Click export to generate your save code…"></textarea>
           <div class="saveload-row">
             <button class="saveload-action-btn saveload-action-btn--gold" id="exportBtn">Generate code</button>
             <button class="saveload-action-btn" id="copyBtn">Copy</button>
@@ -224,11 +242,18 @@
 
         <div class="saveload-section">
           <div class="saveload-label">Import — load progress from another device</div>
-          <textarea class="saveload-code" id="importCode" placeholder="Paste your save code here…"></textarea>
+          <textarea class="saveload-code saveload-code--noresize" id="importCode" placeholder="Paste your save code here…"></textarea>
           <div class="saveload-row">
             <button class="saveload-action-btn saveload-action-btn--gold" id="importBtn">Load progress</button>
           </div>
           <div class="saveload-status" id="importStatus"></div>
+        </div>
+
+        <div class="saveload-section saveload-section--danger">
+          <div class="saveload-row">
+            <button class="saveload-action-btn saveload-action-btn--danger" id="resetBtn">⚠ Reset all progress</button>
+          </div>
+          <div class="saveload-status" id="resetStatus"></div>
         </div>
 
       </div>

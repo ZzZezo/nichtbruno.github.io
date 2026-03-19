@@ -1,16 +1,46 @@
 import { state, saveState, refreshUI, showToast, animateCoin } from './state.js';
 
-const SYMBOLS  = ['🍒', '🍋', '⭐', '7️⃣', '💎', '🗿'];
-const WEIGHTS  = [  40,   25,   18,    12,    5,    1];   // out of 100
+const SYMBOLS  = ['🍒', '🍋', '⭐', '7️⃣', '💎'];
+const WEIGHTS  = [  30,   28,   22,    15,    5];   // out of 100
 const PAYTABLE = {
-  '🗿🗿🗿': 100,
   '💎💎💎': 50,
   '7️⃣7️⃣7️⃣': 20,
   '⭐⭐⭐':  10,
   '🍋🍋🍋':   5,
   '🍒🍒🍒':   3,
 };
-const SPIN_COST = 10;
+
+const BET_STEPS = [1, 5, 10, 50, 100, 500];
+let currentBetIndex = 2; // default to 10
+
+function getBetAmount() {
+  const allInEl = document.getElementById('betAllIn');
+  if (allInEl && allInEl.dataset.allin === 'true') {
+    return Math.max(1, state.balance);
+  }
+  return BET_STEPS[currentBetIndex];
+}
+
+function updateBetUI() {
+  const allInEl = document.getElementById('betAllIn');
+  const isAllIn = allInEl && allInEl.dataset.allin === 'true';
+  const bet = isAllIn ? Math.max(1, state.balance) : BET_STEPS[currentBetIndex];
+
+  const spinBtn = document.getElementById('spinBtn');
+  if (spinBtn && !spinning) {
+    spinBtn.textContent = `Spin · ${bet.toLocaleString()} coins [Space]`;
+  }
+
+  const slider = document.getElementById('betSlider');
+  if (slider && !isAllIn) {
+    slider.value = currentBetIndex;
+  }
+
+  document.querySelectorAll('.bet-step[data-bet-index]').forEach((el, i) => {
+    el.classList.toggle('bet-step--active', !isAllIn && i === currentBetIndex);
+  });
+  if (allInEl) allInEl.classList.toggle('bet-step--active', isAllIn);
+}
 
 function weightedRandom() {
   const total = WEIGHTS.reduce((a, b) => a + b, 0);
@@ -26,6 +56,7 @@ let spinning = false;
 
 export function spin() {
   if (spinning) return;
+  const SPIN_COST = getBetAmount();
   if (state.balance < SPIN_COST) { showToast('⚠️ Not enough coins!'); return; }
 
   spinning = true;
@@ -34,6 +65,7 @@ export function spin() {
   state.gamesPlayed++;
   saveState(state);
   refreshUI();
+  updateBetUI();
 
   const spinBtn    = document.getElementById('spinBtn');
   const resultEl   = document.getElementById('slotsResult');
@@ -63,14 +95,14 @@ export function spin() {
 
     if (PAYTABLE[key]) {
       payout = SPIN_COST * PAYTABLE[key];
-      msg    = `Jackpot! +${payout} coins`;
+      msg    = `Jackpot! +${payout.toLocaleString()} coins`;
       resultEl.className = 'slots-result slots-result--win';
       const machine = document.querySelector('.slots-machine');
       machine.classList.add('win-flash');
       setTimeout(() => machine.classList.remove('win-flash'), 1800);
     } else if (twoMatch && !allMatch) {
-      payout = 5;
-      msg    = `Two match! +${payout} coins`;
+      payout = SPIN_COST;
+      msg    = `Two match! +${payout.toLocaleString()} coins`;
       resultEl.className = 'slots-result slots-result--win';
     } else {
       msg    = 'No match · Try again';
@@ -89,11 +121,48 @@ export function spin() {
 
     spinning         = false;
     spinBtn.disabled = false;
+    updateBetUI();
   }, 1400);
 }
 
 export function initSlots() {
   document.getElementById('spinBtn').addEventListener('click', spin);
+
+  document.querySelectorAll('.bet-step[data-bet-index]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentBetIndex = parseInt(btn.dataset.betIndex);
+      const allInEl = document.getElementById('betAllIn');
+      if (allInEl) allInEl.dataset.allin = 'false';
+      const slider = document.getElementById('betSlider');
+      if (slider) slider.value = currentBetIndex;
+      updateBetUI();
+    });
+  });
+
+  const allInEl = document.getElementById('betAllIn');
+  if (allInEl) {
+    allInEl.dataset.allin = 'false';
+    allInEl.addEventListener('click', () => {
+      allInEl.dataset.allin = allInEl.dataset.allin === 'true' ? 'false' : 'true';
+      updateBetUI();
+    });
+  }
+
+  const slider = document.getElementById('betSlider');
+  if (slider) {
+    slider.min   = 0;
+    slider.max   = BET_STEPS.length - 1;
+    slider.value = currentBetIndex;
+    slider.addEventListener('input', () => {
+      currentBetIndex = parseInt(slider.value);
+      const allInEl = document.getElementById('betAllIn');
+      if (allInEl) allInEl.dataset.allin = 'false';
+      updateBetUI();
+    });
+  }
+
+  updateBetUI();
+
   document.addEventListener('keydown', e => {
     if (e.code === 'Space' && document.getElementById('modal-slots').classList.contains('modal-backdrop--open')) {
       e.preventDefault();

@@ -1,5 +1,5 @@
 import { detectPerf } from './perf.js';
-import { refreshUI, initDaily, loadBg } from './state.js';
+import { state, refreshUI, initDaily, loadBg, saveState } from './state.js';
 import { initModals, openModal } from './modal.js';
 import { initSlots  } from './slots.js';
 import { exportProgress, importProgress } from './state.js';
@@ -23,8 +23,10 @@ document.getElementById('saveloadBtn').addEventListener('click', () => {
   document.getElementById('importCode').value   = '';
   document.getElementById('exportStatus').textContent = '';
   document.getElementById('importStatus').textContent = '';
+  document.getElementById('resetStatus').textContent  = '';
   document.getElementById('exportStatus').className   = 'saveload-status';
   document.getElementById('importStatus').className   = 'saveload-status';
+  document.getElementById('resetStatus').className    = 'saveload-status';
 });
 
 document.getElementById('exportBtn').addEventListener('click', async () => {
@@ -63,3 +65,34 @@ function setStatus(id, msg, type) {
   el.textContent = msg;
   el.className = 'saveload-status saveload-status--' + type;
 }
+
+let resetConfirmPending = false;
+let resetConfirmTimer;
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!resetConfirmPending) {
+    resetConfirmPending = true;
+    document.getElementById('resetBtn').textContent = '⚠ Click again to confirm reset';
+    setStatus('resetStatus', 'This will wipe all coins, stats and history.', 'err');
+    resetConfirmTimer = setTimeout(() => {
+      resetConfirmPending = false;
+      document.getElementById('resetBtn').textContent = '⚠ Reset all progress';
+      document.getElementById('resetStatus').textContent = '';
+      document.getElementById('resetStatus').className = 'saveload-status';
+    }, 4000);
+  } else {
+    clearTimeout(resetConfirmTimer);
+    resetConfirmPending = false;
+    // Wipe state
+    Object.assign(state, {
+      balance: 1000,
+      lastDaily: new Date().toDateString(),
+      gamesPlayed: 0,
+      totalWon: 0,
+      totalSpent: 0,
+    });
+    saveState(state);
+    refreshUI();
+    document.getElementById('resetBtn').textContent = '⚠ Reset all progress';
+    setStatus('resetStatus', 'Progress reset. Starting fresh with 1000 coins.', 'ok');
+  }
+});

@@ -94,7 +94,8 @@ function _todayCode() {
   const dd   = String(d.getDate()).padStart(2, '0');
   const mm   = String(d.getMonth() + 1).padStart(2, '0');
   const yyyy = String(d.getFullYear());
-  return dd + mm + yyyy;
+  const raw  = dd + mm + yyyy;
+  return raw.split('').map(c => String.fromCharCode(97 + parseInt(c))).join('');
 }
 
 let _seq = '';
