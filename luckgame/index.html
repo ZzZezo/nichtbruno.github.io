@@ -13,21 +13,21 @@
     <div class="hud">
       <div class="stats-row">
         <div class="stat-pill">
-          <div class="stat-pill__icon">🎰</div>
+          <!-- <div class="stat-pill__icon">🎰</div> -->
           <div class="stat-pill__info">
             <div class="stat-pill__label">Games played</div>
             <div class="stat-pill__value" id="statGames">0</div>
           </div>
         </div>
         <div class="stat-pill">
-          <div class="stat-pill__icon">🏆</div>
+          <!-- <div class="stat-pill__icon">🏆</div> -->
           <div class="stat-pill__info">
             <div class="stat-pill__label">Total won</div>
             <div class="stat-pill__value" id="statWon">0 🪙</div>
           </div>
         </div>
         <div class="stat-pill">
-          <div class="stat-pill__icon">💸</div>
+          <!-- <div class="stat-pill__icon">💸</div> -->
           <div class="stat-pill__info">
             <div class="stat-pill__label">Total spent</div>
             <div class="stat-pill__value" id="statSpent">0 🪙</div>
@@ -35,7 +35,12 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
-        <button class="saveload-btn" id="saveloadBtn">Save / Load</button>
+        <button class="saveload-btn" id="saveloadBtn">💾</button>
+        <!-- <button class="saveload-btn" id="saveloadBtn">Save / Load</button> -->
+        <button class="freecoins-btn" id="freeCoinsBtn">
+          <span class="dot"></span>
+          Free coins
+        </button>
         <button class="daily-btn" id="dailyBtn">
           <span class="dot"></span>
           Claim daily 250
@@ -260,13 +265,66 @@
     </div>
   </div>
 
-  <div class="footer">
-    <span class="footer__icon">⚠️</span>
-    <div class="footer__text">
-      This is a fictional in-game currency only. No real money is involved. No real-world value. For entertainment purposes only.&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;version.beta.1.2
+  <!-- Free Coins / Ad Modal -->
+  <div class="modal-backdrop" id="modal-freecoins">
+    <div class="modal">
+      <div class="modal__header">
+        <div>
+          <div class="modal__title">🪙 Free Coins</div>
+          <div class="modal__subtitle">Earn coins without spending</div>
+        </div>
+        <button class="modal__close" data-modal-close="freecoins">✕</button>
+      </div>
+      <div class="modal__body ad-modal-body">
+
+        <!-- Ad screen — hidden until ad is playing -->
+        <div class="ad-screen" id="adScreen" style="display:none;">
+          <div class="ad-screen__icon" id="adScreenIcon">📺</div>
+          <div class="ad-screen__text" id="adScreenText">Loading ad…</div>
+          <button class="ad-screen__skip" id="adSkipBtn">Skip in <span id="adSkipCountdown">5</span>s</button>
+          <div class="ad-screen__progress">
+            <div class="ad-screen__progress-bar" id="adProgressBar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Option picker — shown by default -->
+        <div id="adOptions">
+          <div class="ad-reward-row">
+            <div class="ad-reward-coin"></div>
+            Pick a reward — watch a short ad to claim it
+          </div>
+          <div class="ad-options-row" style="margin-top:4px;">
+            <button class="ad-option-btn" data-ad-reward="50" data-ad-duration="5" id="adOpt1">
+              <div class="ad-option-btn__icon">📺</div>
+              <div class="ad-option-btn__reward">+50 🪙</div>
+              <div class="ad-option-btn__label">5s ad</div>
+            </button>
+            <button class="ad-option-btn" data-ad-reward="150" data-ad-duration="10" id="adOpt2">
+              <div class="ad-option-btn__icon">🎬</div>
+              <div class="ad-option-btn__reward">+150 🪙</div>
+              <div class="ad-option-btn__label">10s ad</div>
+            </button>
+            <button class="ad-option-btn" data-ad-reward="300" data-ad-duration="20" id="adOpt3">
+              <div class="ad-option-btn__icon">🎥</div>
+              <div class="ad-option-btn__reward">+300 🪙</div>
+              <div class="ad-option-btn__label">20s ad</div>
+            </button>
+          </div>
+          <div class="ad-cooldown-note" id="adCooldownNote"></div>
+        </div>
+
+      </div>
     </div>
   </div>
 
+  <div class="footer">
+    <span class="footer__icon">⚠️</span>
+    <div class="footer__text">
+      This is a fictional in-game currency only. No real money is involved. No real-world value. For entertainment purposes only.&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;version.beta.2.4
+    </div>
+  </div>
+
+  <script src="../assets/js/perf_badge.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

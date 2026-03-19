@@ -165,7 +165,6 @@ body::before {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--gold);
-  box-shadow: 0 0 6px var(--gold);
 }
 .daily-btn:disabled .dot {
   background: var(--text-dim);
@@ -265,7 +264,6 @@ body::before {
 .game-card__bar {
   height: 3px;
   background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
 }
 .game-card__body {
   padding: 24px 20px 20px;
@@ -478,13 +476,44 @@ body::before {
   text-align: center;
   will-change: transform, opacity;
 }
-.reel.spinning .reel-symbol {
-  animation: reelBlur 0.08s linear infinite;
+
+/* Strip-based scroll animation */
+.reel-strip {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  will-change: transform;
+  pointer-events: none;
 }
-@keyframes reelBlur {
-  0%   { transform: translate3d(0, 0px,  0); opacity: 0.9; }
-  50%  { transform: translate3d(0, -8px, 0); opacity: 0.4; }
-  100% { transform: translate3d(0, 0px,  0); opacity: 0.9; }
+.reel-strip-cell {
+  width: 100%;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Fade mask so symbols fade at top/bottom edges of reel window */
+.reel::before,
+.reel::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 20px;
+  z-index: 2;
+  pointer-events: none;
+}
+.reel::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+}
+.reel::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
 }
 .slots-result {
   height: 20px;
@@ -745,7 +774,6 @@ body::before {
   height: 16px;
   border-radius: 50%;
   background: var(--slots-color);
-  box-shadow: 0 0 6px var(--slots-color);
   cursor: pointer;
   border: none;
 }
@@ -754,7 +782,6 @@ body::before {
   height: 16px;
   border-radius: 50%;
   background: var(--slots-color);
-  box-shadow: 0 0 6px var(--slots-color);
   cursor: pointer;
   border: none;
 }
@@ -798,7 +825,6 @@ body::before {
   border-color: var(--gold);
   color: var(--gold);
   background: rgba(240,192,64,0.08);
-  box-shadow: 0 0 8px rgba(240,192,64,0.2);
 }
 
 [data-perf="mid"] .hud,
@@ -854,6 +880,187 @@ body::before {
 [data-perf="low"] .modal__coming-soon-icon {
   filter: none;
 }
+[data-perf="low"] .reel-strip-cell {
+  font-size: 36px;
+}
+
+/* Explicitly ensure animation runs on mid/high */
+[data-perf="mid"] .reel-strip,
+[data-perf="high"] .reel-strip,
+body:not([data-perf]) .reel-strip {
+  will-change: transform;
+}
+
+/* Low-perf: disable reel strip animation smoothness */
+[data-perf="low"] .reel-strip {
+  will-change: auto;
+}
+
+/* ── Ad / free-coins modal ─────────────────────── */
+.ad-modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.ad-screen {
+  width: 100%;
+  min-height: 140px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-screen__skip {
+  position: absolute;
+  top: 10px; right: 10px;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 7px;
+  cursor: default;
+}
+.ad-screen__skip--active {
+  color: var(--gold);
+  border-color: var(--border-gold);
+  cursor: pointer;
+}
+.ad-screen__skip--active:hover {
+  background: rgba(240,192,64,0.1);
+}
+
+.ad-screen__icon { font-size: 40px; }
+.ad-screen__text {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.ad-screen__progress {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0; left: 0;
+}
+.ad-screen__progress-bar {
+  height: 100%;
+  background: var(--slots-color);
+  border-radius: 2px;
+  transition: width 0.2s linear;
+}
+
+.ad-reward-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+}
+.ad-reward-coin {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffe066, #c87c00);
+  border: 1.5px solid rgba(255,220,80,0.5);
+  flex-shrink: 0;
+}
+
+.ad-options-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.ad-option-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-gold);
+  background: rgba(240,192,64,0.05);
+  color: var(--gold);
+  font-family: 'WIN', 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.ad-option-btn:hover:not(:disabled) {
+  background: rgba(240,192,64,0.12);
+  border-color: var(--gold);
+}
+.ad-option-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.ad-option-btn__icon { font-size: 22px; }
+.ad-option-btn__reward {
+  font-size: 11px;
+  color: var(--gold);
+}
+.ad-option-btn__label {
+  font-size: 8px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+.ad-cooldown-note {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* ── Free-coins button in HUD ──────────────────── */
+.freecoins-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: rgba(0,200,150,0.06);
+  border: 1.5px solid rgba(0,200,150,0.3);
+  border-radius: 20px;
+  color: var(--slots-color);
+  font-family: 'WIN', 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.freecoins-btn:hover {
+  background: rgba(0,200,150,0.12);
+  border-color: var(--slots-color);
+}
+.freecoins-btn .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--slots-color);
+  box-shadow: 0 0 6px var(--slots-color);
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -861,7 +1068,7 @@ body::before {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reel.spinning .reel-symbol { animation: none; opacity: 0.5; }
+  .reel-strip { transition: none !important; }
   .modal-backdrop, .modal { transition: none; }
   .toast { transition: opacity 0.15s; }
 }

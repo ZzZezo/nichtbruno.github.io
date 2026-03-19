@@ -75,11 +75,11 @@ export function initDaily() {
   document.getElementById('dailyBtn').addEventListener('click', () => {
     const today = new Date().toDateString();
     if (state.lastDaily === today) return;
-    state.balance += 100;
+    state.balance += 250;
     state.lastDaily = today;
     saveState(state);
     refreshUI();
-    showToast('🪙 +100 daily coins claimed!');
+    showToast('🪙 +250 daily coins claimed!');
     animateCoin();
   });
 }

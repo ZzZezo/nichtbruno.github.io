@@ -7,7 +7,7 @@ export function closeModal(id) {
 }
 
 export function initModals() {
-  ['pack', 'case', 'slots', 'saveload'].forEach(id => {
+  ['pack', 'case', 'slots', 'saveload', 'freecoins'].forEach(id => {
     const backdrop = document.getElementById('modal-' + id);
     backdrop.addEventListener('click', e => {
       if (e.target === backdrop) closeModal(id);
@@ -15,7 +15,7 @@ export function initModals() {
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') ['pack', 'case', 'slots', 'saveload'].forEach(closeModal);
+    if (e.key === 'Escape') ['pack', 'case', 'slots', 'saveload', 'freecoins'].forEach(closeModal);
   });
 
   document.querySelectorAll('[data-modal-close]').forEach(btn => {

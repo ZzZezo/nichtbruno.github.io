@@ -43,6 +43,15 @@
     <span class="node__label">Holy Jump</span>
   </div>
 
+  <div class="node node--big node--yellow" id="n-arcade1" data-page="luckgame/index.html">
+    <div class="tooltip">777</div>
+    <div class="node__icon">
+      <img src="assets/images/goldcoin.png" alt="Luck Game"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+    </div>
+    <span class="node__label">Luck Game</span>
+  </div>
+
   <!-- Medium -->
   <div class="node node--medium node--lavender" id="n-arcade3"
        data-page="clock/index.html">
@@ -62,15 +71,6 @@
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
     </div>
     <span class="node__label">Timer</span>
-  </div>
-
-  <div class="node node--big node--yellow" id="n-arcade1" data-page="luckgame/index.html">
-    <div class="tooltip">777</div>
-    <div class="node__icon">
-      <img src="assets/images/goldcoin.png" alt="Luck Game"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-    </div>
-    <span class="node__label">Luck Game</span>
   </div>
 
   <!-- Small -->
@@ -110,12 +110,6 @@
     <span class="node__label">Wikigacha</span>
   </div>
 </main>
-
-<div class="page-backdrop" id="backdrop"></div>
-<button class="page-close" id="closeBtn">✕</button>
-<div class="page-overlay" id="pageOverlay">
-  <div class="page-inner" id="pageInner"></div>
-</div>
 
 <script type="module">
   import { initOverlay } from './js/overlay.js';
