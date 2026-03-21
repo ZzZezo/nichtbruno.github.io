@@ -77,7 +77,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
     // Wipe state
     Object.assign(state, {
       balance: 1000,
-      lastDaily: new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate() + '-' + new Date().getHours(),
+      lastDaily: new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate(),
       gamesPlayed: 0,
       totalWon: 0,
       totalSpent: 0,

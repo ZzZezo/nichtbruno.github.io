@@ -1,5 +1,5 @@
 (function() {
-  // This function creates and returns the game container + starts the loop
+  // starts the loop
   function createJumpAndRun() {
     const gameContainer = document.createElement('div');
     gameContainer.style.width = '100%';
@@ -274,6 +274,7 @@
       if (player.y > canvas.height) {
         if (chaosMode) { if (distance > floHighScore) floHighScore = distance; }
         else { if (distance > highScore) highScore = distance; }
+        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(distance); localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s)); } catch(e) {}
         gameState = GAME_STATE.GAME_OVER;
         return;
       }
@@ -332,6 +333,7 @@
       if (collisionWithWall) {
         if (chaosMode) { if (distance > floHighScore) floHighScore = distance; }
         else { if (distance > highScore) highScore = distance; }
+        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(distance); localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s)); } catch(e) {}
         gameState = GAME_STATE.GAME_OVER;
         return;
       }
@@ -468,29 +470,33 @@
       ctx.fillStyle = '#fff';
       ctx.font = 'bold 48px "Windows", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 40);
+      ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2 - 80);
       ctx.font = '24px "Windows", monospace';
-      ctx.fillText(`Distance: ${Math.floor(distance)}m`, canvas.width/2, canvas.height/2 + 10);
+      ctx.fillText(`Distance: ${Math.floor(distance)}m`, canvas.width/2, canvas.height/2 - 20);
       if (chaosMode) {
         if (distance >= floHighScore) {
           ctx.fillStyle = '#b051d9';
-          ctx.fillText('NEW FLO-MODE HIGH SCORE!', canvas.width/2, canvas.height/2 + 50);
+          ctx.fillText('NEW FLO-MODE HIGH SCORE!', canvas.width/2, canvas.height/2 + 20);
         } else {
-          ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, canvas.width/2, canvas.height/2 + 50);
+          ctx.fillText(`Flo-mode High Score: ${Math.floor(floHighScore)}m`, canvas.width/2, canvas.height/2 + 20);
         }
       } else {
         if (distance >= highScore) {
           ctx.fillStyle = '#f1c40f';
-          ctx.fillText('NEW HIGH SCORE!', canvas.width/2, canvas.height/2 + 50);
+          ctx.fillText('NEW HIGH SCORE!', canvas.width/2, canvas.height/2 + 20);
         } else {
-          ctx.fillText(`High Score: ${Math.floor(highScore)}m`, canvas.width/2, canvas.height/2 + 50);
+          ctx.fillText(`High Score: ${Math.floor(highScore)}m`, canvas.width/2, canvas.height/2 + 20);
         }
       }
       ctx.fillStyle = '#fff';
       ctx.font = '20px "Windows", monospace';
-      ctx.fillText('Press R to restart', canvas.width/2, canvas.height/2 + 100);
-      ctx.fillText('or Q for main menu', canvas.width/2, canvas.height/2 + 130);
+      ctx.fillText('Press R to restart', canvas.width/2, canvas.height/2 + 80);
+      ctx.fillText('or Q for main menu', canvas.width/2, canvas.height/2 + 110);
+      ctx.fillStyle = '#f1c40f';
+      ctx.font = '14px "Windows", monospace';
+      ctx.fillText(`+ ${Math.floor(distance)} 🪙 added to Luck Game`, canvas.width/2, canvas.height/2 + 160);
       ctx.textAlign = 'left';
+      ctx.fillStyle = '#fff';
     }
 
     let savedThisRound = false;

@@ -18,14 +18,14 @@ export let state = {
   ...loadState()
 };
 
-function _currentHour() {
+function _currentDay() {
   const d = new Date();
-  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate() + '-' + d.getHours();
+  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
 }
 
 if (!state.lastDaily && state.balance === 0) {
   state.balance = 1000;
-  state.lastDaily = _currentHour();
+  state.lastDaily = _currentDay();
   saveState(state);
 }
 
@@ -47,7 +47,7 @@ function _getEls() {
 
 export function refreshUI() {
   const e = _getEls();
-  const canClaim = state.lastDaily !== _currentHour();
+  const canClaim = state.lastDaily !== _currentDay();
 
   e.balance.textContent  = state.balance.toLocaleString();
   e.games.textContent    = state.gamesPlayed;
@@ -78,7 +78,7 @@ export function showToast(msg) {
 
 export function initDaily() {
   document.getElementById('dailyBtn').addEventListener('click', () => {
-    const hour = _currentHour();
+    const hour = _currentDay();
     if (state.lastDaily === hour) return;
     state.balance += 250;
     state.lastDaily = hour;
