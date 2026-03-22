@@ -1,14 +1,14 @@
 import { state, saveState, refreshUI, showToast, animateCoin } from './state.js';
 
-const SYMBOLS  = ['🍒', '🍊', '⭐', '7️⃣', '💎'];
-const WEIGHTS  = [  30,   28,   22,    15,    5];
-const PAYTABLE = {
-  '💎💎💎': 50,
-  '7️⃣7️⃣7️⃣': 20,
-  '⭐⭐⭐':  10,
-  '🍊🍊🍊':   5,
-  '🍒🍒🍒':   3,
-};
+const SYMBOLS  = ['cherry', 'orange', 'star', 'seven', 'diamond'];
+const WEIGHTS  = [       30,       28,     22,      15,          5];
+const SYMBOL_IMG = '../assets/images/luckgame/slots/';
+const PAYTABLE = {};
+PAYTABLE['diamond'+'diamond'+'diamond'] = 50;
+PAYTABLE['seven'  +'seven'  +'seven'  ] = 20;
+PAYTABLE['star'   +'star'   +'star'   ] = 10;
+PAYTABLE['orange' +'orange' +'orange' ] =  5;
+PAYTABLE['cherry' +'cherry' +'cherry' ] =  3;
 
 const BET_STEPS = [1, 10, 100, 1000, 10000, 100000];
 let currentBetIndex = 2;
@@ -185,7 +185,8 @@ export function spin() {
   const cycleIntervals = [0, 1, 2].map(i => {
     const sym = document.getElementById('sym' + i);
     return setInterval(() => {
-      sym.textContent = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+      const rs = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+      sym.innerHTML = '<img src="' + SYMBOL_IMG + rs + '.png" alt="' + rs + '" class="reel-img">';
     }, 80);
   });
 
@@ -203,7 +204,7 @@ export function spin() {
       sym.style.transition = 'none';
       sym.style.transform  = 'translateY(60px)';
       sym.style.opacity    = '0';
-      sym.textContent      = results[i];
+      sym.innerHTML        = '<img src="' + SYMBOL_IMG + results[i] + '.png" alt="' + results[i] + '" class="reel-img">';
 
       sym.getBoundingClientRect();
       sym.style.transition = 'transform 0.25s cubic-bezier(0.22,1,0.36,1), opacity 0.18s ease';
@@ -213,7 +214,7 @@ export function spin() {
   });
 
   setTimeout(() => {
-    const key      = results.join('');
+    const key      = results[0] + results[1] + results[2];
     const allMatch = results[0] === results[1] && results[1] === results[2];
     const twoMatch = results[0] === results[1] || results[1] === results[2] || results[0] === results[2];
 

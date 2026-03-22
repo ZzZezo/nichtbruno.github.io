@@ -13,7 +13,7 @@
   --gold-glow:         rgba(240,192,64,0.08);
 
   --bg:                #1a1714;
-  --bg-overlay:        rgba(10, 8, 5, 0.25);
+  --bg-overlay:        rgba(10, 8, 5, 0.06);
   --bg-modal:          #16140f;
 
   --surface:           rgba(255,255,255,0.04);
@@ -70,10 +70,10 @@ body::before {
   gap: 6px;
   padding: 7px 14px 7px 10px;
   background: rgba(20, 20, 20, 0.55);
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid rgba(255,255,255,0.18);
   border-radius: 20px;
   color: #fff;
-  font-family: 'WIN', 'Courier New', monospace;
+  font-family: 'WIN', monospace;
   font-size: 13px;
   text-decoration: none;
   backdrop-filter: blur(10px);
@@ -83,8 +83,14 @@ body::before {
   cursor: pointer;
   outline: none;
 }
-.back-btn:hover { background: rgba(40,40,40,0.80); transform: translateX(-2px); }
-.back-btn::before { content: '←'; font-size: 15px; }
+.back-btn:hover {
+  background: rgba(40, 40, 40, 0.80);
+  transform: translateX(-2px);
+}
+.back-btn::before {
+  content: '←';
+  font-size: 15px;
+}
 
 .page {
   position: relative;
@@ -307,11 +313,7 @@ body::before {
   cursor: not-allowed;
   pointer-events: none;
 }
-/* .game-card--pack:hover {
-  transform: none;
-  border-color: var(--border);
-  box-shadow: none;
-} */
+
 .game-card--pack   { --accent: var(--color-pack); }
 .game-card--case   { --accent: var(--color-case); }
 .game-card--slots  { --accent: var(--color-slots); }
@@ -526,11 +528,17 @@ body::before {
   transition: filter 0.25s ease, border-color 0.25s ease;
 }
 .reel-symbol {
-  font-size: 36px;
-  line-height: 1;
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   will-change: transform, opacity;
+}
+.reel-img {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  display: block;
+  object-fit: contain;
 }
 .reel.spinning {
   filter: grayscale(1) brightness(0.45);
@@ -947,4 +955,11 @@ body:not([data-perf]) .reel.spinning .reel-symbol {
 
 #statSpent {
   color: var(--color-lose);
+}
+.pt-img {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+  vertical-align: middle;
+  object-fit: contain;
 }

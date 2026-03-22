@@ -23,7 +23,7 @@ const ALL_ITEMS = [
   { id: 'r2', name: 'Knife',       rarity: 'rare',      value: 101,  img: 'knife.png'      },
   { id: 'r3', name: 'Controller',  rarity: 'rare',      value: 130,  img: 'controller.png' },
   
-  { id: 'e1', name: 'Doner',       rarity: 'epic',      value: 650,  img: 'doner.png'      },
+  { id: 'e1', name: 'Döner',       rarity: 'epic',      value: 650,  img: 'doner.png'      },
   { id: 'e2', name: 'Weed',        rarity: 'epic',      value: 420,  img: 'weed.png'       },
 
   { id: 'l1', name: 'Cedevita',    rarity: 'legendary', value: 700,  img: 'cedevita.png'   },
@@ -55,7 +55,7 @@ export const CASES = [
     img:   'safe.png',
     cost:  750,
     desc:  'A steel safe. Only the finest loot inside.',
-    weights: { rare: 14, epic: 60, legendary: 25, mystic: 1 },
+    weights: { rare: 24, epic: 60, legendary: 15, mystic: 1 },
   },
   {
     id:    'luckyblock',
