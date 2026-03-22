@@ -12,16 +12,16 @@
   --gold-border:       rgba(240,192,64,0.35);
   --gold-glow:         rgba(240,192,64,0.08);
 
-  --bg:                #1a1714;
+  --bg:                #7f7367;
   --bg-overlay:        rgba(10, 8, 5, 0.06);
   --bg-modal:          #16140f;
 
   --surface:           rgba(255,255,255,0.04);
-  --surface-hover:     rgba(255,255,255,0.08);
-  --surface-card:      rgba(40, 34, 26, 0.52);
+  --surface-hover:     rgba(96, 113, 19, 0.08);
+  --surface-card:      rgba(30, 25, 19, 0.52);
   --surface-hud:       rgba(38, 32, 22, 0.58);
   --surface-pill:      rgba(38, 32, 22, 0.48);
-  --surface-dark:      rgba(0,0,0,0.4);
+  --surface-dark:      rgba(29, 29, 29, 0.4);
 
   --border:            rgba(255,255,255,0.10);
   --border-strong:     rgba(255,255,255,0.18);
@@ -409,7 +409,7 @@ body::before {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(15, 15, 15, 0.7);
   backdrop-filter: blur(6px);
   z-index: 1000;
   display: flex;

@@ -4,6 +4,12 @@ import { initSlots  } from './slots.js';
 import { initCases  } from './cases.js';
 import { exportProgress, importProgress } from './state.js';
 
+function scaleUI() {
+  document.documentElement.style.zoom = window.innerWidth > 1280 ? (window.innerWidth / 1500) : 1;
+}
+scaleUI();
+window.addEventListener('resize', scaleUI);
+
 loadBg();
 initDaily();
 initModals();
