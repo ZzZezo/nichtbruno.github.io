@@ -1,16 +1,16 @@
 import { state, saveState, refreshUI, showToast, animateCoin } from './state.js';
 
-const SYMBOLS  = ['🍒', '🍋', '⭐', '7️⃣', '💎'];
+const SYMBOLS  = ['🍒', '🍊', '⭐', '7️⃣', '💎'];
 const WEIGHTS  = [  30,   28,   22,    15,    5];
 const PAYTABLE = {
   '💎💎💎': 50,
   '7️⃣7️⃣7️⃣': 20,
   '⭐⭐⭐':  10,
-  '🍋🍋🍋':   5,
+  '🍊🍊🍊':   5,
   '🍒🍒🍒':   3,
 };
 
-const BET_STEPS = [1, 5, 10, 50, 100, 500];
+const BET_STEPS = [1, 10, 100, 1000, 10000, 100000];
 let currentBetIndex = 2;
 
 let _audioCtx      = null;
