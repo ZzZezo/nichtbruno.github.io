@@ -125,6 +125,22 @@ body::before {
   margin-top: 4px;
 }
 
+.game-card__icon img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+.game-card__icon-small img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
 .wallet {
   display: flex;
   flex-direction: column;
@@ -285,19 +301,17 @@ body::before {
   will-change: transform;
 }
 
-.game-card--pack,
-.game-card--case {
+.game-card--pack {
   opacity: 0.45;
   filter: grayscale(0.6);
   cursor: not-allowed;
   pointer-events: none;
 }
-.game-card--pack:hover,
-.game-card--case:hover {
+/* .game-card--pack:hover {
   transform: none;
   border-color: var(--border);
   box-shadow: none;
-}
+} */
 .game-card--pack   { --accent: var(--color-pack); }
 .game-card--case   { --accent: var(--color-case); }
 .game-card--slots  { --accent: var(--color-slots); }
@@ -451,7 +465,7 @@ body::before {
   flex-shrink: 0;
 }
 .modal__close:hover { border-color: var(--border-mid); color: var(--text); }
-.modal__body { padding: 24px; }
+.modal__body { padding: 12px 24px 24px 24px;}
 
 .modal__coming-soon {
   display: flex;

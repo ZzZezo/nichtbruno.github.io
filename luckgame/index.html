@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luck Game</title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/cases.css">
 </head>
 <body>
   <button class="back-btn" onclick="history.back()">Home</button>
@@ -52,28 +53,27 @@
     <div class="games-grid">
       <div class="game-card game-card--slots" data-modal-open="slots">
         <div class="game-card__body">
-          <div class="game-card__icon">🎰</div>
+          <div class="game-card__icon"><img src="../assets/images/luckgame/slots.png" alt="Slots"></div>
           <div class="game-card__name">Slots</div>
         </div>
         <div class="game-card__footer">
           <div class="game-card__cost">
             <div class="game-card__cost-coin"></div>
-            1 - 500 per spin
+            whatever per spin
           </div>
           <button class="game-card__play-btn">Play</button>
         </div>
       </div>
 
       <div class="game-card game-card--case" data-modal-open="case">
-        <div class="badge-wip">Coming soon</div>
         <div class="game-card__body">
-          <div class="game-card__icon">📦</div>
+          <div class="game-card__icon"><img src="../assets/images/luckgame/case.png" alt="Case Opening"></div>
           <div class="game-card__name">Case Opening</div>
         </div>
         <div class="game-card__footer">
           <div class="game-card__cost">
             <div class="game-card__cost-coin"></div>
-            50 per case
+            50 - 750 per case
           </div>
           <button class="game-card__play-btn">Play</button>
         </div>
@@ -86,11 +86,6 @@
           <div class="game-card__name">???</div>
         </div>
         <div class="game-card__footer">
-          <!-- <div class="game-card__cost">
-            <div class="game-card__cost-coin"></div>
-            25 per pack
-          </div> -->
-          <!-- <button class="game-card__play-btn">Play</button> -->
         </div>
       </div>
 
@@ -99,50 +94,52 @@
 
   <div class="toast" id="toast"></div>
 
-  <div class="modal-backdrop" id="modal-pack">
-    <div class="modal">
-      <div class="modal__header">
-        <div>
-          <div class="modal__title">🃏 Pack Opening</div>
-          <div class="modal__subtitle">Reveal a card from the mystery pack</div>
-        </div>
-        <button class="modal__close" data-modal-close="pack">✕</button>
-      </div>
-      <div class="modal__body">
-        <div class="modal__coming-soon">
-          <div class="modal__coming-soon-icon">🃏</div>
-          <div class="modal__coming-soon-text">
-            Coming soon<br>
-          </div>
-        </div>
-        <div class="modal__cost-row">
-          <div class="modal__cost-label">Cost per pack</div>
-          <div class="modal__cost-value"><div class="modal__cost-coin"></div> 25 coins</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal-backdrop" id="modal-case">
-    <div class="modal">
+    <div class="modal modal--cases">
       <div class="modal__header">
         <div>
-          <div class="modal__title">📦 Case Opening</div>
-          <div class="modal__subtitle">Spin the reel, claim your prize</div>
+          <div class="game-card__icon-small"><img src="../assets/images/luckgame/case.png" alt="Case Opening"></div>
         </div>
         <button class="modal__close" data-modal-close="case">✕</button>
       </div>
       <div class="modal__body">
-        <div class="modal__coming-soon">
-          <div class="modal__coming-soon-icon">📦</div>
-          <div class="modal__coming-soon-text">
-            Coming soon<br>
+        <div class="case-nav">
+          <button class="case-nav-arrow" id="casePrevBtn" title="Previous case">&#8592;</button>
+  
+          <div class="case-active-preview">
+            <img class="case-active-img" id="caseActiveImg" src="" alt="">
+            <div class="case-active-info">
+              <div class="case-active-header">
+                <div class="case-active-name" id="caseActiveName">-</div>
+                <div class="case-active-cost" id="caseActiveCost">-</div>
+              </div>
+              <div class="case-active-desc" id="caseActiveDesc">-</div>
+              <div class="case-nav-dots" id="caseNavDots"></div>
+              <div class="case-odds-grid" id="caseOddsGrid"></div>
+            </div>
+          </div>
+  
+          <button class="case-nav-arrow" id="caseNextBtn" title="Next case">&#8594;</button>
+        </div>
+
+        <div class="case-reel-container" id="caseReelContainer">
+          <div class="case-reel-centerline"></div>
+          <div class="case-opening-overlay" id="caseOpeningOverlay">Select a case and open</div>
+          <div class="case-reel-track" id="caseReelTrack"></div>
+        </div>
+
+        <div class="case-result-panel" id="caseResultPanel">
+          <div class="case-result__img-wrap">
+            <img class="case-result__img" src="" alt="" style="opacity:0">
+          </div>
+          <div class="case-result__info">
+            <div class="case-result__rarity"></div>
+            <div class="case-result__name">-</div>
+            <div class="case-result__value"></div>
           </div>
         </div>
-        <div class="modal__cost-row">
-          <div class="modal__cost-label">Cost per case</div>
-          <div class="modal__cost-value"><div class="modal__cost-coin"></div> 50 coins</div>
-        </div>
+  
+        <button class="case-open-btn" id="caseOpenBtn">Open Case</button>
       </div>
     </div>
   </div>
@@ -151,7 +148,7 @@
     <div class="modal">
       <div class="modal__header">
         <div>
-          <div class="modal__title">🎰 Slots</div>
+          <div class="game-card__icon-small"><img src="../assets/images/luckgame/slots.png" alt="Case Opening"></div>
         </div>
         <button class="modal__close" data-modal-close="slots">✕</button>
       </div>
@@ -163,7 +160,7 @@
               <div class="reel" id="reel1"><span class="reel-symbol" id="sym1">🍒</span></div>
               <div class="reel" id="reel2"><span class="reel-symbol" id="sym2">🍒</span></div>
             </div>
-            <div class="slots-result" id="slotsResult">— spin to play —</div>
+            <div class="slots-result" id="slotsResult">- spin to play -</div>
             <div class="bet-control">
               <input type="range" class="bet-slider" id="betSlider" min="0" max="5" value="2">
               <div class="bet-steps">
@@ -227,7 +224,7 @@
       <div class="modal__body">
 
         <div class="saveload-section">
-          <div class="saveload-label">Export — save your progress</div>
+          <div class="saveload-label">Export: save your progress</div>
           <textarea class="saveload-code saveload-code--noresize" id="exportCode" readonly placeholder="Click export to generate your save code…"></textarea>
           <div class="saveload-row">
             <button class="saveload-action-btn saveload-action-btn--gold" id="exportBtn">Generate code</button>
@@ -237,7 +234,7 @@
         </div>
 
         <div class="saveload-section">
-          <div class="saveload-label">Import — load progress from another device</div>
+          <div class="saveload-label">Import: load progress from another device</div>
           <textarea class="saveload-code saveload-code--noresize" id="importCode" placeholder="Paste your save code here…"></textarea>
           <div class="saveload-row">
             <button class="saveload-action-btn saveload-action-btn--gold" id="importBtn">Load progress</button>

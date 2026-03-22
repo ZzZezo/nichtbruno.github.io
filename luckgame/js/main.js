@@ -1,12 +1,14 @@
 import { state, refreshUI, initDaily, loadBg, saveState } from './state.js';
 import { initModals, openModal } from './modal.js';
 import { initSlots  } from './slots.js';
+import { initCases  } from './cases.js';
 import { exportProgress, importProgress } from './state.js';
 
 loadBg();
 initDaily();
 initModals();
 initSlots();
+initCases();
 refreshUI();
 
 document.getElementById('saveloadBtn').addEventListener('click', () => {
@@ -74,7 +76,6 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   } else {
     clearTimeout(resetConfirmTimer);
     resetConfirmPending = false;
-    // Wipe state
     Object.assign(state, {
       balance: 1000,
       lastDaily: new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate(),
