@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luck Game</title>
+  <link rel="icon" type="image" href="../assets/images/goldcoin.png">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/cases.css">
 </head>
@@ -35,7 +36,7 @@
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
         <button class="saveload-btn" id="saveloadBtn">Save / Load</button>
         <button class="daily-btn" id="dailyBtn">
-          <span class="daily-tooltip">Play Holy Jump to earn extra coins!</span>
+          <span class="daily-tooltip">Play Holy Jump or wait in the Timer to earn extra coins!</span>
           <span class="dot"></span>
           Claim daily 250
         </button>
@@ -100,7 +101,10 @@
         <div>
           <div class="game-card__icon-small"><img src="../assets/images/luckgame/case.png" alt="Case Opening"></div>
         </div>
-        <button class="modal__close" data-modal-close="case">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="mute-btn" id="caseMuteBtn" title="Mute sounds">🔊</button>
+          <button class="modal__close" data-modal-close="case">✕</button>
+        </div>
       </div>
       <div class="modal__body">
         <div class="case-nav">
@@ -135,6 +139,7 @@
           <div class="case-result__info">
             <div class="case-result__rarity"></div>
             <div class="case-result__name">-</div>
+            <div class="case-result__flavor"></div>
             <div class="case-result__value"></div>
           </div>
         </div>
@@ -150,7 +155,10 @@
         <div>
           <div class="game-card__icon-small"><img src="../assets/images/luckgame/slots.png" alt="Case Opening"></div>
         </div>
-        <button class="modal__close" data-modal-close="slots">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="mute-btn" id="slotsMuteBtn" title="Mute sounds">🔊</button>
+          <button class="modal__close" data-modal-close="slots">✕</button>
+        </div>
       </div>
       <div class="modal__body">
         <div class="slots-wrapper">

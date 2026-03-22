@@ -1,4 +1,4 @@
-import { state, saveState, refreshUI, showToast, animateCoin } from './state.js';
+import { state, saveState, refreshUI, showToast, animateCoin, isMuted, setMuted } from './state.js';
 
 export const RARITIES = {
   common:     { label: 'Common',     color: '#9ea8b3', glow: 'rgba(158,168,179,0.45)', border: '#9ea8b3' },
@@ -10,26 +10,43 @@ export const RARITIES = {
 };
 
 const ALL_ITEMS = [
-  { id: 'c1', name: 'Axe',         rarity: 'common',    value: 1,    img: 'axe.png'        },
-  { id: 'c2', name: 'Nut',         rarity: 'common',    value: 5,   img: 'nut.png'        },
-  { id: 'c3', name: 'Tree',        rarity: 'common',    value: 8,   img: 'tree.png'       },
-  { id: 'c4', name: 'Ball',        rarity: 'common',    value: 12,   img: 'ball.png'       },
-  
-  { id: 'u1', name: 'Car',         rarity: 'uncommon',  value: 60,   img: 'cat.png'        },
-  { id: 'u2', name: 'Gun',         rarity: 'uncommon',  value: 55,   img: 'gun.png'        },
-  { id: 'u3', name: 'Table',       rarity: 'uncommon',  value: 67,   img: 'table.png'      },
-  
-  { id: 'r1', name: 'Magic',       rarity: 'rare',      value: 115,  img: 'magic.png'      },
-  { id: 'r2', name: 'Knife',       rarity: 'rare',      value: 101,  img: 'knife.png'      },
-  { id: 'r3', name: 'Controller',  rarity: 'rare',      value: 130,  img: 'controller.png' },
-  
-  { id: 'e1', name: 'Döner',       rarity: 'epic',      value: 650,  img: 'doner.png'      },
-  { id: 'e2', name: 'Weed',        rarity: 'epic',      value: 420,  img: 'weed.png'       },
+  { id: 'c1', name: 'Axe', rarity: 'common', value: 1, img: 'axe.png', flavor: 'At least you smell good.' },
+  { id: 'c2', name: 'Nut', rarity: 'common', value: 5, img: 'nut.png', flavor: 'Always better with butter.' },
+  { id: 'c3', name: 'Books', rarity: 'common', value: 5, img: 'books.png', flavor: 'Who tf reads books.' },
+  { id: 'c4', name: 'Ball', rarity: 'common', value: 7, img: 'ball.png', flavor: '7:1' },
+  { id: 'c5', name: 'Tree', rarity: 'common', value: 8, img: 'tree.png', flavor: 'Congratulations! You got... a tree?' },
+  { id: 'c6', name: 'Apple', rarity: 'common', value: 8, img: 'apple.png', flavor: 'Not the brand.' },
+  { id: 'c7', name: 'Charger', rarity: 'common', value: 10, img: 'charger.png', flavor: 'It\'s definitely broken.' },
+  { id: 'c8', name: 'Yogurt', rarity: 'common', value: 12, img: 'yogurt.png', flavor: 'Gurt: Yo' },
+  { id: 'c9', name: 'Vacuum Cleaner', rarity: 'common', value: 15, img: 'vacuum.png', flavor: 'Sucks. Literally.' },
 
-  { id: 'l1', name: 'Cedevita',    rarity: 'legendary', value: 700,  img: 'cedevita.png'   },
-  { id: 'l2', name: 'Nougat Bits', rarity: 'legendary', value: 1700, img: 'nougat.png'     },
-  
-  { id: 'm1', name: 'GameBoy Advance SP', rarity: 'mystic', value: 10000, img: 'gameboy.png'     },
+  { id: 'u1', name: 'Toilet Paper', rarity: 'uncommon', value: 50, img: 'toiletpaper.png', flavor: 'Worth more than gold in 2020. Now you can just wipe you ass with it.' },
+  { id: 'u2', name: 'Gun', rarity: 'uncommon', value: 55, img: 'gun.png', flavor: 'Shoots water.' },
+  { id: 'u3', name: 'Car', rarity: 'uncommon', value: 60, img: 'cat.png', flavor: 'Car go vroooom.' },
+  { id: 'u4', name: 'Table', rarity: 'uncommon', value: 67, img: 'table.png', flavor: 'Table.' },
+  { id: 'u5', name: 'Gas Mask', rarity: 'uncommon', value: 70, img: 'gasmask.png', flavor: 'For when you fart, smelly.' },
+
+  { id: 'r1', name: 'Knife', rarity: 'rare', value: 101, img: 'knife.png', flavor: 'Don\'t bring a knife to a gun fight.' },
+  { id: 'r2', name: 'Pizza Slice', rarity: 'rare', value: 111, img: 'pizzaslice.png', flavor: 'Where are the turtles.' },
+  { id: 'r3', name: 'Magic', rarity: 'rare', value: 115, img: 'magic.png', flavor: 'These packs are fucking expensive.' },
+  { id: 'r4', name: 'Controller', rarity: 'rare', value: 130, img: 'controller.png', flavor: 'Stage 4 sitck drift.' },
+  { id: 'r5', name: 'Bolognese', rarity: 'rare', value: 140, img: 'bolognese.png', flavor: 'Saw someone put ketchup on it.' },
+  { id: 'r6', name: 'Sword', rarity: 'rare', value: 150, img: 'sword.png', flavor: '+2 attack.' },
+
+  { id: 'e1', name: 'Weed', rarity: 'epic', value: 420, img: 'weed.png', flavor: 'Be free and shit.' },
+  { id: 'e2', name: 'Banana', rarity: 'epic', value: 444, img: 'banana.png', flavor: 'This shit radioactive.' },
+  { id: 'e3', name: 'Lightsaber', rarity: 'epic', value: 500, img: 'lightsaber.png', flavor: 'I am your father.' },
+  { id: 'e4', name: 'Döner', rarity: 'epic', value: 650, img: 'doner.png', flavor: 'Let\'s hope the price stays the same now.' },
+  { id: 'e5', name: 'Demon', rarity: 'epic', value: 666, img: 'demon.png', flavor: 'He\'s actually really nice.' },
+  { id: 'e6', name: 'Rubik\'s Cube', rarity: 'epic', value: 700, img: 'rubikscube.png', flavor: 'U\' R2 U\' R2 F2 D U2 L2 U F2 U\' L\' U R\' B F2 D F D2 U\' F\'' },
+
+  { id: 'l1', name: 'Cedevita', rarity: 'legendary', value: 850, img: 'cedevita.png', flavor: 'Elixir of life. You are now invincible.' },
+  { id: 'l2', name: 'Nougat Bits', rarity: 'legendary', value: 1250, img: 'nougat.png', flavor: 'Inferior to all other foods. Somehow still legendary.' },
+  { id: 'l3', name: 'Cheesecake', rarity: 'legendary', value: 1515, img: 'cheesecake.png', flavor: 'Would die for one.' },
+  { id: 'l4', name: 'White Monster', rarity: 'legendary', value: 2000, img: 'whitemonster.png', flavor: 'Here, a Monster for you. Enjoy.' },
+
+  { id: 'm1', name: 'GameBoy Advance SP', rarity: 'mystic', value: 8000, img: 'gameboy.png', flavor: 'Shhh. This one is cracked.' },
+  { id: 'm2', name: 'McRib', rarity: 'mystic', value: 10000, img: 'McRib.png', flavor: 'Returned again. You don\'t deserve this. Yet here we are.' },
 ];
 
 export const CASES = [
@@ -65,6 +82,14 @@ export const CASES = [
     desc:  'Stupid af.',
     weights: { common: 98, mystic: 2 },
   },
+  {
+    id:    'recylcebag',
+    name:  'Recycle Bag',
+    img:   'plasticbag.png',
+    cost:  27,
+    desc:  'Stolen from a homeless person.',
+    weights: { common: 900, uncommon: 100, legendary: 5, mystic: 1 },
+  },
 ];
 
 
@@ -83,6 +108,7 @@ function getCtx() {
 }
 
 function tone({ type = 'sine', freq, freqEnd, rampTime, gain, attack, decay, offset = 0 }) {
+  if (isMuted()) return;
   const ctx = getCtx();
   const now = ctx.currentTime + offset;
   const osc = ctx.createOscillator();
@@ -235,6 +261,8 @@ function showResult(item, onDone) {
   el.querySelector('.case-result__name').textContent   = item.name;
   el.querySelector('.case-result__rarity').textContent = rar.label;
   el.querySelector('.case-result__value').textContent  = '+' + item.value.toLocaleString() + ' coins';
+  const flavorEl = el.querySelector('.case-result__flavor');
+  if (flavorEl) flavorEl.textContent = item.flavor || '';
   el.classList.add('case-result-panel--visible');
   onDone(item);
 }
@@ -298,6 +326,8 @@ function resetReel() {
     result.querySelector('.case-result__name').textContent  = '';
     result.querySelector('.case-result__rarity').textContent = '';
     result.querySelector('.case-result__value').textContent  = '';
+    const flavorEl = result.querySelector('.case-result__flavor');
+    if (flavorEl) flavorEl.textContent = '';
   }
 }
 
@@ -344,6 +374,9 @@ function applyActiveCase() {
 }
 
 export function initCases() {
+  const muteBtn = document.getElementById('caseMuteBtn');
+  if (muteBtn) muteBtn.addEventListener('click', () => setMuted(!isMuted()));
+
   const dotsEl = document.getElementById('caseNavDots');
   if (dotsEl) {
     dotsEl.innerHTML = '';

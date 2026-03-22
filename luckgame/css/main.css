@@ -963,3 +963,23 @@ body:not([data-perf]) .reel.spinning .reel-symbol {
   vertical-align: middle;
   object-fit: contain;
 }
+
+/* Mute button */
+.mute-btn {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+.mute-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-mid);
+  color: var(--text);
+}

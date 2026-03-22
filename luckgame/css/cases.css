@@ -173,6 +173,7 @@
   border: 1.5px solid var(--border);
   background: rgba(10,8,5,0.5);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  min-height: 84px;
 }
 .case-result-panel--visible {
   border-color: var(--rarity-border, var(--border));
@@ -195,6 +196,11 @@
 }
 .case-result__name  { font-size: 14px; letter-spacing: 0.07em; color: var(--text); }
 .case-result__value { font-size: 11px; letter-spacing: 0.1em; color: var(--gold); }
+.case-result__flavor {
+  font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-dim); font-style: italic;
+  margin-top: 2px; min-height: 11px;
+}
 
 .case-open-btn {
   width: 100%; padding: 14px;

@@ -157,6 +157,55 @@ function formatTime(seconds) {
     return String(seconds).padStart(2, '0');
 }
 
+function showCoinReward(anchorEl, amount) {
+    const box = anchorEl.closest('.countdown-container') ?? anchorEl.parentElement;
+
+    if (!document.getElementById('coinPopStyle')) {
+        const style = document.createElement('style');
+        style.id = 'coinPopStyle';
+        style.textContent = `
+            @keyframes coinPop {
+                0%   { opacity:0; transform:translate(-50%,-50%) scale(.6); }
+                15%  { opacity:1; transform:translate(-50%,-50%) scale(1.15); }
+                70%  { opacity:1; transform:translate(-50%,-50%) scale(1); }
+                100% { opacity:0; transform:translate(-50%,-50%) scale(.9); }
+            }
+            .coin-toast {
+                position:absolute;
+                left:50%;
+                top:50%;
+                transform:translateX(-50%) translateY(0);
+                display:flex;
+                align-items:center;
+                gap:5px;
+                font-family:'WIN','Times New Roman',serif;
+                font-size:18px;
+                font-weight:bold;
+                color:#b8860b;
+                text-shadow:1px 1px 0 #fff, -1px -1px 0 #fff;
+                pointer-events:none;
+                white-space:nowrap;
+                animation:coinPop 2.4s ease forwards;
+                z-index:10;
+            }
+            .coin-toast img {
+                width:32px;
+                height:32px;
+                image-rendering:pixelated;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'coin-toast';
+    toast.innerHTML = `+${amount} <img src="../../assets/images/goldcoin.png" alt="coin">`;
+
+    box.style.position = 'relative';
+    box.appendChild(toast);
+    setTimeout(() => toast.remove(), 2500);
+}
+
 function startCountdown(container) {
     const timerCountdownDisplay = container.querySelector('.timer-countdown-text');
     if (!timerCountdownDisplay) {
@@ -170,9 +219,12 @@ function startCountdown(container) {
 
     timerCountdownDisplay.classList.remove('expired');
 
+    const end = new Date(mydate.year, mydate.month, mydate.day, mydate.hour, mydate.minute);
+    const startTime = new Date();
+    const totalSeconds = Math.max(0, Math.floor((end - startTime) / 1000));
+
     function getTime() {
         const now = new Date();
-        const end = new Date(mydate.year, mydate.month, mydate.day, mydate.hour, mydate.minute);
         const difference = end - now;
         const differenceInSeconds = Math.floor(difference / 1000);
 
@@ -180,6 +232,14 @@ function startCountdown(container) {
             timerCountdownDisplay.textContent = '00';
             timerCountdownDisplay.classList.add('expired');
             clearInterval(countdownInterval);
+
+            try {
+                const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}');
+                s.balance = (s.balance ?? 0) + totalSeconds;
+                localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s));
+                showCoinReward(timerCountdownDisplay, totalSeconds);
+            } catch(e) {}
+
             return;
         }
 

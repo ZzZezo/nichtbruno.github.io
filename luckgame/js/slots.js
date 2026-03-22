@@ -1,4 +1,4 @@
-import { state, saveState, refreshUI, showToast, animateCoin } from './state.js';
+import { state, saveState, refreshUI, showToast, animateCoin, isMuted, setMuted } from './state.js';
 
 const SYMBOLS  = ['cherry', 'orange', 'star', 'seven', 'diamond'];
 const WEIGHTS  = [       30,       28,     22,      15,          5];
@@ -36,7 +36,7 @@ async function loadSpinSound() {
 }
 
 function soundSpinStart() {
-  if (!_spinBuffer) return;
+  if (!_spinBuffer || isMuted()) return;
   const ctx       = getCtx();
   _spinGainNode   = ctx.createGain();
   _spinGainNode.gain.setValueAtTime(0.0001, ctx.currentTime);
@@ -63,6 +63,7 @@ function soundSpinStop() {
 }
 
 function tone({ type, freq, freqEnd, rampTime, gain, attack, decay, offset = 0 }) {
+  if (isMuted()) return;
   const ctx = getCtx();
   const now = ctx.currentTime + offset;
   const osc = ctx.createOscillator();
@@ -264,6 +265,9 @@ export function spin() {
 
 export function initSlots() {
   loadSpinSound();
+
+  const muteBtn = document.getElementById('slotsMuteBtn');
+  if (muteBtn) muteBtn.addEventListener('click', () => setMuted(!isMuted()));
 
   document.getElementById('spinBtn').addEventListener('click', spin);
 

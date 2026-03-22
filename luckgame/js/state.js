@@ -18,6 +18,17 @@ export let state = {
   ...loadState()
 };
 
+// Mute is session-only (not persisted)
+export let _muted = false;
+export function isMuted() { return _muted; }
+export function setMuted(val) {
+  _muted = val;
+  document.querySelectorAll('.mute-btn').forEach(btn => {
+    btn.textContent = _muted ? '🔇' : '🔊';
+    btn.title = _muted ? 'Unmute sounds' : 'Mute sounds';
+  });
+}
+
 function _currentDay() {
   const d = new Date();
   return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
