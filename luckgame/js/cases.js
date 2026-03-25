@@ -64,7 +64,7 @@ export const CASES = [
     img:   'dufflebag.png',
     cost:  200,
     desc:  'A heavy duffle bag. Could be good.',
-    weights: { common: 25, uncommon: 20, rare: 33, epic: 18, legendary: 4  },
+    weights: { common: 25, uncommon: 20, rare: 33, epic: 20, legendary: 2  },
   },
   {
     id:    'safe',
@@ -335,8 +335,8 @@ function applyActiveCase() {
   const cd = CASES[_activeCaseIndex];
   if (!cd) return;
 
-  document.getElementById('casePrevBtn').disabled = _activeCaseIndex === 0;
-  document.getElementById('caseNextBtn').disabled = _activeCaseIndex === CASES.length - 1;
+  // document.getElementById('casePrevBtn').disabled = _activeCaseIndex === 0;
+  // document.getElementById('caseNextBtn').disabled = _activeCaseIndex === CASES.length - 1;
 
   document.querySelectorAll('.case-nav-dot').forEach((d, i) =>
     d.classList.toggle('case-nav-dot--active', i === _activeCaseIndex)
@@ -395,6 +395,12 @@ export function initCases() {
     if (e.code === 'Space' && document.getElementById('modal-case').classList.contains('modal-backdrop--open')) {
       e.preventDefault();
       openCase(CASES[_activeCaseIndex]);
+    } else if (e.code === 'ArrowRight' && document.getElementById('modal-case').classList.contains('modal-backdrop--open')) {
+      e.preventDefault();
+      navigateCase(+1);
+    } else if (e.code === 'ArrowLeft' && document.getElementById('modal-case').classList.contains('modal-backdrop--open')) {
+      e.preventDefault();
+      navigateCase(-1);
     }
   });
 

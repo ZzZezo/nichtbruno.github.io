@@ -58,17 +58,15 @@
       badge.textContent = `gfx · ${currentTier}`;
       document.body.appendChild(badge);
 
-      // --- Click to cycle tiers ---
       badge.addEventListener('click', () => {
         if (badge._wasDragged) { badge._wasDragged = false; return; }
         const idx = TIERS.indexOf(currentTier);
         currentTier = TIERS[(idx + 1) % TIERS.length];
         badge.textContent = `gfx · ${currentTier}`;
         applyTier(currentTier);
-        try { sessionStorage.setItem(STORAGE_KEY, currentTier); } catch (_) {}
+        try { localStorage.setItem(STORAGE_KEY, currentTier); } catch (_) {}
       });
 
-      // --- Drag logic (no position save, no style changes) ---
       const drag = { active: false, startX: 0, startY: 0, origLeft: 0, origTop: 0, moved: false };
 
       badge.addEventListener('mousedown', e => {
@@ -149,12 +147,12 @@
 
   let tier = null;
   try {
-    tier = sessionStorage.getItem(STORAGE_KEY);
+    tier = localStorage.getItem(STORAGE_KEY);
   } catch (_) {}
 
   if (!tier) {
     tier = detect();
-    try { sessionStorage.setItem(STORAGE_KEY, tier); } catch (_) {}
+    try { localStorage.setItem(STORAGE_KEY, tier); } catch (_) {}
   }
 
   applyTier(tier);

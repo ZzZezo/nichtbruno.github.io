@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'holymoly_luckgame_v1';
+const STORAGE_KEY = 'holymoly_luckgame_v2';
 
 export function loadState() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? {}; }
@@ -18,7 +18,6 @@ export let state = {
   ...loadState()
 };
 
-// Mute is session-only (not persisted)
 export let _muted = false;
 export function isMuted() { return _muted; }
 export function setMuted(val) {

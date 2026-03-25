@@ -234,10 +234,15 @@ function startCountdown(container) {
             clearInterval(countdownInterval);
 
             try {
-                const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}');
-                s.balance = (s.balance ?? 0) + totalSeconds;
-                localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s));
-                showCoinReward(timerCountdownDisplay, totalSeconds);
+                var notSoTotalSeconds = totalSeconds;
+                if (totalSeconds > 1000) {
+                    notSoTotalSeconds = 1000;
+                }
+
+                const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v2') ?? '{}');
+                s.balance = (s.balance ?? 0) + notSoTotalSeconds;
+                localStorage.setItem('holymoly_luckgame_v2', JSON.stringify(s));
+                showCoinReward(timerCountdownDisplay, notSoTotalSeconds);
             } catch(e) {}
 
             return;

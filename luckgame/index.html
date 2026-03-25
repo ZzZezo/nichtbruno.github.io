@@ -16,7 +16,7 @@
       <div class="stats-row">
         <div class="stat-pill">
           <div class="stat-pill__info">
-            <div class="stat-pill__label">Games played</div>
+            <div class="stat-pill__label">Times played</div>
             <div class="stat-pill__value" id="statGames">0</div>
           </div>
         </div>
@@ -34,9 +34,8 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end;">
-        <button class="saveload-btn" id="saveloadBtn">Save / Load</button>
         <button class="daily-btn" id="dailyBtn">
-          <span class="daily-tooltip">Play Holy Jump or wait in the Timer to earn extra coins!</span>
+          <span class="daily-tooltip">Play a Game or wait in the Timer to earn extra coins!</span>
           <span class="dot"></span>
           Claim daily 250
         </button>
@@ -216,46 +215,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modal-saveload">
-    <div class="modal modal--saveload">
-      <div class="modal__header">
-        <div>
-          <div class="modal__title">💾 Save &amp; Load</div>
-        </div>
-        <button class="modal__close" data-modal-close="saveload">✕</button>
-      </div>
-      <div class="modal__body">
-
-        <div class="saveload-section">
-          <div class="saveload-label">Export: save your progress</div>
-          <textarea class="saveload-code saveload-code--noresize" id="exportCode" readonly placeholder="Click export to generate your save code…"></textarea>
-          <div class="saveload-row">
-            <button class="saveload-action-btn saveload-action-btn--gold" id="exportBtn">Generate code</button>
-            <button class="saveload-action-btn" id="copyBtn">Copy</button>
-          </div>
-          <div class="saveload-status" id="exportStatus"></div>
-        </div>
-
-        <div class="saveload-section">
-          <div class="saveload-label">Import: load progress from another device</div>
-          <textarea class="saveload-code saveload-code--noresize" id="importCode" placeholder="Paste your save code here…"></textarea>
-          <div class="saveload-row">
-            <button class="saveload-action-btn saveload-action-btn--gold" id="importBtn">Load progress</button>
-          </div>
-          <div class="saveload-status" id="importStatus"></div>
-        </div>
-
-        <div class="saveload-section saveload-section--danger">
-          <div class="saveload-row">
-            <button class="saveload-action-btn saveload-action-btn--danger" id="resetBtn">⚠ Reset all progress</button>
-          </div>
-          <div class="saveload-status" id="resetStatus"></div>
-        </div>
-
       </div>
     </div>
   </div>

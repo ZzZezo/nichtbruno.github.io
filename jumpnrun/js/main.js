@@ -83,6 +83,7 @@
     // Read once at startup — not every frame inside the loop
     let highScore    = parseFloat(localStorage.getItem('JNR-highscore'))    || 0;
     let floHighScore = parseFloat(localStorage.getItem('JNR-flohighscore')) || 0;
+    let coinsScore = 0;
 
     // Player
     const player = {
@@ -272,9 +273,10 @@
       player.y += player.velocityY;
 
       if (player.y > canvas.height) {
-        if (chaosMode) { if (distance > floHighScore) floHighScore = distance; }
-        else { if (distance > highScore) highScore = distance; }
-        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(distance); localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s)); } catch(e) {}
+        coinsScore = distance;
+        if (chaosMode) { if (distance > floHighScore) floHighScore = distance; coinsScore *= 2; }
+        else { if (distance > highScore) highScore = distance; coinsScore = coinsScore *= 2; }
+        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v2') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(coinsScore); localStorage.setItem('holymoly_luckgame_v2', JSON.stringify(s)); } catch(e) {}
         gameState = GAME_STATE.GAME_OVER;
         return;
       }
@@ -331,9 +333,10 @@
       });
 
       if (collisionWithWall) {
-        if (chaosMode) { if (distance > floHighScore) floHighScore = distance; }
-        else { if (distance > highScore) highScore = distance; }
-        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v1') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(distance); localStorage.setItem('holymoly_luckgame_v1', JSON.stringify(s)); } catch(e) {}
+        coinsScore = distance;
+        if (chaosMode) { if (distance > floHighScore) floHighScore = distance; coinsScore *= 2; }
+        else { if (distance > highScore) highScore = distance; coinsScore *= 2;  }
+        try { const s = JSON.parse(localStorage.getItem('holymoly_luckgame_v2') ?? '{}'); s.balance = (s.balance ?? 0) + Math.floor(coinsScore); localStorage.setItem('holymoly_luckgame_v2', JSON.stringify(s)); } catch(e) {}
         gameState = GAME_STATE.GAME_OVER;
         return;
       }
@@ -494,7 +497,7 @@
       ctx.fillText('or Q for main menu', canvas.width/2, canvas.height/2 + 110);
       ctx.fillStyle = '#f1c40f';
       ctx.font = '14px "Windows", monospace';
-      ctx.fillText(`+ ${Math.floor(distance)} 🪙 added to Luck Game`, canvas.width/2, canvas.height/2 + 160);
+      ctx.fillText(`+ ${Math.floor(coinsScore)} 🪙 added to Luck Game`, canvas.width/2, canvas.height/2 + 160);
       ctx.textAlign = 'left';
       ctx.fillStyle = '#fff';
     }
