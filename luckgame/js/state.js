@@ -94,7 +94,7 @@ export function initDaily() {
     state.lastDaily = hour;
     saveState(state);
     refreshUI();
-    showToast('🪙 +250 hourly coins claimed!');
+    showToast('🪙 +250 daily coins claimed!');
     animateCoin();
   });
 }
@@ -149,7 +149,7 @@ document.addEventListener('keydown', e => {
 });
 
 
-const _ENC_PASSWORD = 'holymoly_luckgame_save_v1';
+const _ENC_PASSWORD = 'holymoly_luckgame_save_v2';
 
 async function _deriveKey(password) {
   const raw = await crypto.subtle.importKey(

@@ -9,9 +9,13 @@ export function closeModal(id) {
 export function initModals() {
   ['case', 'slots'].forEach(id => {
     const backdrop = document.getElementById('modal-' + id);
-    backdrop.addEventListener('click', e => {
-      if (e.target === backdrop) closeModal(id);
-    });
+    if (backdrop) {
+      backdrop.addEventListener('click', e => {
+        if (e.target === backdrop) closeModal(id);
+      });
+    } else {
+      console.warn(`Modal backdrop with id "modal-${id}" not found`);
+    }
   });
 
   document.addEventListener('keydown', e => {
