@@ -1,0 +1,26 @@
+<html>
+    <script>
+        window.addEventListener("message", (event) => {
+            //check if its a trusted domain
+            if (event.origin !== "https://iwannajumpoffacliff.com") return;
+
+            //check which data is requested
+                //holy jump highscore
+                if (event.data === "holyjump_highscore") {
+                    var val = localStorage.getItem("JNR-highscore");
+                    event.source.postMessage(val, event.origin);
+                }
+                //holy jump flo highscore
+                if (event.data === "holyjump_flohighscore") {
+                    var val = localStorage.getItem("JNR-flohighscore");
+                    event.source.postMessage(val, event.origin);
+                }
+                //luckgame
+                if (event.data === "luckgame") {
+                    var val = localStorage.getItem('holymoly_luckgame_v2');
+                    event.source.postMessage(val, event.origin);
+                }
+                //here can be added as many other access points as needed
+        });
+    </script>
+</html>
